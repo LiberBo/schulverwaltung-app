@@ -1,0 +1,8 @@
+{
+  "name": "Schulverwaltung-App",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue",
+  "id": "9cb7226c"
+}
