@@ -8,14 +8,14 @@
           <ion-label>Wallet</ion-label>
         </ion-tab-button>
           
-        <ion-tab-button tab="Raumverwaltung" href="/tabs/Raumverwaltung">
+        <ion-tab-button tab="Verwaltung" href="/tabs/Verwaltung">
           <ion-icon :icon="ellipse" />
-          <ion-label>Raumverwaltung</ion-label>
+          <ion-label>Verwaltung</ion-label>
         </ion-tab-button>
         
-        <ion-tab-button tab="Stundenplan" href="/tabs/Stundenplan">
+        <ion-tab-button tab="Prüfungsleistung" href="/tabs/Prüfungsleistung">
           <ion-icon :icon="square" />
-          <ion-label>Stundenplan</ion-label>
+          <ion-label>Prüfungsleistung</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>

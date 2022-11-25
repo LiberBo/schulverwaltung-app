@@ -11,8 +11,10 @@
       <h1 color="primary" id="Kontostandsanzeige">Dein Kontostand: Kontostand</h1>
 
       <ion-button id="Button1" tab="Wallet" href="/Geldeinzahlung">Geld einzahlen</ion-button>
+     <!-- <ion-button id="Button1" tab="Wallet" href="/Geldeinzahlung">Geld einzahlen per Modal</ion-button> ---->
 
-      <ion-list>
+
+      <ion-list id="ListDesign">
         <ion-item> 
           <ion-label>Hier kommt eine For schleife mit den Zu und Abgängen des Kontos hin</ion-label>
         </ion-item>
@@ -46,7 +48,10 @@ ion-content {
   text-align: center; 
 }
 
-
+#ListDesign{
+  margin-left: 20%;
+  margin-right: 20%;
+}
 
 
 </style>

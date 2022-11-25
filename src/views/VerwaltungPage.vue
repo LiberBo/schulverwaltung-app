@@ -2,17 +2,17 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Stundenplan</ion-title>
+        <ion-title>Verwaltung</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Stundenplan</ion-title>
+          <ion-title size="large">Verwaltung</ion-title>
         </ion-toolbar>
       </ion-header>
       
-      <ExploreContainer name="Stundenplan page" />
+      <ExploreContainer name="Verwaltung page" />
     </ion-content>
   </ion-page>
 </template>
@@ -23,7 +23,7 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue
 import ExploreContainer from '@/components/ExploreContainer.vue';
 
 export default defineComponent({
-  name: 'StundenplanPage',
+  name: 'VerwaltungPage',
   components: { ExploreContainer, IonHeader, IonToolbar, IonTitle, IonContent, IonPage }
 });
 </script>

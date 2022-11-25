@@ -26,19 +26,19 @@ const routes: Array<RouteRecordRaw> = [
         ]*/
       },
       {
-        path: 'Raumverwaltung',
-        component: () => import('@/views/RaumverwaltungPage.vue')
+        path: 'Verwaltung',
+        component: () => import('@/views/VerwaltungPage.vue')
       },
       {
-        path: 'Stundenplan',
-        component: () => import('@/views/StundenplanPage.vue')
+        path: 'Prüfungsleistung',
+        component: () => import('@/views/PrüfungsleistungPage.vue')
       }
     ]
   },
   {
     path:'/Geldeinzahlung',
     component: () => import('@/views/GeldeinzahlungPage.vue')
-  }
+  },
 ]
 
 const router = createRouter({
