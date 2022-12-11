@@ -9,7 +9,6 @@
 
         <h1 color="primary" id="Kontostandsanzeige">Hallo, hier ist der Kalender </h1>
         
-        <CalendarMonth/>
         
         
       </ion-content>
@@ -19,11 +18,11 @@
   <script lang="ts">
   import { defineComponent } from 'vue';
   import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
-  import CalendarMonth from "./components/CalendarMonth.vue";
+
   
   export default  defineComponent({
     name: 'KalenderPage',
-    components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, CalendarMonth }
+    components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage }
   });
   </script>
   
