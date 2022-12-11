@@ -39,6 +39,14 @@ const routes: Array<RouteRecordRaw> = [
     path:'/Geldeinzahlung',
     component: () => import('@/views/GeldeinzahlungPage.vue')
   },
+  {
+    path:'/Kalender',
+    component: () => import('@/views/KalenderPage.vue')
+  },
+  {
+    path:'/Raumverwaltung',
+    component: () => import('@/views/RaumverwaltungPage.vue')
+  },
 ]
 
 const router = createRouter({

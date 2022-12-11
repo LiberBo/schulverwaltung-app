@@ -11,8 +11,22 @@
           <ion-title size="large">Verwaltung</ion-title>
         </ion-toolbar>
       </ion-header>
+
+
+      <ion-card href="/Kalender">
+    <ion-card-header>
+      <ion-card-title>Kalender</ion-card-title>
+      <ion-card-subtitle>Hier siehst du deine aktuellen Stunden</ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+  <ion-card href="/Raumverwaltung">
+    <ion-card-header>
+      <ion-card-title>Raumverwaltung</ion-card-title>
+      <ion-card-subtitle>Hier bekommst du eine Übersicht über alle Räume</ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
       
-      <ExploreContainer name="Verwaltung page" />
+
     </ion-content>
   </ion-page>
 </template>
@@ -20,10 +34,9 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
-import ExploreContainer from '@/components/ExploreContainer.vue';
 
 export default defineComponent({
   name: 'VerwaltungPage',
-  components: { ExploreContainer, IonHeader, IonToolbar, IonTitle, IonContent, IonPage }
+  components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage }
 });
 </script>
