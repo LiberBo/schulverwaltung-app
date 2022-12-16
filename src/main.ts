@@ -20,6 +20,10 @@ import '@ionic/vue/css/text-transformation.css';
 import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
 
+import 'v-calendar/dist/style.css';
+
+
+
 /* Theme variables */
 import './theme/variables.css';
 
@@ -30,3 +34,8 @@ const app = createApp(App)
 router.isReady().then(() => {
   app.mount('#app');
 });
+
+import VCalendar from 'v-calendar';
+
+// Use plugin with defaults
+app.use(VCalendar, {})
