@@ -2,23 +2,25 @@
   import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, onIonViewDidEnter, onIonViewWillEnter } from '@ionic/vue';
   import FullCalendar from "@fullcalendar/vue3";
   import dayGridPlugin from "@fullcalendar/daygrid";
-  import { ref } from 'vue';
+import { ref } from 'vue';
 
-  const calendarOptions = {
+
+  const calendarOptions ={
         plugins: [
           dayGridPlugin,
         ],
         initialView: "dayGridMonth",
       }
-  
+
+  const cal = ref()
+
   onIonViewDidEnter(() => {
-      setTimeout(() => { calendarOptions.value = {
-        plugins: [
-          dayGridPlugin,
-        ],
-        initialView: "dayGridMonth",
-      }}, 100);
+      setTimeout(() => {
+        cal.value.getApi().render()
+      }, 10)
+    
     });
+    
 </script>
 
 <template>
@@ -33,7 +35,7 @@
         <h1 color="primary" id="Kontostandsanzeige">Hallo, hier ist der Kalender </h1>
         
 
-        <FullCalendar :options="calendarOptions" v-if="calendarOptions"/>
+        <FullCalendar ref="cal" :options="calendarOptions" v-if="calendarOptions"/>
 
 
       </ion-content>
