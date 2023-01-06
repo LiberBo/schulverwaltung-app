@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, onIonViewDidEnter, onIonViewWillEnter } from '@ionic/vue';
+  import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, onIonViewDidEnter } from '@ionic/vue';
   import FullCalendar from "@fullcalendar/vue3";
   import dayGridPlugin from "@fullcalendar/daygrid";
 import { ref } from 'vue';
