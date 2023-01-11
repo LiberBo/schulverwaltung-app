@@ -5,7 +5,7 @@ import TabsPage from '../views/TabsPage.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/tabs/KalenderUndRaumverwaltung'
+    redirect: '/tabs/Kalender'
   },
   {
     path: '/tabs/',
@@ -16,15 +16,29 @@ const routes: Array<RouteRecordRaw> = [
         redirect: '/tabs/Wallet'
       },
       {
+        path: 'Kalender',
+        component: () => import('@/views/KalenderPage.vue')
+      },
+      {
+        path: 'Raumverwaltung',
+        component: () => import('@/views/RaumverwaltungPage.vue')
+      },
+      {
+        path: 'Verwaltung',
+        component: () => import('@/views/VerwaltungPage.vue')
+      }
+
+      /*
+      {
         path: 'Wallet',
-        component: () => import('@/views/WalletPage.vue'), /*
+        component: () => import('@/views/WalletPage.vue'),
         children: [
           {
             path: 'Geldeinzahlung',
             component: () => import('@/views/GeldeinzahlungPage.vue')
           },
-        ]*/
-      },
+        ]
+      }, 
       {
         path: 'Kalender&Raumverwaltung',
         component: () => import('@/views/Kalender&RaumverwaltungPage.vue')
@@ -33,13 +47,10 @@ const routes: Array<RouteRecordRaw> = [
         path: 'Prüfungsleistung',
         component: () => import('@/views/PrüfungsleistungPage.vue')
       },
-      {
-        path: 'Verwaltung',
-        component: () => import('@/views/VerwaltungPage.vue')
-      }
-
+      
+*/
     ]
-  },
+  },/*
   {
     path:'/Geldeinzahlung',
     component: () => import('@/views/GeldeinzahlungPage.vue')
@@ -51,7 +62,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path:'/Raumverwaltung',
     component: () => import('@/views/RaumverwaltungPage.vue')
-  },
+  }, */
 ]
 
 const router = createRouter({
