@@ -7,6 +7,11 @@
           <ion-icon :icon="triangle" />
           <ion-label>Wallet</ion-label>
         </ion-tab-button>
+
+        <ion-tab-button tab="KalenderundRaumverwaltung" href="/tabs/Kalender&Raumverwaltung">
+          <ion-icon :icon="ellipse" />
+          <ion-label>Kalender & Raumverwaltung</ion-label>
+        </ion-tab-button>
           
         <ion-tab-button tab="Verwaltung" href="/tabs/Verwaltung">
           <ion-icon :icon="ellipse" />

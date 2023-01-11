@@ -5,7 +5,7 @@ import TabsPage from '../views/TabsPage.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/tabs/Wallet'
+    redirect: '/tabs/KalenderUndRaumverwaltung'
   },
   {
     path: '/tabs/',
@@ -26,13 +26,18 @@ const routes: Array<RouteRecordRaw> = [
         ]*/
       },
       {
-        path: 'Verwaltung',
-        component: () => import('@/views/VerwaltungPage.vue')
+        path: 'Kalender&Raumverwaltung',
+        component: () => import('@/views/Kalender&RaumverwaltungPage.vue')
       },
       {
         path: 'Prüfungsleistung',
         component: () => import('@/views/PrüfungsleistungPage.vue')
+      },
+      {
+        path: 'Verwaltung',
+        component: () => import('@/views/VerwaltungPage.vue')
       }
+
     ]
   },
   {
