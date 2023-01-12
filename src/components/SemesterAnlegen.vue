@@ -7,7 +7,7 @@
 -->
 
 <template>
-    <ion-button id="open-modal2" expand="block">Semester anlegen</ion-button>
+    <ion-button id="open-modal2" expand="block" size="fixed">Semester anlegen</ion-button>
     <ion-modal ref="modal2" trigger="open-modal2">
       <ion-header>
         <ion-toolbar>
@@ -29,7 +29,7 @@
           <ion-datetime presentation="date" size="fixed"  displayFormat="DD.MM.YYYY" ref="startDate"  style="width: 47,5%; margin-right: 5%;">
             <span slot="title">Startdatum Semester</span>
           </ion-datetime>
-          <ion-datetime presentation="date" size="fixed" ref="endDate" style="width: 47,5%">
+          <ion-datetime presentation="date" size="fixed" displayFormat="DD.MM.YYYY" ref="endDate" style="width: 47,5%">
             <span slot="title">Enddatum Semester</span>
           </ion-datetime>
         </ion-item>

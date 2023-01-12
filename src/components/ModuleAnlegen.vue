@@ -1,7 +1,7 @@
 
 
 <template>
-    <ion-button id="open-modal" expand="block">Module anlegen</ion-button>
+    <ion-button id="open-modal" expand="block" size="fixed">Module anlegen</ion-button>
     <ion-modal ref="modal" trigger="open-modal">
       <ion-header>
         <ion-toolbar>
@@ -58,7 +58,7 @@ import {
   IonItem,
   IonInput,
   IonLabel,
-  IonSegmentButton
+  IonSegmentButton,
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
 

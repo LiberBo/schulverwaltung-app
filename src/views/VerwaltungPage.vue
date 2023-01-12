@@ -13,15 +13,37 @@
       </ion-header>
 
 
-      <h1>Diese Seite ist nur fürs Sekretariat</h1>
+      <IonTitle style="text-align: center;">Uni-Verwaltung</IonTitle>  
+      <IonCol>
+        <IonRow class="buttonSeperation">
+          <ModuleAnlegen></ModuleAnlegen>
+        </IonRow>
+        <IonRow class="buttonSeperation">
+          <SemesterAnlegen></SemesterAnlegen>
+        </IonRow>
+        <IonRow class="buttonSeperation">
+         <StudiengangAnlegen></StudiengangAnlegen> 
+        </IonRow>    
+      </IonCol>
 
-      <ModuleAnlegen></ModuleAnlegen>
-      <h1>Semester anlegen:</h1>
 
-      <SemesterAnlegen></SemesterAnlegen>
+      <IonTitle style="text-align: center;">Gebäudeverwaltung</IonTitle>
+      <IonCol>
+        <IonRow class="buttonSeperation">
+          <GebaeudeAnlegen></GebaeudeAnlegen>
+        </IonRow>
+        <IonRow class="buttonSeperation">
+          <RaumAnlegen></RaumAnlegen>
+        </IonRow>
+      </IonCol>
 
-      <h1>Studiengang anlegen</h1>
-      <StudiengangAnlegen></StudiengangAnlegen>
+      <IonTitle style="text-align: center;">Ausstattungs-Verwaltung</IonTitle>
+      <IonCol>
+        <IonRow class="buttonSeperation">
+          <EquipmentAnlegen></EquipmentAnlegen>
+        </IonRow>
+      </IonCol> 
+      
 
 
       
@@ -32,14 +54,36 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCol, IonRow } from '@ionic/vue';
 import ModuleAnlegen from '../components/ModuleAnlegen.vue';
 import SemesterAnlegen from '../components/SemesterAnlegen.vue';
 import StudiengangAnlegen from '../components/StudiengangAnlegen.vue';
+import GebaeudeAnlegen from '../components/GebaeudeAnlegen.vue';
+import RaumAnlegen from '../components/RaumAnlegen.vue';
+import EquipmentAnlegen from '@/components/EquipmentAnlegen.vue';
 
 export default defineComponent({
   name: 'VerwaltungPage',
   // eslint-disable-next-line vue/no-unused-components
-  components: { StudiengangAnlegen, SemesterAnlegen, ModuleAnlegen, IonHeader, IonToolbar, IonTitle, IonContent, IonPage }
+  components: { StudiengangAnlegen, SemesterAnlegen, ModuleAnlegen, IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonCol, IonRow, GebaeudeAnlegen, RaumAnlegen, EquipmentAnlegen }
 });
 </script>
+
+
+<style>
+.buttonSeperation{
+  margin-left: 1%;
+  margin-right: 1%;
+  margin-bottom: 1%;
+  justify-content: center;
+}
+
+.titileSeperation{
+  margin-bottom: 3%;
+  margin-top: 5%;
+}
+
+
+
+
+</style>

@@ -1,7 +1,7 @@
 
 
 <template>
-    <ion-button id="open-modal3" expand="block">Studiengang anlegen</ion-button>
+    <ion-button id="open-modal3" expand="block" size="fixed">Studiengang anlegen</ion-button>
     <ion-modal ref="modal" trigger="open-modal3">
       <ion-header>
         <ion-toolbar>
