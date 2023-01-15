@@ -23,6 +23,12 @@
           <ion-icon :icon="pencilOutline" />
           <ion-label>Verwaltung</ion-label>
         </ion-tab-button>
+
+        <ion-tab-button tab="Anmeldung" href="/tabs/Anmeldung">
+          <ion-icon :icon="personOutline" />
+          <ion-label>Anmeldung</ion-label>
+        </ion-tab-button>
+
       </ion-tab-bar>
     </ion-tabs>
   </ion-page>
@@ -31,7 +37,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
-import { pencilOutline, calendarOutline, businessOutline } from 'ionicons/icons';
+import { pencilOutline, calendarOutline, businessOutline, personOutline } from 'ionicons/icons';
 
 export default defineComponent({
   name: 'TabsPage',
@@ -41,6 +47,7 @@ export default defineComponent({
       calendarOutline,
       businessOutline,
       pencilOutline,
+      personOutline
     }
   }
 });

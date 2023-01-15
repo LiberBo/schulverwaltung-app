@@ -33,6 +33,7 @@
             <span slot="title">Enddatum Semester</span>
           </ion-datetime>
         </ion-item>
+
           <ion-list>
             <ion-item>
               <ion-select
@@ -44,9 +45,6 @@
               >
                 <ion-select-option v-for="module in modules" v-bind:key="module" :value="module">{{ module.name }}</ion-select-option>
               </ion-select>
-            </ion-item>
-            <ion-item lines="none">
-              <ion-label>Current value: {{ currentModule }}</ion-label>
             </ion-item>
           </ion-list> 
     

@@ -43,6 +43,9 @@
           <EquipmentAnlegen></EquipmentAnlegen>
         </IonRow>
       </IonCol> 
+
+
+      <IonTitle style="text-align: center;">Account-Verwaltung</IonTitle>
       
 
 

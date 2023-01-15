@@ -18,7 +18,7 @@
 
         <ion-item>
           <ion-label position="stacked">Bitte mögliches Equipment eingeben:</ion-label>
-          <ion-input ref="equipmentName" type="text" placeholder="Beamer, Tafel, Fenster, usw."></ion-input>
+          <ion-input ref="equipmentName" type="text" placeholder="Beamer, Tafel, Fenster, usw." clear-input="true"  clear-on-edit="true"></ion-input>
         </ion-item>
 
         <ion-item v-for="item in items" :key="item" class="elment-seperation2"> Equipment: {{ item.equipmentName }}</ion-item>
@@ -79,6 +79,8 @@ export default defineComponent({
 
       if(equipmentNameElement.value){
       this.items.push(equipment); // Eintrag hinzufügen
+      
+      
       }
       else{
         alert("Bitte fülle alle Felder aus!")
