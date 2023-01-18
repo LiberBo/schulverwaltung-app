@@ -73,12 +73,12 @@ export default defineComponent({
     addTo(): void {
       const equipmentNameElement = (this.$refs.equipmentName as typeof IonInput).$el;
   
-      let equipment: Module = {
+      let equipments: Module = {
         equipmentName: equipmentNameElement.value,
       };
 
       if(equipmentNameElement.value){
-      this.items.push(equipment); // Eintrag hinzufügen
+      this.items.push(equipments); // Eintrag hinzufügen
       
       
       }

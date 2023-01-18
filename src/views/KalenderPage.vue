@@ -99,7 +99,7 @@ export default {
       </ion-header>
       <ion-content :fullscreen="true">
 
-        <h1 color="primary" id="Kontostandsanzeige">Hallo, hier ist der Kalender und ich bin cool </h1>
+        <h1 color="primary" id="Kontostandsanzeige">Hier finden Sie den Kalender </h1>
         
 
         <!---<FullCalendar ref="cal" :options="calendarOptions" v-if="calendarOptions"/> -->
