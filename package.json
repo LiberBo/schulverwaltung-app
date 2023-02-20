@@ -28,6 +28,7 @@
     "dayspan-vuetify": "^0.4.0",
     "firebase": "^9.15.0",
     "ionicons": "^6.0.3",
+    "mitt": "^3.0.0",
     "moment": "^2.29.4",
     "postcss": "^8.4.20",
     "vue": "^3.2.21",

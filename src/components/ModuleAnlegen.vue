@@ -16,20 +16,23 @@
       </ion-header>
       <ion-content class="ion-padding">
         <ion-item>
-          <ion-label position="stacked">Bitte alle Module eingeben:</ion-label>
-          <ion-input ref="input" type="text" placeholder="Informatik"></ion-input>
+          <ion-label position="stacked">Modulnamen:</ion-label>
+          <ion-input ref="moduleName" type="text" placeholder="Informatik"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Modulbeschreibung:</ion-label>
+          <ion-input ref="moduleDescription" type="text" placeholder="Cool"></ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="stacked">Credit Points:</ion-label>
           <ion-input ref="creditPoints" type="number" placeholder="3"></ion-input>
         </ion-item>
-
+        <!--
         <ion-list>
             <ion-item>
               <ion-select
                 placeholder="Suche ein oder mehrere erforderliche Ausstattungen aus:"
                 :compareWith="compareWith"
-                @ionChange="currentEquipmentName = JSON.stringify($event.detail.value)"
                 :multiple="true"
                 ref="equipmentNames"
               >
@@ -37,7 +40,7 @@
               </ion-select>
             </ion-item>
           </ion-list> 
-
+        -->
         <!--
         <ion-item>
           <ion-label position="stacked">Professor:</ion-label>
@@ -70,9 +73,9 @@ import {
   IonItem,
   IonInput,
   IonLabel,
-  IonList,
-  IonSelect,
-  IonSelectOption,
+ // IonList,
+ // IonSelect,
+ // IonSelectOption,
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
@@ -96,19 +99,20 @@ export default defineComponent({
     IonItem,
     IonInput,
     IonLabel,
-    IonList,
-    IonSelect,
-    IonSelectOption
+    //IonList,
+  //  IonSelect,
+  //  IonSelectOption
   },
 
   data() {
     return {
-      items: [], // Neue Komponenten-Variable
+      Module: [], // Neue Komponenten-Variable
       currentEquipmentName: "",
       module: {
-        input: "",
+        moduleName: "",
+        moduleDescription: "",
         creitPoints: "",
-        equipmentNames: []
+   //     equipmentNames: []
       },
       equipmentNames: [
           {
@@ -135,29 +139,44 @@ export default defineComponent({
     },
     addTo(): void {
       // Abfrage welches der beiden (Pflich oder optinale Module) = true ist und dann abspeichern
-      const inputElement = (this.$refs.input as typeof IonInput).$el;
+      const moduleNameElement = (this.$refs.moduleName as typeof IonInput).$el;
+      const moduleDescriptionElement = (this.$refs.moduleDescription as typeof IonInput).$el;
       const creditPointsElement = (this.$refs.creditPoints as typeof IonInput).$el;
-      const equipmentNamesElement = (this.$refs.equipmentNames as typeof IonInput).$el;
+    //  const equipmentNamesElement = (this.$refs.equipmentNames as typeof IonInput).$el;
     //  const professorElement = (this.$refs.professor as typeof IonInput).$el;
     //  const roomElement = (this.$refs.room as typeof IonInput).$el;
       // Construct the module object
 
       let module: Module = {
-        name: inputElement.value,
+        name: moduleNameElement.value,
         creditPoints: creditPointsElement.value,
-        equipmentNames: equipmentNamesElement.value,
+        moduleDescription: moduleDescriptionElement.value,
+       // equipmentNames: equipmentNamesElement.value,
       //  professor: professorElement.value,
       //  room: roomElement.value,
       };
 
-      if(inputElement.value && creditPointsElement.value && equipmentNamesElement.value ){ //&& professorElement.value && roomElement.value
-      this.items.push(module); // Eintrag hinzufügen
+      if(moduleNameElement.value && creditPointsElement.value ){ //&& professorElement.value && roomElement.value && equipmentNamesElement.value
+      //this.items.push(module); // Eintrag hinzufügen
 
-      this.$refs.input.reset;
-      this.$refs.creditPoints.reset;
-    //  this.$refs.professor.reset;
-    //  this.$refs.room.reset;
+      const url = 'https://universityhub.azurewebsites.net/modules';
 
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(module)
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+        // Update the module list
+        this.Module.push(module);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
 
 
       }

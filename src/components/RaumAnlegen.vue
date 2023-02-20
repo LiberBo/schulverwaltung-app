@@ -77,7 +77,7 @@
             </ion-item>
           </ion-list> 
 
-        <ion-item v-for="item in items" :key="item" class="elment-seperation2"> Gebäudename: {{ item.buildingName }}, Etage: {{ item.buildingFloors }}, Gebäudestr.: {{ item.roomSeats }}, Postleitzahl: {{ item.roomEquipment.map(element => { 
+        <ion-item v-for="item in items" :key="item" class="elment-seperation2"> Gebäudename: {{ item.buildingNames }}, Etage: {{ item.buildingFloors }}, Gebäudestr.: {{ item.roomSeats }}, Postleitzahl: {{ item.roomEquipment.map(element => { 
           return element.name;
             }) }}</ion-item>
       </ion-content>
@@ -102,6 +102,7 @@ import {
 import { defineComponent } from 'vue';
 
 interface Module {
+  roomName: "";
   buildingNames: [];
   buildingFloors: [];
   roomSeats: number;
@@ -161,7 +162,7 @@ export default defineComponent({
             type: "Geologie"
           }
         ],
-        roomEquipment: [
+        roomEquipments: [
           {
             id: 1,
             name: "Beamer",
@@ -187,21 +188,23 @@ export default defineComponent({
     },
     addTo(): void {
       // Abfrage welches der beiden (Pflich oder optinale Module) = true ist und dann abspeichern
-      const buildingNameElement = (this.$refs.buildingName as typeof IonInput).$el;
+      const roomNameElement = (this.$refs.roomName as typeof IonInput).$el;
+      const buildingNamesElement = (this.$refs.buildingNames as typeof IonInput).$el;
       const buildingFloorsElement = (this.$refs.buildingFloors as typeof IonInput).$el;
       const roomSeatsElement = (this.$refs.roomSeats as typeof IonInput).$el;
-      const roomEquipmentElement = (this.$refs.roomEquipment as typeof IonInput).$el;
+      const roomEquipmentElements = (this.$refs.roomEquipments as typeof IonInput).$el;
       // Construct the module object
 
-      let building: Module = {
-        buildingName: buildingNameElement.value,
+      let room: Module = {
+        roomName: roomNameElement.value,
+        buildingNames: buildingNamesElement.value,
         buildingFloors: buildingFloorsElement.value,
         roomSeats: roomSeatsElement.value,
-        roomEquipment: roomEquipmentElement.value,
+        roomEquipments: roomEquipmentElements.value,
       };
 
-      if(buildingNameElement.value && buildingFloorsElement.value && roomSeatsElement.value && roomEquipmentElement.value){
-      this.items.push(building); // Eintrag hinzufügen
+      if(roomNameElement.value && buildingNamesElement.value && buildingFloorsElement.value && roomSeatsElement.value && roomEquipmentElements.value){
+      this.items.push(room); // Eintrag hinzufügen
       }
       else{
         alert("Bitte fülle alle Felder aus!")

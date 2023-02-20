@@ -114,7 +114,7 @@ import {
 import { defineComponent } from 'vue';
 
 interface Module {
-  studyProgrammname: string;
+  studyProgrammName: string;
   students: string;
   mandatoryModules: string;
   optionalModules: string;
