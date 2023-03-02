@@ -109,7 +109,8 @@ import {
   IonInput,
   IonLabel,
   IonSelect,
-  IonSelectOption
+  IonSelectOption,
+  IonList,
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
@@ -134,6 +135,7 @@ export default defineComponent({
     IonLabel,
     IonSelect,
     IonSelectOption,
+    IonList,
   },
 
   data() {

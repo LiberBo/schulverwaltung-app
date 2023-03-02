@@ -1,44 +1,46 @@
 <template>
-  <ion-page>
+  <ion-button id="open-modal7" expand="block" size="fixed">Account anlegen</ion-button>
+  <ion-modal ref="modal" trigger="open-modal7">
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button></ion-back-button>
+          <ion-button @click="cancel()">Cancel</ion-button>
         </ion-buttons>
-        <ion-title>Anmeldung</ion-title>
+        <ion-title class="text-center">Accounts</ion-title>
+        <ion-buttons slot="end">
+          <ion-button :strong="true" @click="addTo()">Hinzufügen</ion-button>
+        </ion-buttons>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true">
-      <h1 color="primary" id="Kontostandsanzeige">Hallo, hier ist die Anmeldung </h1>
-      <ion-list>
-        <ion-item>
-          <ion-label position="floating">Vorname</ion-label>
-          <ion-input type="text" v-model="firstName"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Nachname</ion-label>
-          <ion-input type="text" v-model="lastName"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label>Rolle</ion-label>
-          <ion-select v-model="role" interface="popover">
+    <ion-content class="ion-padding">
+      <ion-item>
+        <ion-label position="floating">Vorname</ion-label>
+        <ion-input v-model="firstName"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Nachname</ion-label>
+        <ion-input v-model="lastName"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Rolle</ion-label>
+        <ion-select v-model="role" interface="popover">
             <ion-select-option value="Student">Student</ion-select-option>
             <ion-select-option value="Professor">Dozent</ion-select-option>
             <ion-select-option value="Administrator">Sekretariat</ion-select-option>
-          </ion-select>
-        </ion-item>
-      </ion-list>
-      <ion-button id="submitButton" @click="submitForm()">Anmelden</ion-button>
-      <ion-button id="listUsersButton" @click="listUsers()">Benutzer auflisten</ion-button>
+        </ion-select>
+      </ion-item>
+      <div class="centeredButton">
+      <ion-button id="listUsersButton" @click="listUsers()">Alle Benutzer auflisten</ion-button>
+        </div>
       <ion-grid>
         <ion-row>
-          <ion-col>
+          <ion-col class="gridHead">
             Vorname
           </ion-col>
-          <ion-col>
+          <ion-col class="gridHead">
             Nachname
           </ion-col>
-          <ion-col>
+          <ion-col class="gridHead">
             Rolle
           </ion-col>
         </ion-row>
@@ -55,51 +57,48 @@
         </ion-row>
       </ion-grid>
     </ion-content>
-  </ion-page>
+  </ion-modal>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import {
-  IonPage,
-  IonBackButton,
-  IonHeader,
   IonButtons,
+  IonButton,
+  IonModal,
+  IonHeader,
+  IonContent,
   IonToolbar,
   IonTitle,
-  IonContent,
-  IonList,
   IonItem,
-  IonLabel,
   IonInput,
-  IonSelect,
-  IonSelectOption,
-  IonButton,
+  IonLabel,
   IonGrid,
   IonRow,
   IonCol,
+  IonSelect,
+  IonSelectOption
 } from '@ionic/vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'AnmeldungPage',
   components: {
-    IonPage,
-    IonBackButton,
-    IonHeader,
     IonButtons,
+    IonButton,
+    IonModal,
+    IonHeader,
+    IonContent,
     IonToolbar,
     IonTitle,
-    IonContent,
-    IonList,
     IonItem,
-    IonLabel,
     IonInput,
-    IonSelect,
-    IonSelectOption,
-    IonButton,
+    IonLabel,
     IonGrid,
     IonRow,
     IonCol,
+    IonSelect,
+    IonSelectOption
   },
   data() {
     return {
@@ -110,7 +109,14 @@ export default defineComponent({
     };
   },
   methods: {
-    submitForm() {
+    cancel(): void {
+      (this.$refs.modal as typeof IonModal).$el.dismiss(null, 'cancel');
+    },
+    async addTo() {
+      if (!this.firstName || !this.lastName || !this.role) {
+        alert('Bitte füllen Sie alle Felder aus.');
+        return;
+      }
       console.log(this.firstName, this.lastName, this.role);
       const requestOptions = {
         method: 'POST',
@@ -127,7 +133,7 @@ export default defineComponent({
         .catch((error) => console.error(error));
     },
     listUsers() {
-      fetch('https://universityhub.azurewebsites.net/users')
+        fetch('https://universityhub.azurewebsites.net/users')
         .then((response) => response.json())
         .then((data) => {
           this.users = data;
@@ -136,15 +142,22 @@ export default defineComponent({
     },
   },
 });
-
 </script>
 
 <style>
-ion-content {
-  text-align: center;
-}
+  .text-center {
+    text-align: center;
+  }
 
-#submitButton {
-  padding-top: 5%;
-}
+  .elment-seperation2 {
+    padding-bottom: 2%;
+  }
+  .centeredButton{
+    text-align: center;
+    padding: 2%
+  } 
+  .gridHead{
+    font-weight: bold;
+  }
+  
 </style>

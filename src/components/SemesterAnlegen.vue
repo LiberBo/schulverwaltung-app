@@ -72,7 +72,8 @@ import {
   IonLabel,
   IonDatetime,
   IonSelect,
-  IonSelectOption
+  IonSelectOption,
+  IonList,
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import * as moment from 'moment';
@@ -96,7 +97,8 @@ export default defineComponent({
     IonLabel,
     IonDatetime,
     IonSelect,
-    IonSelectOption
+    IonSelectOption,
+    IonList
   },
 
   data() {

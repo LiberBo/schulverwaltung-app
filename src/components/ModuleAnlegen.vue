@@ -1,66 +1,61 @@
-
-
 <template>
-    <ion-button id="open-modal" expand="block" size="fixed">Module anlegen</ion-button>
-    <ion-modal ref="modal" trigger="open-modal">
-      <ion-header>
-        <ion-toolbar>
-          <ion-buttons slot="start">
-            <ion-button @click="cancel()">Cancel</ion-button>
-          </ion-buttons>
-          <ion-title class="text-center">Module</ion-title>
-          <ion-buttons slot="end">
-            <ion-button :strong="true" @click="addTo()">Hinzufügen</ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content class="ion-padding">
-        <ion-item>
-          <ion-label position="stacked">Modulnamen:</ion-label>
-          <ion-input ref="moduleName" type="text" placeholder="Informatik"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="stacked">Modulbeschreibung:</ion-label>
-          <ion-input ref="moduleDescription" type="text" placeholder="Cool"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="stacked">Credit Points:</ion-label>
-          <ion-input ref="creditPoints" type="number" placeholder="3"></ion-input>
-        </ion-item>
-        <!--
-        <ion-list>
-            <ion-item>
-              <ion-select
-                placeholder="Suche ein oder mehrere erforderliche Ausstattungen aus:"
-                :compareWith="compareWith"
-                :multiple="true"
-                ref="equipmentNames"
-              >
-                <ion-select-option v-for="equipmentName in equipmentNames" v-bind:key="equipmentName" :value="equipmentName">{{ equipmentName.name }}</ion-select-option>
-              </ion-select>
-            </ion-item>
-          </ion-list> 
-        -->
-        <!--
-        <ion-item>
-          <ion-label position="stacked">Professor:</ion-label>
-          <ion-input ref="professor" type="text" placeholder="Dr. Smith"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="stacked">Raum:</ion-label>
-          <ion-input ref="room" type="text" placeholder="C111"></ion-input>
-        </ion-item>
-      -->
-        
-        <ion-item v-for="item in items" :key="item" class="elment-seperation2"> Modulnamen: {{ item.name }}, Credit Points: {{ item.creditPoints }}, Equipment: {{ item.equipmentNames.map(element => { 
-          return element.name;
-        }) }}</ion-item>
-      </ion-content>
-    </ion-modal>
+  <ion-button id="open-modal" expand="block" size="fixed">Module anlegen</ion-button>
+  <ion-modal ref="modal" trigger="open-modal">
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button @click="cancel()">Cancel</ion-button>
+        </ion-buttons>
+        <ion-title class="text-center">Module</ion-title>
+        <ion-buttons slot="end">
+          <ion-button :strong="true" @click="addTo()">Hinzufügen</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-item>
+        <ion-label position="floating">Modulname</ion-label>
+        <ion-input v-model="moduleName"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Beschreibung</ion-label>
+        <ion-input v-model="moduleDescription"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Credit Points</ion-label>
+        <ion-input type="number" v-model="creditPoints"></ion-input>
+      </ion-item>
+      <ion-button expand="block" size="fixed" @click="listModules">Module anzeigen</ion-button>
+      <ion-grid>
+  <ion-row>
+    <ion-col>
+      Modulname:
+    </ion-col>
+    <ion-col>
+      Modulbeschreibung:
+    </ion-col>
+    <ion-col>
+       Credit Points:
+    </ion-col>
+  </ion-row>
+  <ion-row v-for="(module, index) in modules" :key="index">
+    <ion-col>
+      {{ module.name }}
+    </ion-col>
+    <ion-col>
+      {{ module.description }}
+    </ion-col>
+    <ion-col>
+      {{ module.creditPoints }}
+    </ion-col>
+  </ion-row>
+</ion-grid>
+    </ion-content>
+  </ion-modal>
 </template>
 
 <script lang="ts">
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import {
   IonButtons,
@@ -73,19 +68,11 @@ import {
   IonItem,
   IonInput,
   IonLabel,
- // IonList,
- // IonSelect,
- // IonSelectOption,
+  IonGrid,
+  IonRow,
+  IonCol,
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
-
-interface Module {
-  name: string;
-  creditPoints: number;
-  equipmentNames: [];
-  //professor: string;
-  //room: string;
-}
 
 export default defineComponent({
   components: {
@@ -99,101 +86,68 @@ export default defineComponent({
     IonItem,
     IonInput,
     IonLabel,
-    //IonList,
-  //  IonSelect,
-  //  IonSelectOption
+    IonGrid,
+    IonRow,
+    IonCol,
   },
-
   data() {
     return {
-      Module: [], // Neue Komponenten-Variable
-      currentEquipmentName: "",
-      module: {
-        moduleName: "",
-        moduleDescription: "",
-        creitPoints: "",
-   //     equipmentNames: []
-      },
-      equipmentNames: [
-          {
-            id: 1,
-            name: "Beamer",
-            type: "Technik"
-          },
-          {
-            id: 2,
-            name: "Tafel",
-            type: "Old"
-          },
-          {
-            id: 3,
-            name: "Fenster",
-            type: "Ablenkung"
-          }
-        ]
+      moduleName: '',
+      moduleDescription: '',
+      creditPoints: 0,
+      modules: [],
     };
   },
   methods: {
     cancel(): void {
       (this.$refs.modal as typeof IonModal).$el.dismiss(null, 'cancel');
     },
-    addTo(): void {
-      // Abfrage welches der beiden (Pflich oder optinale Module) = true ist und dann abspeichern
-      const moduleNameElement = (this.$refs.moduleName as typeof IonInput).$el;
-      const moduleDescriptionElement = (this.$refs.moduleDescription as typeof IonInput).$el;
-      const creditPointsElement = (this.$refs.creditPoints as typeof IonInput).$el;
-    //  const equipmentNamesElement = (this.$refs.equipmentNames as typeof IonInput).$el;
-    //  const professorElement = (this.$refs.professor as typeof IonInput).$el;
-    //  const roomElement = (this.$refs.room as typeof IonInput).$el;
-      // Construct the module object
-
-      let module: Module = {
-        name: moduleNameElement.value,
-        creditPoints: creditPointsElement.value,
-        moduleDescription: moduleDescriptionElement.value,
-       // equipmentNames: equipmentNamesElement.value,
-      //  professor: professorElement.value,
-      //  room: roomElement.value,
-      };
-
-      if(moduleNameElement.value && creditPointsElement.value ){ //&& professorElement.value && roomElement.value && equipmentNamesElement.value
-      //this.items.push(module); // Eintrag hinzufügen
-
-      const url = 'https://universityhub.azurewebsites.net/modules';
-
-      fetch(url, {
+    async addTo() {
+      if (!this.moduleName || !this.moduleDescription || !this.creditPoints) {
+        alert('Bitte füllen Sie alle Felder aus.');
+        return;
+      }
+      console.log(this.moduleName, this.moduleDescription, this.creditPoints);
+      const requestOptions = {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST',
+          'Access-Control-Allow-Headers':
+            'Authorization, Expires, Pragma, DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range',
+          'Access-Control-Expose-Headers': '*',
         },
-        body: JSON.stringify(module)
-      })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Success:', data);
-        // Update the module list
-        this.Module.push(module);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-
-
-      }
-      else{
-        alert("Bitte fülle alle Felder aus!")
-      }
+        body: JSON.stringify({
+          name: this.moduleName,
+          description: this.moduleDescription,
+          creditPoints: this.creditPoints,
+        }),
+      };
+      fetch('https://universityhub.azurewebsites.net/modules', requestOptions)
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => console.error(error));
+    },
+    listModules() {
+      fetch('https://universityhub.azurewebsites.net/modules')
+        .then((response) => response.json())
+        .then((data) => {
+          this.modules = data;
+          console.log(data)
+        })
+        .catch((error) => console.error(error));
     },
   },
 });
 </script>
 
 <style>
-.text-center {
-  text-align: center;
-}
+  .text-center {
+    text-align: center;
+  }
 
-.elment-seperation2{
-  padding-bottom: 2%;
-}
+  .elment-seperation2 {
+    padding-bottom: 2%;
+  }
 </style>

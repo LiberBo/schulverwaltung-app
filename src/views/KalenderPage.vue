@@ -33,13 +33,13 @@ export default {
         },
         initialView: "dayGridMonth",
         initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
-        editable: true,
-        selectable: true,
+        editable: false,
+        selectable: false,
         selectMirror: true,
         dayMaxEvents: true,
         weekends: true,
-        select: this.handleDateSelect.bind(this),
-        eventClick: this.handleEventClick,
+        // select: this.handleDateSelect.bind(this),
+       //  eventClick: this.handleEventClick,
         eventsSet: this.handleEvents,
       },
     }
