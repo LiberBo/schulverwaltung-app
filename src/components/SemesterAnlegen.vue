@@ -39,6 +39,7 @@
               <ion-select
                 placeholder="Suche ein oder mehrere Module aus:"
                 :compareWith="compareWith"
+                @click="listModules()"
                 @ionChange="currentModule = JSON.stringify($event.detail.value)"
                 :multiple="true"
                 ref="modules"
@@ -105,12 +106,13 @@ export default defineComponent({
     return {
       items: [], // Neue Komponenten-Variable
       currentModule: "",
+      modules: [],
       semester: {
         moduleName: "",
         startDate: "",
         endDate: "",
-        modules: []
-      },
+        module: []
+      },/*
         modules: [
           {
             id: 1,
@@ -127,7 +129,7 @@ export default defineComponent({
             name: "BWL",
             type: "Wirtschaftswissenschaften"
           }
-        ]
+        ] */
     };
   },
   methods: {
@@ -169,19 +171,18 @@ export default defineComponent({
         alert("Bitte fülle alle Felder aus!")
       }
     },
+    listModules() {
+        fetch('https://universityhub.azurewebsites.net/modules')
+        .then((response) => response.json())
+        .then((data) => {
+          this.modules = data;
+          console.log(this.modules)
+          console.log("Das kommt an:" + data)
+        })
+        .catch((error) => console.error(error));
+    },
 
     },
-    compareWith(o1, o2) {
-        if(!o1 || !o2) {
-          return o1 === o2;
-        }
-
-        if(Array.isArray(o2)) {
-          return o2.some((o) => o.id === o1.id);
-        }
-
-        return o1.id === o2.id;
-      },
   },
 );
 </script>
