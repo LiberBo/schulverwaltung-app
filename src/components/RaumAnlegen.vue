@@ -77,6 +77,11 @@
             </ion-item>
           </ion-list> 
 
+          <ion-button @click="myFunction()">Standort bestimmen</ion-button>
+          <ion-label>    Meine Aktuelle Position: {{ latitude }}; {{ longitude }}</ion-label>
+          <!--Standortanfrage abgelehnt / nicht möglich-->
+          <ion-label>{{ error }}</ion-label>
+
         <ion-item v-for="item in items" :key="item" class="elment-seperation2"> Gebäudename: {{ item.buildingNames }}, Etage: {{ item.buildingFloors }}, Gebäudestr.: {{ item.roomSeats }}, Postleitzahl: {{ item.roomEquipment.map(element => { 
           return element.name;
             }) }}</ion-item>
@@ -132,6 +137,9 @@ export default defineComponent({
   data() {
     return {
       items: [], // Neue Komponenten-Variable
+      error: '',
+      latitude: '',
+      longitude: '',
 
 
       buildingNames: [
@@ -189,6 +197,22 @@ export default defineComponent({
     };
   },
   methods: {
+
+    myFunction: function () {		
+      if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(this.showPosition);
+      }else{
+        this.error = "Geolocation is not supported."; 
+      }
+    },
+
+    showPosition:function (position) {	
+		this.latitude = position.coords.latitude;
+		this.longitude = position.coords.longitude;
+	},
+
+
+
     cancel(): void {
       (this.$refs.modal as typeof IonModal).$el.dismiss(null, 'cancel');
     },
