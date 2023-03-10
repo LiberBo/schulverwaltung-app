@@ -1,8 +1,11 @@
 <template>
   <ion-page>
     <ion-header>
-      <ion-toolbar>
+      <ion-toolbar color="primary" class="text-center">
         <ion-title>Verwaltung</ion-title>
+        <ion-buttons slot="end">
+            <AccountManagement></AccountManagement>
+          </ion-buttons>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true"> 
@@ -11,7 +14,6 @@
           <ion-title size="large">Verwaltung</ion-title>
         </ion-toolbar>
       </ion-header>
-
 
       <IonTitle style="text-align: center;">Uni-Verwaltung</IonTitle>  
       <IonCol>
@@ -25,6 +27,7 @@
          <StudiengangAnlegen></StudiengangAnlegen> 
         </IonRow>    
       </IonCol>
+      
 
 
       <IonTitle style="text-align: center;">Gebäudeverwaltung</IonTitle>
@@ -69,11 +72,12 @@ import GebaeudeAnlegen from '../components/GebaeudeAnlegen.vue';
 import RaumAnlegen from '../components/RaumAnlegen.vue';
 import EquipmentAnlegen from '@/components/EquipmentAnlegen.vue';
 import AccountAnlegen from '@/components/AccountAnlegen.vue';
+import AccountManagement from '@/components/AccountManagement.vue';
 
 export default defineComponent({
   name: 'VerwaltungPage',
   // eslint-disable-next-line vue/no-unused-components
-  components: { AccountAnlegen, StudiengangAnlegen, SemesterAnlegen, ModuleAnlegen, IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonCol, IonRow, GebaeudeAnlegen, RaumAnlegen, EquipmentAnlegen, IonList }
+  components: { AccountAnlegen, StudiengangAnlegen, SemesterAnlegen, ModuleAnlegen, IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonCol, IonRow, GebaeudeAnlegen, RaumAnlegen, EquipmentAnlegen, IonList, AccountManagement }
 });
 </script>
 

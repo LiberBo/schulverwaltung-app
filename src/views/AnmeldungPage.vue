@@ -1,15 +1,15 @@
 <template>
   <ion-page>
     <ion-header>
-      <ion-toolbar>
+      <ion-toolbar color="primary">
         <ion-buttons slot="start">
           <ion-back-button></ion-back-button>
         </ion-buttons>
-        <ion-title>Anmeldung</ion-title>
+        <ion-title class="text-center">Anmeldung</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <h1 color="primary" id="Kontostandsanzeige">Hallo, hier ist die Anmeldung </h1>
+      <h1 color="primary" id="Kontostandsanzeige">Herzlich Wilkommen, bitte melden Sie sich an</h1>
       <ion-list>
         <ion-item>
           <ion-label position="floating">Vorname</ion-label>
@@ -19,41 +19,8 @@
           <ion-label position="floating">Nachname</ion-label>
           <ion-input type="text" v-model="lastName"></ion-input>
         </ion-item>
-        <ion-item>
-          <ion-label>Rolle</ion-label>
-          <ion-select v-model="role" interface="popover">
-            <ion-select-option value="Student">Student</ion-select-option>
-            <ion-select-option value="Professor">Dozent</ion-select-option>
-            <ion-select-option value="Administrator">Sekretariat</ion-select-option>
-          </ion-select>
-        </ion-item>
       </ion-list>
       <ion-button id="submitButton" @click="submitForm()">Anmelden</ion-button>
-      <ion-button id="listUsersButton" @click="listUsers()">Benutzer auflisten</ion-button>
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            Vorname
-          </ion-col>
-          <ion-col>
-            Nachname
-          </ion-col>
-          <ion-col>
-            Rolle
-          </ion-col>
-        </ion-row>
-        <ion-row v-for="(user, index) in users" :key="index">
-          <ion-col>
-            {{ user.firstName }}
-          </ion-col>
-          <ion-col>
-            {{ user.lastName }}
-          </ion-col>
-          <ion-col>
-            {{ user.authorization }}
-          </ion-col>
-        </ion-row>
-      </ion-grid>
     </ion-content>
   </ion-page>
 </template>
@@ -72,12 +39,7 @@ import {
   IonItem,
   IonLabel,
   IonInput,
-  IonSelect,
-  IonSelectOption,
   IonButton,
-  IonGrid,
-  IonRow,
-  IonCol,
 } from '@ionic/vue';
 
 export default defineComponent({
@@ -94,12 +56,7 @@ export default defineComponent({
     IonItem,
     IonLabel,
     IonInput,
-    IonSelect,
-    IonSelectOption,
     IonButton,
-    IonGrid,
-    IonRow,
-    IonCol,
   },
   data() {
     return {
@@ -110,8 +67,10 @@ export default defineComponent({
     };
   },
   methods: {
+    /*
     submitForm() {
       console.log(this.firstName, this.lastName, this.role);
+      
       const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', "Access-Control-Allow-Origin": "*",    "Access-Control-Allow-Methods": "GET, POST",    "Access-Control-Allow-Headers": "Authorization, Expires, Pragma, DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range",    "Access-Control-Expose-Headers": "*" },
@@ -125,7 +84,31 @@ export default defineComponent({
         .then((response) => response.json())
         .then((data) => console.log(data))
         .catch((error) => console.error(error));
-    },
+    }, */
+
+    submitForm() {
+  const fullName = this.firstName + ' ' + this.lastName;
+  fetch(`https://universityhub.azurewebsites.net/users?fullName=${fullName}`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (data.length > 0) {
+        const user = data[0];
+        console.log(`User role for ${fullName}: ${user.role}`);
+      } else {
+        console.log(`User ${fullName} not found`);
+      }
+    })
+    .catch(error => {
+      console.error('There was a problem with the fetch operation:', error);
+    });
+},
+
+
     listUsers() {
       fetch('https://universityhub.azurewebsites.net/users')
         .then((response) => response.json())
@@ -147,4 +130,5 @@ ion-content {
 #submitButton {
   padding-top: 5%;
 }
+
 </style>

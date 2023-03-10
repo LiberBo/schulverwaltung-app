@@ -7,6 +7,7 @@
   import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { INITIAL_EVENTS, createEventId } from "../components/event-utils";
+import AccountManagement from '@/components/AccountManagement.vue';
 
 export default {
   components: {
@@ -14,9 +15,10 @@ export default {
     IonPage,
     IonHeader,
     IonToolbar,
-    IonTitle, 
+    IonTitle,
     IonContent,
-  },
+    AccountManagement
+},
   data() {
     return {
       currentEvents: [],
@@ -93,8 +95,11 @@ export default {
 <template>
     <ion-page>
       <ion-header>
-        <ion-toolbar>
-          <ion-title>Kalender</ion-title>
+        <ion-toolbar color="primary">
+          <ion-title class="text-center">Kalender</ion-title>
+          <ion-buttons slot="end">
+            <AccountManagement></AccountManagement>
+          </ion-buttons>
         </ion-toolbar>
       </ion-header>
       <ion-content :fullscreen="true">

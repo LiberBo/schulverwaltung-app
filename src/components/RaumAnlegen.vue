@@ -52,6 +52,7 @@
               <ion-label>Current value: {{ currentBuildingFloors }}</ion-label>
             </ion-item>
           </ion-list> 
+      
 
 
 
@@ -78,13 +79,15 @@
           </ion-list> 
 
           <ion-button @click="myFunction()">Standort bestimmen</ion-button>
-          <ion-label>    Meine Aktuelle Position: {{ latitude }}; {{ longitude }}</ion-label>
+          <ion-label>    Meine Aktuelle Position: {{ roomLatitude }}; {{ roomLongitude }}</ion-label>
           <!--Standortanfrage abgelehnt / nicht möglich-->
           <ion-label>{{ error }}</ion-label>
 
         <ion-item v-for="item in items" :key="item" class="elment-seperation2"> Gebäudename: {{ item.buildingNames }}, Etage: {{ item.buildingFloors }}, Gebäudestr.: {{ item.roomSeats }}, Postleitzahl: {{ item.roomEquipment.map(element => { 
           return element.name;
             }) }}</ion-item>
+
+            <div class="bottomSeperation"></div>
       </ion-content>
     </ion-modal>
 </template>
@@ -138,8 +141,8 @@ export default defineComponent({
     return {
       items: [], // Neue Komponenten-Variable
       error: '',
-      latitude: '',
-      longitude: '',
+      roomLatitude: '',
+      roomLongitude: '',
 
 
       buildingNames: [
@@ -207,8 +210,8 @@ export default defineComponent({
     },
 
     showPosition:function (position) {	
-		this.latitude = position.coords.latitude;
-		this.longitude = position.coords.longitude;
+		this.roomLatitude = position.coords.latitude;
+		this.roomLongitude = position.coords.longitude;
 	},
 
 
@@ -235,6 +238,25 @@ export default defineComponent({
 
       if(roomNameElement.value && buildingNamesElement.value && buildingFloorsElement.value && roomSeatsElement.value && roomEquipmentElements.value){
       this.items.push(room); // Eintrag hinzufügen
+
+      console.log(this.latitude + this.longitude + this.roomName + this.roomSeats);
+
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', "Access-Control-Allow-Origin": "*",    "Access-Control-Allow-Methods": "GET, POST",    "Access-Control-Allow-Headers": "Authorization, Expires, Pragma, DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range",    "Access-Control-Expose-Headers": "*" },
+        body: JSON.stringify({
+          name: this.roomName,
+          coordinates: {
+              latitude: this.latitude, 
+              longitude: this.longitude
+            },
+          seats: this.roomSeats,
+        }),
+      };
+      fetch('https://universityhub.azurewebsites.net/locations', requestOptions)
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => console.error(error));
       }
       else{
         alert("Bitte fülle alle Felder aus!")
@@ -251,5 +273,9 @@ export default defineComponent({
 
 .elment-seperation2{
   padding-bottom: 2%;
+}
+
+.bottomSeperation{
+  padding-top: 10%;
 }
 </style>

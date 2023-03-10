@@ -1,8 +1,8 @@
 <template>
   <ion-page>
     <ion-header>
-      <ion-toolbar>
-        <ion-title>Prüfungsleistung</ion-title>
+      <ion-toolbar color="primary">
+        <ion-title class="text-center">Prüfungsleistung</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
