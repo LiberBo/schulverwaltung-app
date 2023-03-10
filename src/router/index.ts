@@ -19,13 +19,21 @@ const routes: Array<RouteRecordRaw> = [
         path: 'Kalender',
         component: () => import('@/views/KalenderPage.vue')
       },
-      {
+      /*{
         path: 'Raumverwaltung',
         component: () => import('@/views/RaumverwaltungPage.vue')
-      },
+      },*/
       {
         path: 'Verwaltung',
-        component: () => import('@/views/VerwaltungPage.vue')
+        component: () => import('@/views/VerwaltungPage.vue'),
+        
+        children: [
+          {
+            path: 'Raumverwaltung',
+            component: () => import('@/components/Raumverwaltung.vue')
+          },
+        ]
+
       },
       {
         path: 'Anmeldung',

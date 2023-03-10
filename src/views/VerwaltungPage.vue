@@ -38,6 +38,11 @@
         <IonRow class="buttonSeperation">
           <RaumAnlegen></RaumAnlegen>
         </IonRow>
+        <IonRow class="buttonSeperation">
+          <ion-button tab="Verwaltung" href="/tabs/Verwaltung/Raumverwaltung">
+          <ion-label>Raumverwaltung</ion-label>
+        </ion-button>
+        </IonRow>
       </IonCol>
 
       <IonTitle style="text-align: center;">Ausstattungs-Verwaltung</IonTitle>
@@ -69,15 +74,16 @@ import ModuleAnlegen from '../components/ModuleAnlegen.vue';
 import SemesterAnlegen from '../components/SemesterAnlegen.vue';
 import StudiengangAnlegen from '../components/StudiengangAnlegen.vue';
 import GebaeudeAnlegen from '../components/GebaeudeAnlegen.vue';
-import RaumAnlegen from '../components/RaumAnlegen.vue';
+import RaumAnlegen from '../components/Raumverwaltung/RaumAnlegen.vue';
 import EquipmentAnlegen from '@/components/EquipmentAnlegen.vue';
-import AccountAnlegen from '@/components/AccountAnlegen.vue';
+import AccountAnlegen from '@/components/UserAnlegen.vue';
 import AccountManagement from '@/components/AccountManagement.vue';
+import Raumverwaltung from '@/components/Raumverwaltung.vue';
 
 export default defineComponent({
   name: 'VerwaltungPage',
   // eslint-disable-next-line vue/no-unused-components
-  components: { AccountAnlegen, StudiengangAnlegen, SemesterAnlegen, ModuleAnlegen, IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonCol, IonRow, GebaeudeAnlegen, RaumAnlegen, EquipmentAnlegen, IonList, AccountManagement }
+  components: { AccountAnlegen, StudiengangAnlegen, SemesterAnlegen, ModuleAnlegen, IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonCol, IonRow, GebaeudeAnlegen, RaumAnlegen, EquipmentAnlegen, IonList, AccountManagement, Raumverwaltung }
 });
 </script>
 

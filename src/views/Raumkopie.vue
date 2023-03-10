@@ -63,7 +63,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { IonPage, IonBackButton, IonHeader, IonButtons, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, IonModal, IonButton } from '@ionic/vue';
-import RaumAnlegen from '@/components/RaumAnlegen.vue';
+import RaumAnlegen from '@/components/Raumverwaltung/RaumAnlegen.vue';
 
 interface Room {
   id: number;
