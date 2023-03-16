@@ -13,10 +13,11 @@
           <ion-icon :icon="calendarOutline" />
           <ion-label>Kalender</ion-label>
         </ion-tab-button>
+        <!---
         <ion-tab-button tab="Raumverwaltung" href="/tabs/Raumverwaltung">
       <ion-icon :icon="businessOutline" />
       <ion-label>Raumverwaltung</ion-label>
-    </ion-tab-button>
+    </ion-tab-button> -->
 
       <template v-if="showVerwaltung">
           <ion-tab-button tab="Verwaltung" href="/tabs/Verwaltung">

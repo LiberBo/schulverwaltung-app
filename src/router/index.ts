@@ -13,69 +13,30 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '',
-        redirect: '/tabs/Wallet'
+        redirect: '/tabs/Anmeldung'
       },
       {
         path: 'Kalender',
         component: () => import('@/views/KalenderPage.vue')
       },
-      /*{
-        path: 'Raumverwaltung',
-        component: () => import('@/views/RaumverwaltungPage.vue')
-      },*/
+      {
+        path: 'Verwaltung/Raumverwaltung',
+        component: () => import('@/components/Raumverwaltung.vue')
+      },
       {
         path: 'Verwaltung',
         component: () => import('@/views/VerwaltungPage.vue'),
-        
-        children: [
-          {
-            path: 'Raumverwaltung',
-            component: () => import('@/components/Raumverwaltung.vue')
-          },
-        ]
-
-      },
+      },/*
+      {
+        path: 'Raumverwaltung',
+        component: () => import('@/components/Raumverwaltung.vue')
+      }, */
       {
         path: 'Anmeldung',
         component: () => import('@/views/AnmeldungPage.vue')
       }
-
-
-      /*
-      {
-        path: 'Wallet',
-        component: () => import('@/views/WalletPage.vue'),
-        children: [
-          {
-            path: 'Geldeinzahlung',
-            component: () => import('@/views/GeldeinzahlungPage.vue')
-          },
-        ]
-      }, 
-      {
-        path: 'Kalender&Raumverwaltung',
-        component: () => import('@/views/Kalender&RaumverwaltungPage.vue')
-      },
-      {
-        path: 'Prüfungsleistung',
-        component: () => import('@/views/PrüfungsleistungPage.vue')
-      },
-      
-*/
     ]
-  },/*
-  {
-    path:'/Geldeinzahlung',
-    component: () => import('@/views/GeldeinzahlungPage.vue')
-  },
-  {
-    path:'/Kalender',
-    component: () => import('@/views/KalenderPage.vue')
-  },
-  {
-    path:'/Raumverwaltung',
-    component: () => import('@/views/RaumverwaltungPage.vue')
-  }, */
+  }
 ]
 
 const router = createRouter({

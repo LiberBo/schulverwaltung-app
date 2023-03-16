@@ -1,7 +1,7 @@
 
 
 <template>
-    <ion-button id="modalRaumVerwalten" expand="block" size="fixed">Equipment anlegen</ion-button>
+    <ion-button id="modalRaumVerwalten" expand="block" size="fixed">Räume verwalten</ion-button>
     <ion-modal ref="modal" trigger="modalRaumVerwalten">
       <ion-header>
         <ion-toolbar>
@@ -9,17 +9,11 @@
             <ion-button @click="cancel()">Cancel</ion-button>
           </ion-buttons>
           <ion-title class="text-center">Equipment</ion-title>
-          <ion-buttons slot="end">
-            <ion-button :strong="true" @click="addTo()">Hinzufügen</ion-button>
-          </ion-buttons>
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
 
-        <ion-item>
-          <ion-label position="stacked">Bitte mögliches Equipment eingeben:</ion-label>
-          <ion-input ref="equipmentName" type="text" placeholder="Beamer, Tafel, Fenster, usw." clear-input="true"  clear-on-edit="true"></ion-input>
-        </ion-item>
+        
 
         <ion-item v-for="item in items" :key="item" class="elment-seperation2"> Equipment: {{ item.equipmentName }}</ion-item>
       </ion-content>
@@ -38,14 +32,9 @@ import {
   IonToolbar,
   IonTitle,
   IonItem,
-  IonInput,
-  IonLabel,
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
-interface Module {
-  equipmentName: string;
-}
 
 export default defineComponent({
   components: {
@@ -57,8 +46,6 @@ export default defineComponent({
     IonToolbar,
     IonTitle,
     IonItem,
-    IonInput,
-    IonLabel,
   },
 
   data() {
@@ -69,22 +56,6 @@ export default defineComponent({
   methods: {
     cancel(): void {
       (this.$refs.modal as typeof IonModal).$el.dismiss(null, 'cancel');
-    },
-    addTo(): void {
-      const equipmentNameElement = (this.$refs.equipmentName as typeof IonInput).$el;
-  
-      let equipments: Module = {
-        equipmentName: equipmentNameElement.value,
-      };
-
-      if(equipmentNameElement.value){
-      this.items.push(equipments); // Eintrag hinzufügen
-      
-      
-      }
-      else{
-        alert("Bitte fülle alle Felder aus!")
-      }
     },
   },
 });

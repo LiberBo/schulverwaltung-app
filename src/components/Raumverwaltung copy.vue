@@ -4,9 +4,6 @@
       <ion-header>
         <ion-toolbar color="primary" class="text-center">
           <ion-title>Raumverwaltung</ion-title>
-          <ion-buttons slot="end">
-          <RaumAnlegen></RaumAnlegen>
-        </ion-buttons>
         </ion-toolbar>
       </ion-header>
       <ion-content :fullscreen="true"> 
@@ -16,7 +13,14 @@
           </ion-toolbar>
         </ion-header>
   
-          Hier werden die Räume angezeigt
+        <IonCol>
+          <IonRow class="buttonSeperation">
+            <RaumAnlegen></RaumAnlegen>
+          </IonRow>
+          <IonRow class="buttonSeperation">
+           <RaumVerwalten></RaumVerwalten>
+          </IonRow>    
+        </IonCol>
   
   
   

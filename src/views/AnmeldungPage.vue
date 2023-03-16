@@ -12,12 +12,12 @@
       <h1 color="primary" id="Kontostandsanzeige">Herzlich Wilkommen, bitte melden Sie sich an</h1>
       <ion-list>
         <ion-item>
-          <ion-label position="floating">Vorname</ion-label>
-          <ion-input type="text" v-model="firstName"></ion-input>
+          <ion-label position="floating">E-Mail Adresse</ion-label>
+          <ion-input type="text" v-model="email"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label position="floating">Nachname</ion-label>
-          <ion-input type="text" v-model="lastName"></ion-input>
+          <ion-label position="floating">Passwort</ion-label>
+          <ion-input type="password" v-model="password"></ion-input>
         </ion-item>
       </ion-list>
       <ion-button id="submitButton" @click="submitForm()">Anmelden</ion-button>
@@ -60,63 +60,41 @@ export default defineComponent({
   },
   data() {
     return {
-      firstName: '' as string,
-    lastName: '' as string,
-    role: '' as string,
-    users: [] as Array<any>,
+      email: '' as string,
+      password: '' as string,
     };
   },
   methods: {
-    /*
+
     submitForm() {
-      console.log(this.firstName, this.lastName, this.role);
-      
       const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', "Access-Control-Allow-Origin": "*",    "Access-Control-Allow-Methods": "GET, POST",    "Access-Control-Allow-Headers": "Authorization, Expires, Pragma, DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range",    "Access-Control-Expose-Headers": "*" },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          firstName: this.firstName,
-          lastName: this.lastName,
-          authorization: this.role,
-        }),
-      };
-      fetch('https://universityhub.azurewebsites.net/users', requestOptions)
-        .then((response) => response.json())
-        .then((data) => console.log(data))
-        .catch((error) => console.error(error));
-    }, */
-
-    submitForm() {
-  const fullName = this.firstName + ' ' + this.lastName;
-  fetch(`https://universityhub.azurewebsites.net/users?fullName=${fullName}`)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-    .then(data => {
-      if (data.length > 0) {
-        const user = data[0];
-        console.log(`User role for ${fullName}: ${user.role}`);
-      } else {
-        console.log(`User ${fullName} not found`);
-      }
-    })
-    .catch(error => {
-      console.error('There was a problem with the fetch operation:', error);
-    });
-},
-
-
-    listUsers() {
-      fetch('https://universityhub.azurewebsites.net/users')
-        .then((response) => response.json())
-        .then((data) => {
-          this.users = data;
+        email: this.email,
+        password: this.password
         })
-        .catch((error) => console.error(error));
+      };
+
+      fetch('https://universityhub.azurewebsites.net/token', requestOptions)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Anmeldung fehlgeschlagen');
+        }
+        return response.json();
+      })
+      .then(data => {
+        // Token abspeichern
+       localStorage.setItem('token', data.token);
+       console.log('Anmeldung erfolgreich');
+       console.log(data.token)
+      })
+      .catch(error => {
+        console.error(error);
+      });
     },
+
+
   },
 });
 

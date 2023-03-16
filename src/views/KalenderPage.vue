@@ -7,7 +7,7 @@
   import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { INITIAL_EVENTS, createEventId } from "../components/event-utils";
-import AccountManagement from '@/components/AccountManagement.vue';
+import AccountManagement from '@/components/UserInformation.vue';
 
 export default {
   components: {
