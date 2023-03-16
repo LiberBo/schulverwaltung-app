@@ -87,11 +87,11 @@
 import { defineComponent } from 'vue';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCol, IonRow, IonList, IonIcon, IonText } from '@ionic/vue';
 import { businessOutline, libraryOutline, personOutline } from 'ionicons/icons';
-import ModuleAnlegen from '../components/ModuleAnlegen.vue';
-import SemesterAnlegen from '../components/SemesterAnlegen.vue';
-import StudiengangAnlegen from '../components/StudiengangAnlegen.vue';
+import ModuleAnlegen from '../components/Lehrverwaltung/ModuleAnlegen.vue';
+import SemesterAnlegen from '../components/Lehrverwaltung/SemesterAnlegen.vue';
+import StudiengangAnlegen from '../components/Lehrverwaltung/StudiengangAnlegen.vue';
 import RaumAnlegen from '../components/Raumverwaltung/RaumAnlegen.vue';
-import AccountAnlegen from '@/components/UserAnlegen.vue';
+import AccountAnlegen from '@/components/Userverwaltung/UserAnlegen.vue';
 import AccountManagement from '@/components/UserInformation.vue';
 import Raumverwaltung from '@/components/Raumverwaltung.vue';
 

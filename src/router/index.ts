@@ -24,6 +24,14 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/components/Raumverwaltung.vue')
       },
       {
+        path: 'Verwaltung/Userverwaltung',
+        component: () => import('@/components/Userverwaltung.vue')
+      },
+      {
+        path: 'Verwaltung/Lehrverwaltung',
+        component: () => import('@/components/Lehrverwaltung.vue')
+      },
+      {
         path: 'Verwaltung',
         component: () => import('@/views/VerwaltungPage.vue'),
       },/*
