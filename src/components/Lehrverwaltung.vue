@@ -27,9 +27,6 @@
           <ion-icon :icon="peopleOutline" class="icon-above-text"/> <br>
           <IonText class="text-under-icon">Studiengangverwaltung</IonText>
         </a>
-  
-        -> Icons sind zu groß nach oben und unten
-  
         
   
      </ion-content>
@@ -100,6 +97,7 @@
     height: 75px;
     width: 75px;
     color: black;
+    pointer-events: none;
   }
 
   .text-under-icon{

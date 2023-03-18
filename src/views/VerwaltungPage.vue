@@ -153,6 +153,7 @@ export default defineComponent({
     height: 75px;
     width: 75px;
     color: black;
+    pointer-events: none;
   }
 
   .text-under-icon{
