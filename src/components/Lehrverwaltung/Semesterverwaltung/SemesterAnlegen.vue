@@ -1,10 +1,4 @@
-<!--Todos:
-      //Timestamps müssen noch entfernt werden ToDo
-      //semesterName wird nicht angezeigt
-      // modules werden nicht angezeigt
-      // padding zwischen den hinzugefügten
 
--->
 
 <template>
     <ion-button id="open-modal2" expand="block" size="fixed">Semester anlegen</ion-button>

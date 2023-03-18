@@ -32,6 +32,18 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/components/Lehrverwaltung.vue')
       },
       {
+        path: 'Verwaltung/Lehrverwaltung/Semesterverwaltung',
+        component: () => import('@/components/Lehrverwaltung/SemesterVerwaltung/SemesterVerwaltung.vue')
+      },
+      {
+        path: 'Verwaltung/Lehrverwaltung/Modulverwaltung',
+        component: () => import('@/components/Lehrverwaltung/Modulverwaltung/ModulVerwaltung.vue')
+      },
+      {
+        path: 'Verwaltung/Lehrverwaltung/Studiengangverwaltung',
+        component: () => import('@/components/Lehrverwaltung/Studiengangverwaltung/StudiengangVerwaltung.vue')
+      },
+      {
         path: 'Verwaltung',
         component: () => import('@/views/VerwaltungPage.vue'),
       },/*
