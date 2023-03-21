@@ -71,34 +71,39 @@ export default defineComponent({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-        email: this.email,
-        password: this.password
+          email: this.email,
+          password: this.password
         })
       };
 
       fetch('https://universityhub.azurewebsites.net/token', requestOptions)
       .then(response => {
         if (!response.ok) {
+          prompt("Token kommt nicht");
           throw new Error('Anmeldung fehlgeschlagen');
         }
         return response.json();
       })
       .then(data => {
         // Token abspeichern
-       localStorage.setItem('token', data.token);
-       console.log('Anmeldung erfolgreich');
-       console.log(data.token)
+        localStorage.setItem('token', data.token);
+        console.log('Anmeldung erfolgreich');
+        console.log(data.token);
+        prompt(data.token);
+        
+        // Weiterleiten zur Modulverwaltung
+        this.$router.push('/tabs/Verwaltung');
       })
       .catch(error => {
         console.error(error);
+        prompt(error);
+        prompt(error.response);
       });
     },
-
-
   },
 });
-
 </script>
+
 
 <style>
 ion-content {

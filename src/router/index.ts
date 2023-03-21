@@ -33,7 +33,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'Verwaltung/Lehrverwaltung/Semesterverwaltung',
-        component: () => import('@/components/Lehrverwaltung/SemesterVerwaltung/SemesterVerwaltung.vue')
+        component: () => import('@/components/Lehrverwaltung/Semesterverwaltung/SemesterVerwaltung.vue')
       },
       {
         path: 'Verwaltung/Lehrverwaltung/Modulverwaltung',

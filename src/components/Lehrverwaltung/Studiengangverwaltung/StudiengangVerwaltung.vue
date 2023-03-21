@@ -3,7 +3,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar color="primary" class="text-center">
-        <ion-title>Raumverwaltung</ion-title>
+        <ion-title>Studiengangverwaltung</ion-title>
         <ion-buttons slot="end">
         <StudiengangAnlegen></StudiengangAnlegen>
       </ion-buttons>
@@ -12,13 +12,13 @@
     <ion-content :fullscreen="true"> 
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Raumverwaltung</ion-title>
+          <ion-title size="large">Studiengangverwaltung</ion-title>
         </ion-toolbar>
       </ion-header>
 
         <IonItem class="AddSemester"><StudiengangAnlegen></StudiengangAnlegen></IonItem>
 
-        Hier werden die Semester angezeigt
+        Hier werden die Studiengänge angezeigt
 
 
 

@@ -87,18 +87,11 @@
 import { defineComponent } from 'vue';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCol, IonRow, IonList, IonIcon, IonText } from '@ionic/vue';
 import { businessOutline, libraryOutline, personOutline } from 'ionicons/icons';
-import ModuleAnlegen from '../components/Lehrverwaltung/Modulverwaltung/ModuleAnlegen.vue';
-import SemesterAnlegen from '../components/Lehrverwaltung/SemesterVerwaltung/SemesterVerwaltung.vue';
-import StudiengangAnlegen from '../components/Lehrverwaltung/Kursverwaltung/StudiengangAnlegen.vue';
-import RaumAnlegen from '../components/Raumverwaltung/RaumAnlegen.vue';
-import AccountAnlegen from '@/components/Userverwaltung/UserAnlegen.vue';
-import AccountManagement from '@/components/UserInformation.vue';
-import Raumverwaltung from '@/components/Raumverwaltung.vue';
 
 export default defineComponent({
   name: 'VerwaltungPage',
   // eslint-disable-next-line vue/no-unused-components
-  components: { AccountAnlegen, StudiengangAnlegen, SemesterAnlegen, ModuleAnlegen, IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonCol, IonRow, RaumAnlegen, IonList, AccountManagement, Raumverwaltung, IonIcon, IonText },
+  components: {  IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonCol, IonRow, IonList, IonIcon, IonText },
   
   setup (){
     return {

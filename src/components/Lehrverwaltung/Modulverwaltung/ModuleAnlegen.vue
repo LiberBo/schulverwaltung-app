@@ -1,5 +1,5 @@
 <template>
-  <ion-button id="open-modal" expand="block" size="fixed">Module anlegen</ion-button>
+  <ion-button id="open-modal" expand="block" size="fixed">Modul anlegen</ion-button>
   <ion-modal ref="modal" trigger="open-modal">
     <ion-header>
       <ion-toolbar>
@@ -95,6 +95,8 @@ export default defineComponent({
       moduleName: '',
       moduleDescription: '',
       creditPoints: 0,
+      moduleType: '',
+      maxSize: 0,
       modules: [],
     };
   },
