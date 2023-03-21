@@ -21,6 +21,10 @@
         </ion-item>
       </ion-list>
       <ion-button id="submitButton" @click="submitForm()">Anmelden</ion-button>
+
+      Test-Anmeldedaten:
+      Mail: test
+      Passwort: test
     </ion-content>
   </ion-page>
 </template>
