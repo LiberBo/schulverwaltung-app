@@ -79,7 +79,6 @@ export default defineComponent({
       fetch('https://universityhub.azurewebsites.net/token', requestOptions)
       .then(response => {
         if (!response.ok) {
-          prompt("Token kommt nicht");
           throw new Error('Anmeldung fehlgeschlagen');
         }
         return response.json();
@@ -88,16 +87,13 @@ export default defineComponent({
         // Token abspeichern
         localStorage.setItem('token', data.token);
         console.log('Anmeldung erfolgreich');
-        console.log(data.token);
-        prompt(data.token);
+
         
         // Weiterleiten zur Modulverwaltung
         this.$router.push('/tabs/Verwaltung');
       })
       .catch(error => {
         console.error(error);
-        prompt(error);
-        prompt(error.response);
       });
     },
   },
