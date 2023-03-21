@@ -82,7 +82,6 @@ export default defineComponent({
   },
   async mounted() {
     const token = localStorage.getItem('token') || '';
-    prompt(`HTTP error: ${token}`);
 
     try {
       const response = await fetch('https://universityhub.azurewebsites.net/modules', {
@@ -97,7 +96,6 @@ export default defineComponent({
         this.modules.push(...data);
       } else {
         console.error(`HTTP error: ${response.status}`);
-        prompt(`HTTP error: ${response}`);
       }
     } catch (error) {
       console.error(error);
