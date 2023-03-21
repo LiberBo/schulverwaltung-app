@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import WalletPage from '@/views/WalletPage.vue'
+import WalletPage from '@/Müll/WalletPage.vue'
 
 describe('WalletPage.vue', () => {
   it('renders Wallet WalletPage', () => {

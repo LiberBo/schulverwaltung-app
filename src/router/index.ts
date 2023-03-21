@@ -5,7 +5,7 @@ import TabsPage from '../views/TabsPage.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/tabs/Wallet'
+    redirect: '/tabs/Anmeldung'
   },
   {
     path: '/tabs/',
@@ -13,40 +13,50 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '',
-        redirect: '/tabs/Wallet'
+        redirect: '/tabs/Anmeldung'
       },
       {
-        path: 'Wallet',
-        component: () => import('@/views/WalletPage.vue'), /*
-        children: [
-          {
-            path: 'Geldeinzahlung',
-            component: () => import('@/views/GeldeinzahlungPage.vue')
-          },
-        ]*/
+        path: 'Kalender',
+        component: () => import('@/views/KalenderPage.vue')
+      },
+      {
+        path: 'Verwaltung/Raumverwaltung',
+        component: () => import('@/components/Raumverwaltung.vue')
+      },
+      {
+        path: 'Verwaltung/Userverwaltung',
+        component: () => import('@/components/Userverwaltung.vue')
+      },
+      {
+        path: 'Verwaltung/Lehrverwaltung',
+        component: () => import('@/components/Lehrverwaltung.vue')
+      },
+      {
+        path: 'Verwaltung/Lehrverwaltung/Semesterverwaltung',
+        component: () => import('@/components/Lehrverwaltung/Semesterverwaltung/SemesterVerwaltung.vue')
+      },
+      {
+        path: 'Verwaltung/Lehrverwaltung/Modulverwaltung',
+        component: () => import('@/components/Lehrverwaltung/Modulverwaltung/ModulVerwaltung.vue')
+      },
+      {
+        path: 'Verwaltung/Lehrverwaltung/Studiengangverwaltung',
+        component: () => import('@/components/Lehrverwaltung/Studiengangverwaltung/StudiengangVerwaltung.vue')
       },
       {
         path: 'Verwaltung',
-        component: () => import('@/views/VerwaltungPage.vue')
-      },
+        component: () => import('@/views/VerwaltungPage.vue'),
+      },/*
       {
-        path: 'Prüfungsleistung',
-        component: () => import('@/views/PrüfungsleistungPage.vue')
+        path: 'Raumverwaltung',
+        component: () => import('@/components/Raumverwaltung.vue')
+      }, */
+      {
+        path: 'Anmeldung',
+        component: () => import('@/views/AnmeldungPage.vue')
       }
     ]
-  },
-  {
-    path:'/Geldeinzahlung',
-    component: () => import('@/views/GeldeinzahlungPage.vue')
-  },
-  {
-    path:'/Kalender',
-    component: () => import('@/views/KalenderPage.vue')
-  },
-  {
-    path:'/Raumverwaltung',
-    component: () => import('@/views/RaumverwaltungPage.vue')
-  },
+  }
 ]
 
 const router = createRouter({
