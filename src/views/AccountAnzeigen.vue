@@ -34,7 +34,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonList } from '@ionic/vue';
 import jwt_decode from "jwt-decode";
 
 interface UserInformation {
@@ -48,7 +48,7 @@ interface UserInformation {
 
 export default defineComponent({
   name: 'AccountAnzeigen',
-  components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonItem, IonLabel },
+  components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonItem, IonLabel, IonList },
   data() {
     return {
       currentUser: {} as UserInformation,

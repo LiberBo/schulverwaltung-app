@@ -1,6 +1,6 @@
 <template>
-  <ion-button id="open-modal7" expand="block" size="fixed">Account anlegen</ion-button>
-  <ion-modal ref="modal" trigger="open-modal7">
+  <ion-button id="open-create-Account" expand="block" size="default">User anlegen</ion-button>
+  <ion-modal ref="modal" trigger="open-create-Account">
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
@@ -22,45 +22,23 @@
         <ion-input v-model="lastName"></ion-input>
       </ion-item>
       <ion-item>
+        <ion-label position="floating">E-Mail Adresse</ion-label>
+        <ion-input v-model="email"></ion-input>
+      </ion-item>
+      <ion-item>
         <ion-label position="floating">Rolle</ion-label>
         <ion-select v-model="role" interface="popover">
             <ion-select-option value="Student">Student</ion-select-option>
-            <ion-select-option value="Professor">Dozent</ion-select-option>
-            <ion-select-option value="Administrator">Sekretariat</ion-select-option>
+            <ion-select-option value="Professor">Professor</ion-select-option>
+            <ion-select-option value="Administrator">Administrator</ion-select-option>
         </ion-select>
       </ion-item>
-      <div class="centeredButton">
-      <ion-button id="listUsersButton" @click="listUsers()">Alle Benutzer auflisten</ion-button>
-        </div>
-      <ion-grid>
-        <ion-row>
-          <ion-col class="gridHead">
-            Vorname
-          </ion-col>
-          <ion-col class="gridHead">
-            Nachname
-          </ion-col>
-          <ion-col class="gridHead">
-            Rolle
-          </ion-col>
-        </ion-row>
-        <ion-row v-for="(user, index) in users" :key="index">
-          <ion-col>
-            {{ user.firstName }}
-          </ion-col>
-          <ion-col>
-            {{ user.lastName }}
-          </ion-col>
-          <ion-col>
-            {{ user.authorization }}
-          </ion-col>
-        </ion-row>
-      </ion-grid>
     </ion-content>
   </ion-modal>
 </template>
 
 <script lang="ts">
+console.log("Wird dies überhaupt aufgerufen?");
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import {
@@ -74,11 +52,8 @@ import {
   IonItem,
   IonInput,
   IonLabel,
-  IonGrid,
-  IonRow,
-  IonCol,
   IonSelect,
-  IonSelectOption
+  IonSelectOption,
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
@@ -94,16 +69,14 @@ export default defineComponent({
     IonItem,
     IonInput,
     IonLabel,
-    IonGrid,
-    IonRow,
-    IonCol,
     IonSelect,
-    IonSelectOption
+    IonSelectOption,
   },
   data() {
     return {
       firstName: '' as string,
     lastName: '' as string,
+    email: '' as string,
     role: '' as string,
     users: [] as Array<any>,
     };
@@ -125,6 +98,7 @@ export default defineComponent({
           firstName: this.firstName,
           lastName: this.lastName,
           authorization: this.role,
+          email: this.email,
         }),
       };
       fetch('https://universityhub.azurewebsites.net/users', requestOptions)
