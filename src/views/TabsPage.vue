@@ -30,6 +30,11 @@
           <ion-icon :icon="personOutline" />
           <ion-label>Anmeldung</ion-label>
         </ion-tab-button>
+
+        <ion-tab-button tab="Accountverwaltung" href="/tabs/Accountverwaltung">
+          <ion-icon :icon="personOutline" />
+          <ion-label>Accountverwaltung</ion-label>
+        </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>
   </ion-page>
