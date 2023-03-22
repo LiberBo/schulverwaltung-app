@@ -54,6 +54,10 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'Anmeldung',
         component: () => import('@/views/AnmeldungPage.vue')
+      },
+      {
+        path: 'Accountverwaltung',
+        component: () => import('@/views/AccountAnzeigen.vue')
       }
     ]
   }

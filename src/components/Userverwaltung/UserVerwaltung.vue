@@ -1,6 +1,4 @@
-
-  
-  <template>
+<template>
     <ion-page>
       <ion-header>
         <ion-toolbar color="primary" class="text-center">
@@ -11,9 +9,6 @@
         <ion-header collapse="condense">
           <ion-toolbar>
             <ion-title size="large">Modulverwaltung</ion-title>
-            <ion-buttons slot="end">
-          <UserAnlegen></UserAnlegen> -> Fehlt noch
-        </ion-buttons>
           </ion-toolbar>
         </ion-header>
   
@@ -34,7 +29,6 @@
   <script lang="ts">
   import { defineComponent } from 'vue';
   import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonList, IonLabel } from '@ionic/vue';
-import UserAnlegen from './Userverwaltung/UserAnlegen.vue';
   
   interface UserInformation {
     id: number;
@@ -47,7 +41,7 @@ import UserAnlegen from './Userverwaltung/UserAnlegen.vue';
   
   export default defineComponent({
     name: 'RaumVerwaltung',
-    components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonItem, IonList, IonLabel, UserAnlegen },
+    components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonItem, IonList, IonLabel },
     data() {
       return {
         users: [] as UserInformation[],
