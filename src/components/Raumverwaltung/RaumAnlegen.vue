@@ -20,64 +20,10 @@
           <ion-label position="stacked">Bitte Name des Raumes eingeben:</ion-label>
           <ion-input ref="roomName" type="text" placeholder="A38B"></ion-input>
         </ion-item>
-
-        <ion-list>
-            <ion-item class="elment-seperation2">
-              <ion-select
-                placeholder="Wähle das zugehörige Gebäude aus:"
-                :compareWith="compareWith"
-                @ionChange="currentBuildingName = JSON.stringify($event.detail.value)"
-                ref="buildingNames"
-              >
-                <ion-select-option v-for="buildingName in buildingNames" v-bind:key="buildingName" :value="buildingName">{{ buildingName.name }}</ion-select-option>
-              </ion-select>
-            </ion-item>
-            <ion-item lines="none">
-              <ion-label>Current value: {{ currentBuildingNames }}</ion-label>
-            </ion-item>
-          </ion-list> 
-        
-        <ion-list>
-            <ion-item class="elment-seperation2">
-              <ion-select
-                placeholder="Wähle die zugehörige Etage aus:"
-                :compareWith="compareWith"
-                @ionChange="currentBuildingFloors = JSON.stringify($event.detail.value)"
-                ref="buildingFloors"
-              >
-                <ion-select-option v-for=" buildingFloor in buildingFloors" v-bind:key="buildingFloor" :value="buildingFloor">{{ buildingFloor.name }}</ion-select-option>
-              </ion-select>
-            </ion-item>
-            <ion-item lines="none">
-              <ion-label>Current value: {{ currentBuildingFloors }}</ion-label>
-            </ion-item>
-          </ion-list> 
-      
-
-
-
         <ion-item class="elment-seperation2">
           <ion-label position="stacked">Bitte Anzahl der Plätze angeben:</ion-label>
           <ion-input ref="roomSeats" type="number" placeholder="69"></ion-input>
         </ion-item>
-
-        <ion-list>
-            <ion-item class="elment-seperation2">
-              <ion-select
-                placeholder="Wähle das zugehörige Equipment aus:"
-                :compareWith="compareWith"
-                @ionChange="currentRoomEquipments = JSON.stringify($event.detail.value)"
-                :multiple="true"
-                ref="roomEquipments"
-              >
-                <ion-select-option v-for=" roomEquipment in roomEquipments" v-bind:key="roomEquipment" :value="roomEquipment">{{ roomEquipment.name }}</ion-select-option>
-              </ion-select>
-            </ion-item>
-            <ion-item lines="none">
-              <ion-label>Current value: {{ currentRoomEquiptment }}</ion-label>
-            </ion-item>
-          </ion-list> 
-
           <ion-button @click="myFunction()">Standort bestimmen</ion-button>
           <ion-label>    Meine Aktuelle Position: {{ roomLatitude }}; {{ roomLongitude }}</ion-label>
           <!--Standortanfrage abgelehnt / nicht möglich-->
@@ -106,18 +52,17 @@ import {
   IonItem,
   IonInput,
   IonLabel,
-  IonList,
-  IonSelect,
-  IonSelectOption
+ // IonList,
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
 interface Module {
   roomName: "";
-  buildingNames: [];
-  buildingFloors: [];
   roomSeats: number;
-  roomEquipment: [];
+  coordinates: {
+    latitude: 0,
+    longitude: 0
+  },
 }
 
 export default defineComponent({
@@ -132,9 +77,7 @@ export default defineComponent({
     IonItem,
     IonInput,
     IonLabel,
-    IonList,
-    IonSelect,
-    IonSelectOption
+  //  IonList,
   },
 
   data() {
@@ -143,59 +86,6 @@ export default defineComponent({
       error: '',
       roomLatitude: '',
       roomLongitude: '',
-
-
-      buildingNames: [
-          {
-            id: 1,
-            name: "A",
-            type: "Physik"
-          },
-          {
-            id: 2,
-            name: "B",
-            type: "Mathematik"
-          },
-          {
-            id: 3,
-            name: "C",
-            type: "Geologie"
-          }
-        ],
-        buildingFloors: [
-          {
-            id: 1,
-            name: "1",
-            type: "Physik"
-          },
-          {
-            id: 2,
-            name: "2",
-            type: "Mathematik"
-          },
-          {
-            id: 3,
-            name: "3",
-            type: "Geologie"
-          }
-        ],
-        roomEquipments: [
-          {
-            id: 1,
-            name: "Beamer",
-            type: "Physik"
-          },
-          {
-            id: 2,
-            name: "Tafel",
-            type: "Mathematik"
-          },
-          {
-            id: 3,
-            name: "Fenster",
-            type: "Geologie"
-          }
-        ],
         
     };
   },
@@ -220,30 +110,23 @@ export default defineComponent({
       (this.$refs.modal as typeof IonModal).$el.dismiss(null, 'cancel');
     },
     addTo(): void {
-      // Abfrage welches der beiden (Pflich oder optinale Module) = true ist und dann abspeichern
       const roomNameElement = (this.$refs.roomName as typeof IonInput).$el;
-      const buildingNamesElement = (this.$refs.buildingNames as typeof IonInput).$el;
-      const buildingFloorsElement = (this.$refs.buildingFloors as typeof IonInput).$el;
       const roomSeatsElement = (this.$refs.roomSeats as typeof IonInput).$el;
-      const roomEquipmentElements = (this.$refs.roomEquipments as typeof IonInput).$el;
       // Construct the module object
 
       let room: Module = {
         roomName: roomNameElement.value,
-        buildingNames: buildingNamesElement.value,
-        buildingFloors: buildingFloorsElement.value,
         roomSeats: roomSeatsElement.value,
-        roomEquipments: roomEquipmentElements.value,
       };
 
-      if(roomNameElement.value && buildingNamesElement.value && buildingFloorsElement.value && roomSeatsElement.value && roomEquipmentElements.value){
+      if(roomNameElement.value && roomSeatsElement.value ){
       this.items.push(room); // Eintrag hinzufügen
 
       console.log(this.latitude + this.longitude + this.roomName + this.roomSeats);
-
+      const token = localStorage.getItem('token') || '';
       const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', "Access-Control-Allow-Origin": "*",    "Access-Control-Allow-Methods": "GET, POST",    "Access-Control-Allow-Headers": "Authorization, Expires, Pragma, DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range",    "Access-Control-Expose-Headers": "*" },
+        headers: { Authorization: `Bearer ${token}` ,'Content-Type': 'application/json', "Access-Control-Allow-Origin": "*",    "Access-Control-Allow-Methods": "GET, POST",    "Access-Control-Allow-Headers": "Authorization, Expires, Pragma, DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range",    "Access-Control-Expose-Headers": "*" },
         body: JSON.stringify({
           name: this.roomName,
           coordinates: {
