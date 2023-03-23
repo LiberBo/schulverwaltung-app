@@ -13,13 +13,19 @@
       <h1 color="primary" id="Kontostandsanzeige">Hier finden Sie den Kalender </h1>
       
 
-      <!---<FullCalendar ref="cal" :options="calendarOptions" v-if="calendarOptions"/> -->
       <FullCalendar ref="cal" weekNumbers="true" class="demo-app-calendar" :options="calendarOptions">
         <template v-slot:eventContent="arg">
           <b>{{ arg.event.timeText }}</b>
           <i>{{ arg.event.title }}</i>
         </template>
       </FullCalendar>
+
+      <ion-list class="demo-app-calendar">
+        <ion-item v-for="(event, index) in selectedDateEvents" :key="index">
+          <ion-label>{{ event.title }}</ion-label>
+          <ion-note slot="end">{{ event.start.toLocaleTimeString() }}</ion-note>
+        </ion-item>
+      </ion-list>
       
 
     </ion-content>
@@ -35,98 +41,114 @@
   import FullCalendar from "@fullcalendar/vue3";
   import dayGridPlugin from "@fullcalendar/daygrid";
   import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import { INITIAL_EVENTS, createEventId } from "../components/event-utils";
-import AccountManagement from '@/views/AccountAnzeigen.vue';
+  import interactionPlugin from "@fullcalendar/interaction";
+  import { INITIAL_EVENTS, createEventId } from "../components/event-utils";
+  import AccountManagement from '@/views/AccountAnzeigen.vue';
 
-export default {
-  components: {
-    FullCalendar,
-    IonPage,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonContent,
-    AccountManagement
-},
-  data() {
-    return {
-      currentEvents: [],
-      calendarOptions: {
-        plugins: [
-          dayGridPlugin, 
-          timeGridPlugin, 
-          interactionPlugin
-        ],
-        headerToolbar: {
-          left: "prev,next today",
-          center: "title",
-          right: "dayGridMonth,timeGridWeek,timeGridDay",
+
+  export default {
+    components: {
+      FullCalendar,
+      IonPage,
+      IonHeader,
+      IonToolbar,
+      IonTitle,
+      IonContent,
+      AccountManagement,
+      
+  },
+    data() {
+      return {
+        currentEvents: [],
+        selectedDateEvents: [],
+        calendarOptions: {
+          dateClick: this.handleDateClick,
+          plugins: [
+            dayGridPlugin, 
+            timeGridPlugin, 
+            interactionPlugin,
+          ],
+          headerToolbar: {
+            left: "prev,next today",
+            center: "title",
+            right: "dayGridMonth,timeGridWeek,timeGridDay,listDay",
+          },
+          initialView: "dayGridMonth",
+          initialEvents: INITIAL_EVENTS,
+          editable: false,
+          selectable: false,
+          selectMirror: true,
+          dayMaxEvents: true,
+          weekends: true,
+          eventsSet: this.handleEvents,
         },
-        initialView: "dayGridMonth",
-        initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
-        editable: false,
-        selectable: false,
-        selectMirror: true,
-        dayMaxEvents: true,
-        weekends: true,
-        // select: this.handleDateSelect.bind(this),
-       //  eventClick: this.handleEventClick,
-        eventsSet: this.handleEvents,
+      }
+    },
+    mounted() {
+      setTimeout(() => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        this.$refs.cal.getApi().render()
+      }, 10)
+    },
+    methods: {
+      handleEvents(events: never[]) {
+        this.currentEvents = events;
       },
-    }
-  },
-  mounted() {
-    setTimeout(() => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      this.$refs.cal.getApi().render()
-    }, 10)
-  },
-  methods: {
-    handleEvents(events: never[]) {
-      this.currentEvents = events;
-    },
-    handleWeekendsToggle() {
-      this.calendarOptions.weekends = !this.calendarOptions.weekends; // update a property
-    },
-    handleDateSelect(selectInfo: { view: { calendar: any; }; startStr: any; endStr: any; allDay: any; }) {
-      let title = prompt("Please enter a new title for your event");
-      let calendarApi = selectInfo.view.calendar;
-      calendarApi.unselect(); // clear date selection
-      if (title) {
-        calendarApi.addEvent({
-          id: createEventId(),
-          title,
-          start: selectInfo.startStr,
-          end: selectInfo.endStr,
-          allDay: selectInfo.allDay,
-        });
-        //this.currentEvents = calendarApi.getEvents();
-      }
-    },
-    handleEventClick(clickInfo: { event: { title: any; remove: () => void; }; }) {
-      if (
-        confirm(
-          `Are you sure you want to delete the event '${clickInfo.event.title}'`
-        )
-      ) {
-        clickInfo.event.remove();
-      }
-    },
-  },
+      handleWeekendsToggle() {
+        this.calendarOptions.weekends = !this.calendarOptions.weekends;
+      },
+      handleDateSelect(selectInfo: { view: { calendar: any; }; startStr: any; endStr: any; allDay: any; }) {
+        let title = prompt("Please enter a new title for your event");
+        let calendarApi = selectInfo.view.calendar;
+        calendarApi.unselect();
+        if (title) {
+          calendarApi.addEvent({
+            id: createEventId(),
+            title,
+            start: selectInfo.startStr,
+            end: selectInfo.endStr,
+            allDay: selectInfo.allDay,
+          });
+  }
+},
+handleDateClick(dateClickInfo) {
+  const clickedDate = dateClickInfo.date;
+  const calendarApi = dateClickInfo.view.calendar;
+  const events = calendarApi.getEvents();
+
+  // Filter events for the clicked date
+  const eventsOnClickedDate = events.filter((event) => {
+    const eventStart = event.start;
+    const eventEnd = event.end || eventStart;
+
+    return (
+      clickedDate >= eventStart &&
+      clickedDate <= eventEnd
+    );
+  });
+
+  this.selectedDateEvents = eventsOnClickedDate;
+},
+},
 };
-  
+
 </script>
-
-
-  
-  
-  <style>
+<style>
 
 webkit-scrollbar {
   width: 0px;
 }
+@media screen and (min-width: 992px) {
+.demo-app-calendar {
+    height: Auto;
+    width: 70%;
+    margin: 0 auto;
+  }
+}
+
+
+
 .custom-calendar.vc-container {
   --day-border: 1px solid #b8c2cc;
   --day-border-highlight: 1px solid #b8c2cc;
