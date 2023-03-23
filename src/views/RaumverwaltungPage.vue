@@ -28,25 +28,25 @@
         <ion-header>
           <ion-toolbar>
             <ion-title>
-              {{ currentRoom.name }}
+              {{ currentLocation.name }}
             </ion-title>
             <ion-buttons slot="end">
               <ion-button @click="closeModal">Schließen</ion-button>
             </ion-buttons>
           </ion-toolbar>
         </ion-header>
-          <ion-content>
-            <p>Details zum Raum: {{ currentRoom.id }}</p>
-            <p>Die Ausstattung des Raumes:</p> 
-            <p v-for="equipment in currentRoom.equipment" :key="equipment">{{ equipment }}</p> 
-          </ion-content>
+        <ion-content>
+          <p>Details zum Raum: {{ currentLocation.name }}</p>
+          <p>Anzahl der Sitzplätze: {{ currentLocation.size }}</p>
+          <div id="map-container" style="height: 300px; width: 100%;"></div>
+</ion-content>
       </ion-modal>
 
 <!---
       <IonModal :isOpen="d"> <ion-header>
           <ion-toolbar>
             <ion-title>
-              {{ currentRoom.name }}
+              {{ currentLocation.name }}
             </ion-title>
             <ion-buttons slot="end">
               <ion-button @click="closeModal">Schließen</ion-button>
@@ -64,39 +64,41 @@ import { defineComponent } from 'vue';
 import { IonPage, IonBackButton, IonHeader, IonButtons, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, IonModal, IonButton } from '@ionic/vue';
 import RaumAnlegen from '@/components/Raumverwaltung/RaumAnlegen.vue';
 import AccountManagement from '@/views/AccountAnzeigen.vue';
+import L, { LatLngExpression, Map as LeafletMap, Marker, TileLayer } from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
-interface Room {
+interface Location {
   id: number;
   name: string;
-  equipment: string[];
+  coordinates: LatLngExpression;
+  size: number;
 }
 
-
-
-
-export default  defineComponent({
+export default defineComponent({
   name: 'RaumverwaltungPage',
   components: { IonHeader, IonBackButton, IonToolbar, IonButtons, IonTitle, IonContent, IonPage, IonList, IonItem, IonLabel, IonModal, IonButton, RaumAnlegen, AccountManagement },
   data() {
     return {
-      //buildings: [],
       showModal: false,
-      currentRoom: {} as Room,
-      d: false,
+      currentLocation: {} as Location,
       locations: [] as Array<any>,
+      map: null as LeafletMap | null,
     };
   },
 
   methods: {
-    openModal(room: Room) {
-      this.currentRoom = room;
+    openModal(location: Location) {
+      this.currentLocation = location;
       this.showModal = true;
+      this.$nextTick(() => {
+        this.initializeMap();
+      });
     },
     closeModal() {
       this.showModal = false;
     },
     modalClosed() {
-      this.currentRoom = {} as Room;
+      this.currentLocation = {} as Location;
     },
     listlocations() {
         fetch('https://universityhub.azurewebsites.net/locations')
@@ -104,15 +106,44 @@ export default  defineComponent({
         .then((data) => {
           this.locations = data;
           console.log(this.locations);
-          console.log(this.locations)
         })
         .catch((error) => console.error(error));
     },
+    initializeMap() {
+      if (this.map) {
+        this.map.remove();
+      }
+
+      const coordinates: LatLngExpression = this.currentLocation.coordinates;
+
+      this.map = L.map('map-container', {
+        zoomControl: false
+      }) as LeafletMap;
+
+      this.map.setView(coordinates, 13);
+
+      const tileLayer = new TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      });
+
+      tileLayer.addTo(this.map);
+
+      const marker = new Marker(coordinates);
+      marker.addTo(this.map);
+    },
+  },
+  mounted() {
+    this.listlocations();
   }
 });
 </script>
 
+
+
+
+
   <style>
+  @import '~leaflet/dist/leaflet.css';
   
   ion-content {
     text-align: center; 
@@ -136,7 +167,7 @@ export default  defineComponent({
     font-size: 20px;
   }
 
-  .rooms{
+  .locations{
     margin-left: 9%;
   }
   
