@@ -1,3 +1,33 @@
+<template>
+  <ion-page>
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title class="text-center">Kalender</ion-title>
+        <ion-buttons slot="end">
+          <AccountManagement></AccountManagement>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content :fullscreen="true">
+
+      <h1 color="primary" id="Kontostandsanzeige">Hier finden Sie den Kalender </h1>
+      
+
+      <!---<FullCalendar ref="cal" :options="calendarOptions" v-if="calendarOptions"/> -->
+      <FullCalendar ref="cal" weekNumbers="true" class="demo-app-calendar" :options="calendarOptions">
+        <template v-slot:eventContent="arg">
+          <b>{{ arg.event.timeText }}</b>
+          <i>{{ arg.event.title }}</i>
+        </template>
+      </FullCalendar>
+      
+
+    </ion-content>
+  </ion-page>
+</template>
+
+
+
 <script lang="ts">
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
@@ -86,40 +116,10 @@ export default {
     },
   },
 };
-
-
-
-    
+  
 </script>
 
-<template>
-    <ion-page>
-      <ion-header>
-        <ion-toolbar color="primary">
-          <ion-title class="text-center">Kalender</ion-title>
-          <ion-buttons slot="end">
-            <AccountManagement></AccountManagement>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content :fullscreen="true">
 
-        <h1 color="primary" id="Kontostandsanzeige">Hier finden Sie den Kalender </h1>
-        
-
-        <!---<FullCalendar ref="cal" :options="calendarOptions" v-if="calendarOptions"/> -->
-        <FullCalendar ref="cal" weekNumbers="true" class="demo-app-calendar" :options="calendarOptions">
-    <template v-slot:eventContent="arg">
-      <b>{{ arg.event.timeText }}</b>
-      <i>{{ arg.event.title }}</i>
-    </template>
-  </FullCalendar>
-
-
-      </ion-content>
-    </ion-page>
-  </template>
-  
   
   
   <style>
