@@ -45,7 +45,9 @@
   import { INITIAL_EVENTS, createEventId } from "../components/event-utils";
   import AccountManagement from '@/views/AccountAnzeigen.vue';
 
+  
 
+  
   export default {
     components: {
       FullCalendar,
@@ -78,7 +80,7 @@
           editable: false,
           selectable: false,
           selectMirror: true,
-          dayMaxEvents: true,
+          dayMaxEvents: false,
           weekends: true,
           eventsSet: this.handleEvents,
         },
@@ -110,67 +112,64 @@
             end: selectInfo.endStr,
             allDay: selectInfo.allDay,
           });
-  }
-},
-handleDateClick(dateClickInfo) {
-  const clickedDate = dateClickInfo.date;
-  const calendarApi = dateClickInfo.view.calendar;
-  const events = calendarApi.getEvents();
+        }
+      },
+      handleDateClick(dateClickInfo) {
+        const clickedDate = dateClickInfo.date;
+        const calendarApi = dateClickInfo.view.calendar;
+        const events = calendarApi.getEvents();
 
-  // Filter events for the clicked date
-  const eventsOnClickedDate = events.filter((event) => {
-    const eventStart = event.start;
-    const eventEnd = event.end || eventStart;
+        // Filter events for the clicked date
+        const eventsOnClickedDate = events.filter((event) => {
+          const eventStart = event.start;
+          const eventEnd = event.end || eventStart;
 
-    return (
-      clickedDate >= eventStart &&
-      clickedDate <= eventEnd
-    );
-  });
-
-  this.selectedDateEvents = eventsOnClickedDate;
-},
-},
+          return (
+            clickedDate >= eventStart &&
+            clickedDate <= eventEnd
+          );
+        });
+        this.selectedDateEvents = eventsOnClickedDate;
+      },
+    },
 };
-
 </script>
+
 <style>
-
-webkit-scrollbar {
-  width: 0px;
-}
-@media screen and (min-width: 992px) {
-.demo-app-calendar {
-    height: Auto;
-    width: 70%;
-    margin: 0 auto;
+  webkit-scrollbar {
+    width: 0px;
   }
-}
+  @media screen and (min-width: 992px) {
+    .demo-app-calendar {
+      height: Auto;
+      width: 70%;
+      margin: 0 auto;
+    }
+  }
 
-
-
-.custom-calendar.vc-container {
-  --day-border: 1px solid #b8c2cc;
-  --day-border-highlight: 1px solid #b8c2cc;
-  --day-width: 90px;
-  --day-height: 90px;
-  --weekday-bg: #f8fafc;
-  --weekday-border: 1px solid #eaeaea;
-  border-radius: 0;
-  width: 100%;};
+  .custom-calendar.vc-container {
+    --day-border: 1px solid #b8c2cc;
+    --day-border-highlight: 1px solid #b8c2cc;
+    --day-width: 90px;
+    --day-height: 90px;
+    --weekday-bg: #f8fafc;
+    --weekday-border: 1px solid #eaeaea;
+    border-radius: 0;
+    width: 100%;
+  }
   vc-header {
     background-color: #f1f5f8;
     padding: 10px 0;
-  };
+  }
   vc-weeks {
     padding: 0;
-  };
+  }
   vc-weekday {
     background-color: var(--weekday-bg);
     border-bottom: var(--weekday-border);
     border-top: var(--weekday-border);
     padding: 5px 0;
-  };
+  }
   vc-day {
     padding: 0 5px 3px 5px;
     text-align: left;
@@ -178,18 +177,16 @@ webkit-scrollbar {
     min-width: var(--day-width);
     background-color: white;
   }
-    weekday-7 {
-      background-color: #eff8ff;
-    };
-    noton-bottom {
-      border-bottom: var(--day-border);
-    };
-    weekday-1 {
-        border-bottom: var(--day-border-highlight);
-      };
-    
-    
-  
+  weekday-7 {
+    background-color: #eff8ff;
+  }
+  noton-bottom {
+    border-bottom: var(--day-border);
+  }
+  weekday-1 {
+    border-bottom: var(--day-border-highlight);
+  }
+
   vc-day-dots {
     margin-bottom: 5px;
   }
