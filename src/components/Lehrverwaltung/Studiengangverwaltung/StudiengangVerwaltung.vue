@@ -33,11 +33,11 @@
             <ion-text>{{ selectedCourse?.name }}</ion-text>
           </ion-item>
           <ion-item>
-            <ion-label>Startdatum:</ion-label>
+            <ion-label>Beschreibung:</ion-label>
             <ion-text>{{ selectedCourse?.description }}</ion-text>
           </ion-item>
           <ion-item>
-            <ion-label>Enddatum:</ion-label>
+            <ion-label>Module:</ion-label>
             <ion-text>{{ selectedCourse?.students }}</ion-text>
           </ion-item>
           <ion-button @click="closeModal()">Schließen</ion-button>
