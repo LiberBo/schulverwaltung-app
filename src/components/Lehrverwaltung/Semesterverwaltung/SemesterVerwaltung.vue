@@ -19,8 +19,8 @@
         <ion-item v-for="(semester, index) in semesters" :key="index">
           <ion-label>
             <h2>{{ semester.name }}</h2>
-            <p>{{ semester.startDate }}</p>
-            <p>{{ semester.endDate }}</p>
+            <p>Startdatum: {{ semester.startDate }}</p>
+            <p>Enddatum: {{ semester.endDate }}</p>
           </ion-label>
           <ion-button slot="end" fill="clear" @click="openModal(semester)">
             Bearbeiten
@@ -43,7 +43,7 @@
             <ion-text>{{ selectedSemester?.endDate }}</ion-text>
           </ion-item>
           <ion-item>
-            <ion-label>Maximale Teilnehmerzahl:</ion-label>
+            <ion-label>Module:</ion-label>
             <ion-text>{{ selectedSemester?.modules }}</ion-text>
           </ion-item>
           <ion-button @click="closeModal()">Schließen</ion-button>

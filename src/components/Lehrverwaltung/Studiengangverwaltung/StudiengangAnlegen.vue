@@ -17,12 +17,26 @@
       <ion-content class="ion-padding"> 
         <!--Studiengangname-->
         <ion-item>
-          <ion-label position="stacked">Studiengangname:</ion-label>
-          <ion-input ref="studyProgrammName" type="text" placeholder="IFWS420"></ion-input>
-        </ion-item>
+        <ion-label position="stacked">Studiengangname:</ion-label>
+        <ion-input v-model="course.name" type="text" placeholder="IFWS420"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Beschreibung:</ion-label>
+        <ion-input v-model="course.description" type="text" placeholder=""></ion-input>
+      </ion-item>
+
+
+
+
+
+
+
+
+
 
         <!--Auswahl der Studenten-->
-
+<!--
         <ion-list>
             <ion-item>
               <ion-select
@@ -39,9 +53,9 @@
               <ion-label>Current value: {{ currentStudent }}</ion-label>
             </ion-item>
           </ion-list> 
-
+        -->
           <!--Auswahl der Pflichtmodule-->
-
+<!--
         <ion-list>
             <ion-item>
               <ion-select
@@ -58,9 +72,9 @@
               <ion-label>Current value: {{ currentMandatoryModule }}</ion-label>
             </ion-item>
           </ion-list> 
-
+        -->
           <!--Auswahl der optiomalen Modulen-->
-
+      <!--
         <ion-list>
             <ion-item>
               <ion-select
@@ -90,6 +104,7 @@
           optionale Module: {{ item.optionalModules.map(element => { 
           return element.name;
             }) }}</ion-item>
+          -->
       </ion-content>
     </ion-modal>
 </template>
@@ -107,19 +122,13 @@ import {
   IonTitle,
   IonItem,
   IonInput,
-  IonLabel,
+  IonLabel,/*
   IonSelect,
   IonSelectOption,
-  IonList,
+  IonList,*/
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
-interface Module {
-  studyProgrammName: string;
-  students: string;
-  mandatoryModules: string;
-  optionalModules: string;
-}
 
 export default defineComponent({
   components: {
@@ -133,113 +142,98 @@ export default defineComponent({
     IonItem,
     IonInput,
     IonLabel,
-    IonSelect,
-    IonSelectOption,
-    IonList,
+  //  IonSelect,
+  //  IonSelectOption,
+  //  IonList,
   },
 
   data() {
     return {
       items: [], // Neue Komponenten-Variable
-      currentStudent: "",
-      currentMandatoryModule: "",
-      currentOptionalModule: "",
+    //  currentStudent: "",
+     // currentMandatoryModule: "",
+    //  currentOptionalModule: "",
 
-      studyProgramm: {
-        studyProgrammName: "",
-        students: [],
-        mandatoryModules: [],
-        optionalModules: []
+      course: {
+        name: "",
+        description: "",
+       // students: [],
+      //  mandatoryModules: [],
+      //  optionalModules: []
       },
-      students: [
-          {
-            id: 1,
-            name: "Ronny Schäfer",
-            type: "Kranexperte"
-          },
-          {
-            id: 2,
-            name: "Claudia Nehmat",
-            type: "Führungskraft"
-          },
-          {
-            id: 3,
-            name: "Andreas",
-            type: "Schreihals"
-          }
-        ],
-        mandatoryModules: [ //Modules where mandatory = true
-          {
-            id: 1,
-            name: "Mathematik",
-            type: "Komisches Fach"
-          },
-          {
-            id: 2,
-            name: "Physik",
-            type: "Naturwissenschaft"
-          },
-          {
-            id: 3,
-            name: "Biologie",
-            type: "Naturwissenschaft"
-          }
-        ],
-        optionalModules: [
-          {
-            id: 1,
-            name: "Deutsch",
-            type: "Komisches Fach"
-          },
-          {
-            id: 2,
-            name: "Informatik",
-            type: "IT"
-          },
-          {
-            id: 3,
-            name: "BWL",
-            type: "Wirtschaftswissenschaften"
-          }
-        ]
     };
   },
   methods: {
     cancel(): void {
       (this.$refs.modal as typeof IonModal).$el.dismiss(null, 'cancel');
-    },
+    },/*
     addTo(): void {
-      const studyProgrammNameElement = (this.$refs.studyProgrammName as typeof IonInput).$el;
-      console.log((this.$refs.students as typeof IonInput).$el);
-      const studentsElement = (this.$refs.students as typeof IonInput).$el;
-      const mandatoryModulesElement = (this.$refs.mandatoryModules as typeof IonInput).$el;
-      const optionalModulesElement = (this.$refs.optionalModules as typeof IonInput).$el;
+      const nameElement = (this.$refs.name as typeof IonInput).$el;
+      const descriptionElement = (this.$refs.description as typeof IonInput).$el;
+      //console.log((this.$refs.students as typeof IonInput).$el);
+     // const studentsElement = (this.$refs.students as typeof IonInput).$el;
+     // const mandatoryModulesElement = (this.$refs.mandatoryModules as typeof IonInput).$el;
+     // const optionalModulesElement = (this.$refs.optionalModules as typeof IonInput).$el;
       // Construct the module object
 
-      
-
-      let studyProgramm: Module = {
-        studyProgrammName: studyProgrammNameElement.value,
-        students: studentsElement.value,
-        mandatoryModules: mandatoryModulesElement.value,
-        optionalModules: optionalModulesElement.value,
-      };
+      console.log(nameElement)
+      console.log(descriptionElement)
 
 
-      if(studyProgrammNameElement.value && studentsElement.value && mandatoryModulesElement.value && optionalModulesElement.value){
-      this.items.push(studyProgramm); // Eintrag hinzufügen
-      }
-      else{
-        alert("Bitte fülle alle Felder aus!")
-      }
+      if(nameElement.value && descriptionElement.value// && mandatoryModulesElement.value && optionalModulesElement.value
+        ){
+          const requestOptions = {
+            method: 'POST',
+            headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            body: JSON.stringify({
+              name: this.name,
+              description: this.description,
+             // creditPoints: this.creditPoints,
+            }),
+            
+          };
+          fetch('https://universityhub.azurewebsites.net/Courses', requestOptions)
+            .then((response) => response.json())
+            .then((data) => console.log(data))
+            .catch((error) => console.error(error));
+          }
+          else{
+            alert("Bitte fülle alle Felder aus!")
+          }
 
       
       console.log("inputElement.value", studyProgrammNameElement.value);
       console.log("inputElement.value", studentsElement.value);
       console.log("professorElement.value", mandatoryModulesElement.value);
-      console.log("roomElement.value", optionalModulesElement.value);
+      console.log("roomElement.value", optionalModulesElement.value); 
 
+    }, */
+
+    addTo(): void {
+      if (this.course.name && this.course.description) {
+        const requestOptions = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          body: JSON.stringify({
+            name: this.course.name,
+            description: this.course.description,
+          }),
+        };
+        fetch('https://universityhub.azurewebsites.net/Courses', requestOptions)
+          .then((response) => response.json())
+          .then((data) => console.log(data))
+          .catch((error) => console.error(error));
+      } else {
+        alert("Bitte fülle alle Felder aus!");
+      }
     },
+
   },
 });
 </script>
