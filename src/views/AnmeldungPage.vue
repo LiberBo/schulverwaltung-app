@@ -120,7 +120,7 @@ ion-content {
 
 @media (min-width: 768px) { /* Für Desktop-Bildschirme */
   .RegistrationSize {
-    max-width: 50%;
+    max-width: 20%;
     margin: 0 auto;
   }
 }

@@ -33,19 +33,33 @@
             <ion-text>{{ selectedLocation?.name }}</ion-text>
           </ion-item>
           <ion-item>
-            <ion-label>Startdatum:</ion-label>
+            <ion-label>Latitude:</ion-label>
             <ion-text>{{ selectedLocation?.coordinates.latitude }}</ion-text>
           </ion-item>
           <ion-item>
-            <ion-label>Enddatum:</ion-label>
+            <ion-label>Logitude:</ion-label>
             <ion-text>{{ selectedLocation?.coordinates.longitude }}</ion-text>
           </ion-item>
           <ion-item>
             <ion-label>size:</ion-label>
             <ion-text>{{ selectedLocation?.size }}</ion-text>
           </ion-item>
+          <ion-item>
+
+
+            <KarteAnzeigen ref="karteAnzeigenRef"></KarteAnzeigen>
+            <IonButton
+            :href="`https://www.google.com/maps/@${selectedLocation?.coordinates.latitude},${selectedLocation?.coordinates.longitude},27z?q=${selectedLocation?.coordinates.latitude},${selectedLocation?.coordinates.longitude}`"
+              target="_blank"
+            >
+              Auf der Karte anzeigen lassen
+            </IonButton><br>
+            
+            
+
+          </ion-item>
           <ion-button @click="closeModal()">Schließen</ion-button>
-        </ion-content>
+          </ion-content>
       </ion-modal>
 
     </ion-content>
@@ -56,6 +70,7 @@
 import { defineComponent } from 'vue';
 import { IonPage, IonButtons, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonList, IonLabel, IonButton, IonModal } from '@ionic/vue';
 import RaumAnlegen from './Raumverwaltung/RaumAnlegen.vue';
+
 
 interface Location {
   name: string;
@@ -105,6 +120,9 @@ export default defineComponent({
     closeModal() {
       this.showModal = false;
     },
+    
+    
+
   },
 });
 

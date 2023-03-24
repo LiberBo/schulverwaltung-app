@@ -1,25 +1,24 @@
 <template>
   <ion-page>
     <ion-header>
-      <ion-toolbar>
+      <ion-toolbar color="primary">
         <ion-buttons slot="start">
           <ion-back-button></ion-back-button>
         </ion-buttons>
         <ion-buttons slot="end">
             <RaumAnlegen></RaumAnlegen>
+            <AccountManagement></AccountManagement>
           </ion-buttons>
-        <ion-title>Raumverwaltung</ion-title>
+        <ion-title class="text-center">Raumverwaltung</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
   <h1 color="primary" id="Kontostandsanzeige">Willkommen in der Raumverwaltung</h1>
 <ion-list class="ion-justify-content-between">
-  <ion-item v-for="building in buildings" :key="building.id">
+
+  <ion-item>
     <ion-label>
-     <h1>{{building.name}}</h1>
-     <div v-for="floor in building.floors" :key="floor.id" class="floors">{{floor.name}}
-      <p v-for="room in floor.rooms" :key="room.id" style="margin-left: 4%" @click="openModal(room)">{{room.name}}</p>
-      </div>
+      <p v-for="location in locations" :key="location" style="margin-left: 4%" @click="openModal(location)">{{location.name}}</p>
     </ion-label>
   </ion-item>
 
@@ -29,25 +28,25 @@
         <ion-header>
           <ion-toolbar>
             <ion-title>
-              {{ currentRoom.name }}
+              {{ currentLocation.name }}
             </ion-title>
             <ion-buttons slot="end">
               <ion-button @click="closeModal">Schließen</ion-button>
             </ion-buttons>
           </ion-toolbar>
         </ion-header>
-          <ion-content>
-            <p>Details zum Raum: {{ currentRoom.id }}</p>
-            <p>Die Ausstattung des Raumes:</p> 
-            <p v-for="equipment in currentRoom.equipment" :key="equipment">{{ equipment }}</p> 
-          </ion-content>
+        <ion-content>
+          <p>Details zum Raum: {{ currentLocation.name }}</p>
+          <p>Anzahl der Sitzplätze: {{ currentLocation.size }}</p>
+          <div id="map-container" style="height: 300px; width: 100%;"></div>
+</ion-content>
       </ion-modal>
 
 <!---
       <IonModal :isOpen="d"> <ion-header>
           <ion-toolbar>
             <ion-title>
-              {{ currentRoom.name }}
+              {{ currentLocation.name }}
             </ion-title>
             <ion-buttons slot="end">
               <ion-button @click="closeModal">Schließen</ion-button>
@@ -64,86 +63,64 @@
 import { defineComponent } from 'vue';
 import { IonPage, IonBackButton, IonHeader, IonButtons, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, IonModal, IonButton } from '@ionic/vue';
 import RaumAnlegen from '@/components/Raumverwaltung/RaumAnlegen.vue';
+import AccountManagement from '@/views/AccountAnzeigen.vue';
 
-interface Room {
+
+interface Location {
   id: number;
   name: string;
-  equipment: string[];
+  coordinates:{
+    latitude: number;
+    longitude: number
+  };
+  size: number;
 }
 
-export default  defineComponent({
+export default defineComponent({
   name: 'RaumverwaltungPage',
-  components: { IonHeader, IonBackButton, IonToolbar, IonButtons, IonTitle, IonContent, IonPage, IonList, IonItem, IonLabel, IonModal, IonButton, RaumAnlegen },
+  components: { IonHeader, IonBackButton, IonToolbar, IonButtons, IonTitle, IonContent, IonPage, IonList, IonItem, IonLabel, IonModal, IonButton, RaumAnlegen, AccountManagement },
   data() {
     return {
-      buildings: [
-        {
-          id: 1,
-          name: 'Gebäude 1',
-          floors: [
-            {
-              id: 1,
-              name: 'Etage 1',
-              rooms: [
-                { id: 1, name: 'Raum 101', equipment: ['Beamer', 'Tafel'] },
-                { id: 2, name: 'Raum 102', equipment: ['Beamer', 'Tafel'] },
-              ]
-            },
-            {
-              id: 2,
-              name: 'Etage 2',
-              rooms: [
-                { id: 3, name: 'Raum 201', equipment: ['Beamer', 'Tafel'] },
-                { id: 4, name: 'Raum 202', equipment: ['Beamer', 'Tafel'] },
-              ]
-            },
-          ]
-        },
-        {
-          id: 2,
-          name: 'Gebäude 2',
-          floors: [
-            {
-              id: 3,
-              name: 'Etage 1',
-              rooms: [
-                { id: 5, name: 'Raum 301', equipment: ['Beamer', 'Tafel'] },
-                { id: 6, name: 'Raum 302', equipment: ['Beamer', 'Tafel'] },
-              ]
-            },
-            {
-              id: 4,
-              name: 'Etage 2',
-              rooms: [
-                { id: 7, name: 'Raum 401', equipment: ['Beamer', 'Tafel'] },
-                { id: 8, name: 'Raum 402', equipment: ['Beamer', 'Tafel'] },
-              ]
-            },
-          ]
-        },
-      ],
       showModal: false,
-      currentRoom: {} as Room,
-      d: false,
+      currentLocation: {} as Location,
+      locations: [] as Array<any>,
     };
   },
+
   methods: {
-    openModal(room: Room) {
-      this.currentRoom = room;
+    openModal(location: Location) {
+      this.currentLocation = location;
       this.showModal = true;
-      console.log("Werde ich getriggert?")
     },
     closeModal() {
       this.showModal = false;
     },
     modalClosed() {
-      this.currentRoom = {} as Room;
+      this.currentLocation = {} as Location;
     },
+    listlocations() {
+        fetch('https://universityhub.azurewebsites.net/locations')
+        .then((response) => response.json())
+        .then((data) => {
+          this.locations = data;
+          console.log(this.locations);
+        })
+        .catch((error) => console.error(error));
+    },
+
+  },
+  mounted() {
+    this.listlocations();
   }
 });
 </script>
 
+
+
+
+
   <style>
+  @import '~leaflet/dist/leaflet.css';
   
   ion-content {
     text-align: center; 
@@ -167,7 +144,7 @@ export default  defineComponent({
     font-size: 20px;
   }
 
-  .rooms{
+  .locations{
     margin-left: 9%;
   }
   
