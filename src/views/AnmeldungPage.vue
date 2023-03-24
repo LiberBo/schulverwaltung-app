@@ -20,8 +20,8 @@
           <ion-input type="password" v-model="password"></ion-input>
         </ion-item>
       </ion-list>
-      <ion-button id="submitButton" @click="submitForm()" :disabled="loading">
-        <ion-spinner v-if="loading" slot="start"></ion-spinner>
+      <ion-button id="submitButton" fill="clear" @click="submitForm()" :disabled="loading">
+        <ion-spinner v-if="loading" name="dots" slot="start"></ion-spinner>
         <span v-else>Anmelden</span>
       </ion-button>
       <p>Derzeitige Anmeldedaten <br> Mail: test <br> Passwort: test </p>
@@ -126,6 +126,17 @@ ion-content {
   height: 30%;
   padding-top: 5%;
   color: #c2a7dd;
+}
+
+#submitButton {
+  color: #7ea4c6;
+  font-size: large;
+}
+
+#submitButton:disabled {
+  background-color: #ccc;
+  color: #666;
+  box-shadow: none;
 }
 
 @media (min-width: 768px) { /* Für Desktop-Bildschirme */
