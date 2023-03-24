@@ -22,7 +22,11 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'Verwaltung/Raumverwaltung',
         component: () => import('@/components/Raumverwaltung.vue')
-      },
+      },/*
+      {
+        path: 'Verwaltung/Raumverwaltung/map',
+        component: () => import('@/components/MapPage.vue')
+      },      */
       {
         path: 'Verwaltung/Userverwaltung',
         component: () => import('@/components/Userverwaltung.vue')

@@ -1,3 +1,4 @@
+
 <template>
   <ion-page>
     <ion-header>
@@ -16,37 +17,34 @@
   <h1 color="primary" id="Kontostandsanzeige">Willkommen in der Raumverwaltung</h1>
 <ion-list class="ion-justify-content-between">
 
-  <ion-item>
-    <ion-label>
-      <p v-for="location in locations" :key="location" style="margin-left: 4%" @click="openModal(location)">{{location.name}}</p>
-    </ion-label>
-  </ion-item>
+
+
 
   <!--Modal welches sich beim klicken auf einen Raum öffnen soll-->
-    
+    <!--
       <ion-modal ref="modal" :isOpen="showModal" @ionModalDidDismiss="modalClosed">
         <ion-header>
           <ion-toolbar>
             <ion-title>
-              {{ currentRoom.name }}
+              {{ currentLocation.name }}
             </ion-title>
             <ion-buttons slot="end">
               <ion-button @click="closeModal">Schließen</ion-button>
             </ion-buttons>
           </ion-toolbar>
         </ion-header>
-          <ion-content>
-            <p>Details zum Raum: {{ currentRoom.id }}</p>
-            <p>Die Ausstattung des Raumes:</p> 
-            <p v-for="equipment in currentRoom.equipment" :key="equipment">{{ equipment }}</p> 
-          </ion-content>
+        <ion-content>
+          <p>Details zum Raum: {{ currentLocation.name }}</p>
+          <p>Anzahl der Sitzplätze: {{ currentLocation.size }}</p>
+          <div id="map-container" style="height: 300px; width: 100%;"></div>
+</ion-content>
       </ion-modal>
-
+    -->
 <!---
       <IonModal :isOpen="d"> <ion-header>
           <ion-toolbar>
             <ion-title>
-              {{ currentRoom.name }}
+              {{ currentLocation.name }}
             </ion-title>
             <ion-buttons slot="end">
               <ion-button @click="closeModal">Schließen</ion-button>
@@ -61,58 +59,58 @@
   
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { IonPage, IonBackButton, IonHeader, IonButtons, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, IonModal, IonButton } from '@ionic/vue';
+import { IonPage, IonBackButton, IonHeader, IonButtons, IonToolbar, IonTitle, IonContent, IonList} from '@ionic/vue';
 import RaumAnlegen from '@/components/Raumverwaltung/RaumAnlegen.vue';
 import AccountManagement from '@/views/AccountAnzeigen.vue';
 
-interface Room {
+
+interface Location {
   id: number;
   name: string;
-  equipment: string[];
+  size: number;
 }
 
-
-
-
-export default  defineComponent({
+export default defineComponent({
   name: 'RaumverwaltungPage',
-  components: { IonHeader, IonBackButton, IonToolbar, IonButtons, IonTitle, IonContent, IonPage, IonList, IonItem, IonLabel, IonModal, IonButton, RaumAnlegen, AccountManagement },
+  components: { IonHeader, IonBackButton, IonToolbar, IonButtons, IonTitle, IonContent, IonPage, IonList, RaumAnlegen, AccountManagement },
   data() {
     return {
-      //buildings: [],
       showModal: false,
-      currentRoom: {} as Room,
-      d: false,
-      locations: [] as Array<any>,
+      currentLocation: {} as Location,
     };
   },
 
   methods: {
-    openModal(room: Room) {
-      this.currentRoom = room;
+    openModal(location: Location) {
+      this.currentLocation = location;
       this.showModal = true;
     },
     closeModal() {
       this.showModal = false;
     },
     modalClosed() {
-      this.currentRoom = {} as Room;
+      this.currentLocation = {} as Location;
     },
     listlocations() {
         fetch('https://universityhub.azurewebsites.net/locations')
         .then((response) => response.json())
-        .then((data) => {
-          this.locations = data;
-          console.log(this.locations);
-          console.log(this.locations)
-        })
+
         .catch((error) => console.error(error));
     },
+
+  },
+  mounted() {
+    this.listlocations();
   }
 });
 </script>
 
+
+
+
+
   <style>
+  @import '~leaflet/dist/leaflet.css';
   
   ion-content {
     text-align: center; 
@@ -136,7 +134,7 @@ export default  defineComponent({
     font-size: 20px;
   }
 
-  .rooms{
+  .locations{
     margin-left: 9%;
   }
   

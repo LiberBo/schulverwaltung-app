@@ -12,9 +12,6 @@
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
-
-        
-
         <ion-item v-for="item in items" :key="item" class="elment-seperation2"> Equipment: {{ item.equipmentName }}</ion-item>
       </ion-content>
     </ion-modal>

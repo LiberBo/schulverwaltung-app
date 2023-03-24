@@ -9,8 +9,8 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <h1 color="primary" id="Kontostandsanzeige">Herzlich Wilkommen, bitte melden Sie sich an</h1>
-      <ion-list>
+      <img class="fullLogo" src="../Pictures/University_Hub-3.png">
+      <ion-list class="RegistrationSize">
         <ion-item>
           <ion-label position="floating">E-Mail Adresse</ion-label>
           <ion-input type="text" v-model="email"></ion-input>
@@ -21,10 +21,8 @@
         </ion-item>
       </ion-list>
       <ion-button id="submitButton" @click="submitForm()">Anmelden</ion-button>
-
-      Test-Anmeldedaten:
-      Mail: test
-      Passwort: test
+      <p>Derzeitige Anmeldedaten <br> Mail: test <br> Passwort: test </p>
+      
     </ion-content>
   </ion-page>
 </template>
@@ -113,5 +111,19 @@ ion-content {
 #submitButton {
   padding-top: 5%;
 }
+
+.fullLogo{
+  height: 30%;
+  padding-top: 5%;
+  color: #c2a7dd;
+}
+
+@media (min-width: 768px) { /* Für Desktop-Bildschirme */
+  .RegistrationSize {
+    max-width: 20%;
+    margin: 0 auto;
+  }
+}
+
 
 </style>
