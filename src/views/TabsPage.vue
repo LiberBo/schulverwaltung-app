@@ -20,7 +20,7 @@
     </ion-tab-button> -->
 
       <template v-if="showVerwaltung">
-          <ion-tab-button tab="Verwaltung" href="/tabs/Verwaltung">
+          <ion-tab-button tab="Verwaltung" href="/tabs/Verwaltung/overview">
           <ion-icon :icon="pencilOutline" />
           <ion-label>Verwaltung</ion-label>
         </ion-tab-button>

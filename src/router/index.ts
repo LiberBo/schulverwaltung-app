@@ -20,6 +20,10 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/KalenderPage.vue')
       },
       {
+        path: 'Verwaltung/overview',
+        component: () => import('@/views/VerwaltungPage.vue'),
+      },
+      {
         path: 'Verwaltung/Raumverwaltung',
         component: () => import('@/components/Raumverwaltung.vue')
       },/*
@@ -47,10 +51,7 @@ const routes: Array<RouteRecordRaw> = [
         path: 'Verwaltung/Lehrverwaltung/Studiengangverwaltung',
         component: () => import('@/components/Lehrverwaltung/Studiengangverwaltung/StudiengangVerwaltung.vue')
       },
-      {
-        path: 'Verwaltung',
-        component: () => import('@/views/VerwaltungPage.vue'),
-      },/*
+      /*
       {
         path: 'Raumverwaltung',
         component: () => import('@/components/Raumverwaltung.vue')
