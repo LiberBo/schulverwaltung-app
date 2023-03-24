@@ -11,7 +11,7 @@
           <ion-title size="large">Mein Konto</ion-title>
         </ion-toolbar>
       </ion-header>
-      <ion-list>
+      <ion-list class="UserDataSize">
         <ion-item>
           <ion-label>
             <h2>{{ currentUser.firstName }} {{ currentUser.lastName }}</h2>
@@ -90,5 +90,11 @@ export default defineComponent({
 .addSemester {
   margin-top: 4%;
   margin-right: 4%;
+}
+@media (min-width: 768px) { /* Für Desktop-Bildschirme */
+  .UserDataSize {
+    max-width: 40%;
+    margin: 0 auto;
+  }
 }
 </style>

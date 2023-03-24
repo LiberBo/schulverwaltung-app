@@ -20,9 +20,11 @@
           <ion-input type="password" v-model="password"></ion-input>
         </ion-item>
       </ion-list>
-      <ion-button id="submitButton" @click="submitForm()">Anmelden</ion-button>
+      <ion-button id="submitButton" @click="submitForm()" :disabled="loading">
+        <ion-spinner v-if="loading" slot="start"></ion-spinner>
+        <span v-else>Anmelden</span>
+      </ion-button>
       <p>Derzeitige Anmeldedaten <br> Mail: test <br> Passwort: test </p>
-      
     </ion-content>
   </ion-page>
 </template>
@@ -42,6 +44,7 @@ import {
   IonLabel,
   IonInput,
   IonButton,
+  IonSpinner,
 } from '@ionic/vue';
 
 export default defineComponent({
@@ -59,16 +62,19 @@ export default defineComponent({
     IonLabel,
     IonInput,
     IonButton,
+    IonSpinner,
   },
   data() {
     return {
       email: '' as string,
       password: '' as string,
+      loading: false,
     };
   },
   methods: {
-
     submitForm() {
+      this.loading = true;
+
       const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -90,18 +96,22 @@ export default defineComponent({
         localStorage.setItem('token', data.token);
         console.log('Anmeldung erfolgreich');
 
-        
+        // Zurücksetzen des Formulars
+        this.email = '';
+        this.password = '';
+        this.loading = false;
+
         // Weiterleiten zur Modulverwaltung
         this.$router.push('/tabs/Verwaltung');
       })
       .catch(error => {
         console.error(error);
+        this.loading = false;
       });
     },
   },
 });
 </script>
-
 
 <style>
 ion-content {
@@ -109,7 +119,7 @@ ion-content {
 }
 
 #submitButton {
-  padding-top: 5%;
+  padding-top: 2%;
 }
 
 .fullLogo{
@@ -124,6 +134,5 @@ ion-content {
     margin: 0 auto;
   }
 }
-
 
 </style>
