@@ -113,13 +113,9 @@ export default defineComponent({
       const requestOptions = {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, POST',
-          'Access-Control-Allow-Headers':
-            'Authorization, Expires, Pragma, DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range',
-          'Access-Control-Expose-Headers': '*',
-        },
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
         body: JSON.stringify({
           name: this.moduleName,
           description: this.moduleDescription,
