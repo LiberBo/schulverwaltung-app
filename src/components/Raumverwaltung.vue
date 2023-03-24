@@ -46,14 +46,12 @@
           </ion-item>
           <ion-item>
 
-
-            <KarteAnzeigen ref="karteAnzeigenRef"></KarteAnzeigen>
             <IonButton
-            :href="`https://www.google.com/maps/@${selectedLocation?.coordinates.latitude},${selectedLocation?.coordinates.longitude},27z?q=${selectedLocation?.coordinates.latitude},${selectedLocation?.coordinates.longitude}`"
-              target="_blank"
-            >
+              :href="`https://maps.google.com/?q=${selectedLocation?.coordinates.latitude},${selectedLocation?.coordinates.longitude}`"
+               target="_blank"
+               >
               Auf der Karte anzeigen lassen
-            </IonButton><br>
+             </IonButton>
             
             
 
