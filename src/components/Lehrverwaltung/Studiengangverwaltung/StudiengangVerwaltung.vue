@@ -117,6 +117,9 @@ export default defineComponent({
     if (!this.selectedCourse.students) return [];
     return this.users.map(user => user.id).filter((studentId: string) => !this.selectedStudents.includes(studentId));
   },
+  
+},
+watch:{
   displayedStudents() {
     this.courseUsers = [];
     if (!this.selectedCourse.students) return [];
