@@ -91,10 +91,14 @@ export default defineComponent({
         return;
       }
       console.log(this.firstName, this.lastName, this.role);
+      const token = localStorage.getItem('token') || '';
       const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', "Access-Control-Allow-Origin": "*",    "Access-Control-Allow-Methods": "GET, POST",    "Access-Control-Allow-Headers": "Authorization, Expires, Pragma, DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range",    "Access-Control-Expose-Headers": "*" },
-        body: JSON.stringify({
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+         body: JSON.stringify({
           firstName: this.firstName,
           lastName: this.lastName,
           authorization: this.role,
@@ -102,6 +106,7 @@ export default defineComponent({
         }),
       };
       fetch('https://universityhub.azurewebsites.net/users', requestOptions)
+    
         .then((response) => response.json())
         .then((data) => console.log(data))
         .catch((error) => console.error(error));
