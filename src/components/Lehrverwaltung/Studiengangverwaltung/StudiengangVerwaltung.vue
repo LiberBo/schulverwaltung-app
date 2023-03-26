@@ -39,7 +39,7 @@
           
           <ion-item>
             <ion-label>Studenten hinzufügen/entfernen:</ion-label>
-            <ion-select v-model="selectedStudents" multiple placeholder="Wähle Studenten">
+            <ion-select v-model="selectedStudentsString" multiple placeholder="Wähle Studenten">
               <ion-select-option v-for="(user, idx) in users" :key="idx" :value="user.id">{{ user.firstName }} {{ user.lastName }}</ion-select-option>
             </ion-select>
           </ion-item>
@@ -105,29 +105,35 @@ export default defineComponent({
     };
   },
   computed: {
-    selectedStudents: {
-      get() {
-        return this._selectedStudents;
-      },
-      set(value: string[]) {
-        this._selectedStudents = value;
-      },
+  selectedStudentsString: {
+    get() {
+      return this._selectedStudents.join(',');
     },
-    removedStudents() {
-    if (!this.selectedCourse.students) return [];
-    return this.users.map(user => user.id).filter((studentId: string) => !this.selectedStudents.includes(studentId));
+    set(value) {
+      if (typeof value !== 'undefined' && value !== null) {
+        if (Array.isArray(value)) {
+          this._selectedStudents = value;
+        } else {
+          this._selectedStudents = value.split(',').map(id => id.trim());
+        }
+      } else {
+        this._selectedStudents = [];
+      }
+    },
   },
-  
-},
-watch:{
-  displayedStudents() {
-    this.courseUsers = [];
+  removedStudents() {
     if (!this.selectedCourse.students) return [];
-    return this.selectedCourse.students.map((studentId) =>
-      this.users.find((user) => user.id === studentId)
-    );
+    return this.users.map(user => user.id).filter((studentId: string) => !this.selectedStudentsString.includes(studentId));
   },
 },
+  watch: {
+    selectedCourse: {
+      handler() {
+        this.displayStudentsFromCourse();
+      },
+      deep: true,
+    },
+  },
   async mounted() {
     const token = localStorage.getItem('token') || '';
     // Erstellung der Auswahl der Studenten, die auch wirklich Studenten sind
@@ -169,7 +175,7 @@ watch:{
   },
   methods: {
     async removeStudent(studentId) {
-    this.selectedStudents = this.selectedStudents.filter((id) => id !== studentId);
+      this._selectedStudents = this._selectedStudents.filter((id) => id !== studentId);
     await this.updateCourseStudents();
     await this.displayStudentsFromCourse(); 
   },
@@ -214,11 +220,9 @@ watch:{
       const url = `https://universityhub.azurewebsites.net/courses/${courseId}/students`;
 
       const schema = {
-        "add": this.selectedStudents.filter((studentId: string) => !this.selectedCourse.students.includes(studentId)),
+        "add": this._selectedStudents.filter((studentId: string) => !this.selectedCourse.students.includes(studentId)),
         "remove": this.removedStudents,
       };
-      console.log(this.selectedStudents);
-      console.log(this.selectedStudents.filter((studentId: string) => !this.selectedCourse.students.includes(studentId)));
 
       try {
         const response = await fetch(url, {
@@ -231,7 +235,7 @@ watch:{
         });
 
         if (response.ok) {
-          this.selectedCourse.students = this.selectedStudents;
+          this.selectedCourse.students = this._selectedStudents;
           await this.displayStudentsFromCourse();
         //  this.displayStudentsFromCourse();
         } else {
