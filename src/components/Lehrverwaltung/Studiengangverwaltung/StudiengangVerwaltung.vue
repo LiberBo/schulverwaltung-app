@@ -54,23 +54,44 @@
 <ion-button @click=" updateCourseModules();">Speichern</ion-button>
 
 
-      
-      <ion-list>
-        <ion-item v-for="(courseUser, index) in courseUsers" :key="index">
-          <ion-label>{{ courseUser?.firstName }} {{ courseUser?.lastName }}</ion-label>
-          <ion-button slot="end" fill="clear" @click="removeStudent(courseUser.id)">
-            <ion-icon :icon="closeOutline"></ion-icon>
-          </ion-button>
-        </ion-item>
-      </ion-list>
+      <ion-accordion-group>
+        <ion-accordion value="first">
+          <ion-item slot="header" color="light">
+            <ion-label>Studenten</ion-label>
+          </ion-item>
+          <div class="ion-padding" slot="content">
+            <ion-list>
+              <ion-item v-for="(courseUser, index) in courseUsers" :key="index">
+                <ion-label>{{ courseUser?.firstName }} {{ courseUser?.lastName }}</ion-label>
+              <ion-button slot="end" fill="clear" @click="removeStudent(courseUser.id)">
+                <ion-icon :icon="closeOutline"></ion-icon>
+              </ion-button>
+              </ion-item>
+            </ion-list>
+          </div>
+        </ion-accordion>
+        <ion-accordion value="second">
+          <ion-item slot="header" color="light">
+            <ion-label>Module</ion-label>
+          </ion-item>
+          <div class="ion-padding" slot="content">
+            <ion-list>
+              <ion-item v-for="(courseModule, index) in courseModules" :key="index">
+                <ion-label>{{ courseModule.name }}</ion-label>
+                <ion-button slot="end" fill="clear" @click="removeModule(courseModule.id)">
+                  <ion-icon :icon="closeOutline"></ion-icon>
+                </ion-button>
+              </ion-item>
+            </ion-list>
+          </div>
+        </ion-accordion>
+      </ion-accordion-group>
 
-      <ion-list>
-        <ion-item v-for="(courseModule, index) in courseModules" :key="index">
-          <ion-label>
-            <h3>{{ courseModule.name }}</h3>
-          </ion-label>
-        </ion-item>
-      </ion-list>
+
+
+      
+    
+
 
 
       
@@ -140,14 +161,12 @@ export default defineComponent({
       // eslint-disable-next-line vue/no-reserved-keys
       _selectedModules: [] as string[],
       courseModules: [] as Module[],
-
     };
   },
   computed: {
 
     selectedModulesString: {
     get() {
-      console.log("Hier bin ich" + this._selectedModules)
       return this._selectedModules.join(',');
 
     },
@@ -209,7 +228,7 @@ export default defineComponent({
       Authorization: `Bearer ${token}`,
     },
   });
-
+  
   if (response.ok) {
     const data: Module[] = await response.json();
     this.modules.push(...data);
@@ -260,6 +279,7 @@ export default defineComponent({
   },
   methods: {
 
+
     async displayModulesFromCourse() {
   const token = localStorage.getItem('token') || '';
   const courseId = this.selectedCourse.id;
@@ -274,7 +294,7 @@ export default defineComponent({
 
     if (response.ok) {
       const data = await response.json();
-      const courseModules = data.modules.map((module: any) => { // Extract modules from the course data
+      const courseModules = data.modules.map((module: any) => {
         return {
           id: module.id,
           name: module.name,
@@ -282,7 +302,9 @@ export default defineComponent({
       });
       this.courseModules = courseModules;
     } else {
+      console.log("Komme ich von hier?1")
       console.error(`HTTP error: ${response.status}`);
+      
     }
   } catch (error) {
     console.error(error);
@@ -293,7 +315,7 @@ export default defineComponent({
     async updateCourseModules() {
   const token = localStorage.getItem('token') || '';
   const courseId = this.selectedCourse.id;
-  const url = `https://universityhub.azurewebsites.net/courses/${courseId}`;
+  const url = `https://universityhub.azurewebsites.net/courses/${courseId}/assignments`;
 
   const schema = {
     "add": this._selectedModules.filter((moduleId: string) => !this.selectedCourse.modules.includes(moduleId)),
@@ -314,6 +336,7 @@ export default defineComponent({
       console.log("Dies ist das Modulschema:" + schema);
       console.log("Dies sind die ausgesucheten Module:" + this._selectedModules)
       this.selectedCourse.modules = this._selectedModules;
+      await this.displayModulesFromCourse();
     } else {
       console.error(`HTTP error: ${response.status}`);
     }
@@ -327,6 +350,12 @@ export default defineComponent({
       console.log("Ich bin in removeStudent" + this.selectedCourse.students)
       await this.updateCourseStudents();
       await this.displayStudentsFromCourse(); 
+    },
+    async removeModule(moduleId) {
+      this.selectedCourse.modules = this.selectedCourse.modules.filter((id) => id !== moduleId);
+      console.log("Ich bin in removeModule" + this.selectedCourse.modules)
+      await this.updateCourseModules();
+      await this.displayModulesFromCourse();
     },
 
   async displayStudentsFromCourse() {
