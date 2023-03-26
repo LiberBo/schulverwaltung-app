@@ -19,12 +19,12 @@
       <ion-label>Raumverwaltung</ion-label>
     </ion-tab-button> -->
 
-      <template v-if="showVerwaltung">
+
           <ion-tab-button tab="Verwaltung" href="/tabs/Verwaltung/overview">
           <ion-icon :icon="pencilOutline" />
           <ion-label>Verwaltung</ion-label>
         </ion-tab-button>
-      </template>
+
 
         <ion-tab-button tab="Anmeldung" href="/tabs/Anmeldung">
           <ion-icon :icon="personOutline" />
@@ -41,32 +41,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';  // inject, onMounted
+import { defineComponent } from 'vue';  
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
 import { pencilOutline, calendarOutline, businessOutline, personOutline } from 'ionicons/icons';
 
 export default defineComponent({
   name: 'TabsPage',
   components: { IonLabel, IonTabs, IonTabBar, IonTabButton, IonIcon, IonPage, IonRouterOutlet },
-  setup() {
-    const showVerwaltung = ref(true);
-//const root = inject<typeof root>('$root');
-
-
-//  onMounted(() => {
-   // root.$on("LowRole", () => {
-//showVerwaltung.value = false;
-//});
-  //});
+  data(){
 
   return {
     calendarOutline,
     businessOutline,
     pencilOutline,
     personOutline,
-    showVerwaltung
   }
 }
+
 });
 </script>
 
