@@ -87,18 +87,14 @@
         </ion-accordion>
       </ion-accordion-group>
 
-
-
-      
-    
-
-
-
-      
-      
-
-
           <ion-button @click="closeModal()">Schließen</ion-button>
+
+          <ion-item>
+            <ion-label>Kurs löschen:</ion-label>
+            <ion-button slot="end" fill="clear" color="danger" @click="deleteCourse()">
+              Löschen
+            </ion-button>
+          </ion-item>
         </ion-content>
       </ion-modal>
 
@@ -279,6 +275,30 @@ export default defineComponent({
   },
   methods: {
 
+    async deleteCourse() {
+      const token = localStorage.getItem('token') || '';
+      const courseId = this.selectedCourse.id;
+      const url = `https://universityhub.azurewebsites.net/courses/${courseId}`;
+
+      try {
+        const response = await fetch(url, {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          this.courses = this.courses.filter((course) => course.id !== courseId);
+          this.closeModal();
+        } else {
+          console.error(`HTTP error: ${response.status}`);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
 
     async displayModulesFromCourse() {
   const token = localStorage.getItem('token') || '';
@@ -458,5 +478,16 @@ export default defineComponent({
   margin-top: 4%;
   margin-right: 4%;
 }
+
+.delete-course {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  cursor: pointer;
+  color: #ff3b30;
+  font-weight: 600;
+}
+
 
 </style>
