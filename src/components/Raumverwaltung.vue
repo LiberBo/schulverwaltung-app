@@ -52,11 +52,20 @@
                >
               Auf der Karte anzeigen lassen
              </IonButton>
+
+             <ion-item>
+            <ion-label>Kurs löschen:</ion-label>
+            <ion-button slot="end" fill="clear" color="danger" @click="deleteLocation()">
+              Löschen
+            </ion-button>
+          </ion-item>
             
             
 
           </ion-item>
           <ion-button @click="closeModal()">Schließen</ion-button>
+
+          
           </ion-content>
       </ion-modal>
 
@@ -71,6 +80,7 @@ import RaumAnlegen from './Raumverwaltung/RaumAnlegen.vue';
 
 
 interface Location {
+  id: string;
   name: string;
   coordinates: {
     latitude: 0,
@@ -118,6 +128,29 @@ export default defineComponent({
     closeModal() {
       this.showModal = false;
     },
+    async deleteLocation() {
+      const token = localStorage.getItem('token') || '';
+      const locationId = this.selectedLocation.id;
+      const url = `https://universityhub.azurewebsites.net/locations/${locationId}`;
+
+      try {
+        const response = await fetch(url, {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          this.locations = this.locations.filter((location) => location.id !== locationId);
+          this.closeModal();
+        } else {
+          console.error(`HTTP error: ${response.status}`);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
     
     
 
@@ -142,6 +175,16 @@ export default defineComponent({
 .addSemester {
   margin-top: 4%;
   margin-right: 4%;
+}
+
+.delete-location {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  cursor: pointer;
+  color: #ff3b30;
+  font-weight: 600;
 }
 
 </style>
