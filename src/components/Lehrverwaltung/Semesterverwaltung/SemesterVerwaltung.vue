@@ -47,6 +47,12 @@
             <ion-text>{{ selectedSemester?.modules }}</ion-text>
           </ion-item>
           <ion-button @click="closeModal()">Schließen</ion-button>
+          <ion-item>
+            <ion-label>Kurs löschen:</ion-label>
+            <ion-button slot="end" fill="clear" color="danger" @click="deleteSemester()">
+              Löschen
+            </ion-button>
+          </ion-item>
         </ion-content>
       </ion-modal>
 
@@ -105,6 +111,29 @@ export default defineComponent({
     },
     closeModal() {
       this.showModal = false;
+    },
+    async deleteSemester() {
+      const token = localStorage.getItem('token') || '';
+      const semesterId = this.selectedSemester.id;
+      const url = `https://universityhub.azurewebsites.net/semesters/${semesterId}`;
+
+      try {
+        const response = await fetch(url, {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          this.semesters = this.semesters.filter((semester) => semester.id !== semesterId);
+          this.closeModal();
+        } else {
+          console.error(`HTTP error: ${response.status}`);
+        }
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
 });

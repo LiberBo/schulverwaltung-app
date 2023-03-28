@@ -50,6 +50,12 @@
             <ion-text>{{ selectedModule?.maxSize }}</ion-text>
           </ion-item>
           <ion-button @click="closeModal()">Schließen</ion-button>
+          <ion-item>
+            <ion-label>Modul löschen:</ion-label>
+            <ion-button slot="end" fill="clear" color="danger" @click="deleteModule()">
+              Löschen
+            </ion-button>
+          </ion-item>
         </ion-content>
       </ion-modal>
 
@@ -108,6 +114,30 @@ export default defineComponent({
     },
     closeModal() {
       this.showModal = false;
+    },
+
+    async deleteModule() {
+      const token = localStorage.getItem('token') || '';
+      const moduleId = this.selectedModule.id;
+      const url = `https://universityhub.azurewebsites.net/modules/${moduleId}`;
+
+      try {
+        const response = await fetch(url, {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          this.modules = this.modules.filter((module) => module.id !== moduleId);
+          this.closeModal();
+        } else {
+          console.error(`HTTP error: ${response.status}`);
+        }
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
 });

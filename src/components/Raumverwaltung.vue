@@ -54,7 +54,7 @@
              </IonButton>
 
              <ion-item>
-            <ion-label>Kurs löschen:</ion-label>
+            <ion-label>Raum löschen:</ion-label>
             <ion-button slot="end" fill="clear" color="danger" @click="deleteLocation()">
               Löschen
             </ion-button>
