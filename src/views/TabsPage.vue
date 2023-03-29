@@ -24,6 +24,11 @@
           <ion-label>Verwaltung</ion-label>
         </ion-tab-button>
 
+        <ion-tab-button tab="Assginments" href="/tabs/Assignments">
+          <ion-icon :icon="closeOutline" />
+          <ion-label>Assignments</ion-label>
+        </ion-tab-button>
+
         <ion-tab-button tab="Anmeldung" href="/tabs/Anmeldung">
           <ion-icon :icon="personOutline" />
           <ion-label>Anmeldung</ion-label>
@@ -41,7 +46,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';  
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
-import { pencilOutline, calendarOutline, businessOutline, personOutline } from 'ionicons/icons';
+import { pencilOutline, calendarOutline, businessOutline, personOutline, closeOutline } from 'ionicons/icons';
 import jwt_decode from "jwt-decode";
 
 interface UserAuthorization {
@@ -58,6 +63,7 @@ export default defineComponent({
       businessOutline,
       pencilOutline,
       personOutline,
+      closeOutline,
       currentUser: {} as UserAuthorization,
     }
   },

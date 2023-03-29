@@ -85,13 +85,13 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCol, IonRow, IonList, IonIcon, IonText } from '@ionic/vue';
+import { IonPage, IonButtons, IonHeader, IonToolbar, IonTitle, IonContent, IonCol, IonRow, IonList, IonIcon, IonText } from '@ionic/vue';
 import { businessOutline, libraryOutline, personOutline } from 'ionicons/icons';
 
 export default defineComponent({
   name: 'VerwaltungPage',
   // eslint-disable-next-line vue/no-unused-components
-  components: {  IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonCol, IonRow, IonList, IonIcon, IonText },
+  components: {  IonHeader,IonButtons, IonToolbar, IonTitle, IonContent, IonPage, IonCol, IonRow, IonList, IonIcon, IonText },
   
   setup (){
     return {
