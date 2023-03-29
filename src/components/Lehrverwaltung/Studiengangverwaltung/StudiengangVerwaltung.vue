@@ -134,8 +134,6 @@ interface Module {
   description: string;
   creditPoints: number;
   moduleType: string;
-  maxSize: number;
-  professors: any[];
 }
 
 
@@ -164,8 +162,8 @@ export default defineComponent({
     selectedModulesString: {
     get() {
       return this._selectedModules.join(',');
-
     },
+
     set(value) {
       if (typeof value !== 'undefined' && value !== null) {
         if (Array.isArray(value)) {

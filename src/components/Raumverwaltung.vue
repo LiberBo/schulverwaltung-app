@@ -14,6 +14,7 @@
           <ion-title size="large">Raumverwaltung</ion-title>
         </ion-toolbar>
       </ion-header>
+      
 
       <ion-list>
         <ion-item v-for="(location, index) in locations" :key="index">
@@ -25,6 +26,8 @@
           </ion-button>
         </ion-item>
       </ion-list>
+
+      <div id="map"></div>
 
       <ion-modal :is-open="showModal">
         <ion-content>
@@ -78,6 +81,8 @@ import { defineComponent } from 'vue';
 import { IonPage, IonButtons, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonList, IonLabel, IonButton, IonModal } from '@ionic/vue';
 import RaumAnlegen from './Raumverwaltung/RaumAnlegen.vue';
 
+declare var google: any;
+
 
 interface Location {
   id: string;
@@ -113,6 +118,7 @@ export default defineComponent({
       if (response.ok) {
         const data: Location[] = await response.json();
         this.locations.push(...data);
+        this.openGoogleMaps();
       } else {
         console.error(`HTTP error: ${response.status}`);
       }
@@ -121,6 +127,33 @@ export default defineComponent({
     }
   },
   methods: {
+
+    openGoogleMaps() {
+      const map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 14,
+        center: this.locations[0]?.coordinates,
+      });
+
+      this.locations.forEach((location) => {
+        const marker = new google.maps.Marker({
+          position: location.coordinates,
+          map: map,
+          title: location.name,
+        });
+
+        const infowindow = new google.maps.InfoWindow({
+          content: `<div><h3>${location.name}</h3></div>`,
+        });
+
+        marker.addListener('click', () => {
+          infowindow.open(map, marker);
+        });
+      }); // Add a missing closing bracket here
+    },
+
+
+
+    
     async openModal(location: Location) {
       this.selectedLocation = location;
       this.showModal = true;
@@ -185,6 +218,12 @@ export default defineComponent({
   cursor: pointer;
   color: #ff3b30;
   font-weight: 600;
+}
+
+#map{
+  width: 600px;
+  margin-left: 20%;
+  height: 200px;
 }
 
 </style>
