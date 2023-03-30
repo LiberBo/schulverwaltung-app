@@ -44,8 +44,38 @@
   import interactionPlugin from "@fullcalendar/interaction";
   import { INITIAL_EVENTS, createEventId } from "../components/event-utils";
   import AccountManagement from '@/views/AccountAnzeigen.vue';
+  import jwt_decode from "jwt-decode";
 
-  
+  interface Lecture {
+  duration: number;
+  location: {
+    id: string;
+    name: string;
+    coordinates: {
+      latitude: number;
+      longitude: number;
+    };
+    size: number;
+  };
+  date: string;
+  moduleName: string;
+  professor: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    authorization: string;
+    assignments: {
+      id: string;
+      name: string;
+      description: string;
+      creditPoints: number;
+      moduleType: string;
+      status: string;
+    }[];
+  };
+}
+
 
   
   export default {
@@ -87,12 +117,14 @@
       }
     },
     mounted() {
+      this.fetchLectures();
       setTimeout(() => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
-        this.$refs.cal.getApi().render()
-      }, 10)
+        this.$refs.cal.getApi().render();
+      }, 10);
     },
+
     methods: {
       handleEvents(events: never[]) {
         this.currentEvents = events;
@@ -131,6 +163,40 @@
         });
         this.selectedDateEvents = eventsOnClickedDate;
       },
+      async fetchLectures() {
+    const token = localStorage.getItem("token") || "";
+    const decodedToken: any = jwt_decode(token);
+    const userId = decodedToken.sub;
+    try {
+      const response = await fetch(
+        `https://universityhub.azurewebsites.net/users/${userId}/lectures`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.ok) {
+        const lectures: Lecture[] = await response.json();
+        this.setInitialEvents(lectures);
+      } else {
+        console.error(`HTTP error: ${response.status}`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  setInitialEvents(lectures: Lecture[]) {
+    for (const lecture of lectures) {
+      const event = {
+        id: createEventId(),
+        title: lecture.moduleName,
+        start: lecture.date,
+        allDay: lecture.duration === 0,
+      };
+      this.calendarOptions.initialEvents.push(event);
+    }
+  },
     },
 };
 </script>
