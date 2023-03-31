@@ -20,6 +20,10 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/KalenderPage.vue')
       },
       {
+        path: 'Assignments',
+        component: () => import('@/views/AssignmentPage.vue'),
+      },
+      {
         path: 'Verwaltung/overview',
         component: () => import('@/views/VerwaltungPage.vue'),
       },

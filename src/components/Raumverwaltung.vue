@@ -14,6 +14,7 @@
           <ion-title size="large">Raumverwaltung</ion-title>
         </ion-toolbar>
       </ion-header>
+      
 
       <ion-list>
         <ion-item v-for="(location, index) in locations" :key="index">
@@ -25,6 +26,8 @@
           </ion-button>
         </ion-item>
       </ion-list>
+
+      <div id="map"></div>
 
       <ion-modal :is-open="showModal">
         <ion-content>
@@ -52,11 +55,20 @@
                >
               Auf der Karte anzeigen lassen
              </IonButton>
+
+             <ion-item>
+            <ion-label>Raum löschen:</ion-label>
+            <ion-button slot="end" fill="clear" color="danger" @click="deleteLocation()">
+              Löschen
+            </ion-button>
+          </ion-item>
             
             
 
           </ion-item>
           <ion-button @click="closeModal()">Schließen</ion-button>
+
+          
           </ion-content>
       </ion-modal>
 
@@ -69,8 +81,11 @@ import { defineComponent } from 'vue';
 import { IonPage, IonButtons, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonList, IonLabel, IonButton, IonModal } from '@ionic/vue';
 import RaumAnlegen from './Raumverwaltung/RaumAnlegen.vue';
 
+declare var google: any;
+
 
 interface Location {
+  id: string;
   name: string;
   coordinates: {
     latitude: 0,
@@ -103,6 +118,7 @@ export default defineComponent({
       if (response.ok) {
         const data: Location[] = await response.json();
         this.locations.push(...data);
+        this.openGoogleMaps();
       } else {
         console.error(`HTTP error: ${response.status}`);
       }
@@ -111,12 +127,62 @@ export default defineComponent({
     }
   },
   methods: {
+
+    openGoogleMaps() {
+      const map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 14,
+        center: this.locations[0]?.coordinates,
+      });
+
+      this.locations.forEach((location) => {
+        const marker = new google.maps.Marker({
+          position: location.coordinates,
+          map: map,
+          title: location.name,
+        });
+
+        const infowindow = new google.maps.InfoWindow({
+          content: `<div><h3>${location.name}</h3></div>`,
+        });
+
+        marker.addListener('click', () => {
+          infowindow.open(map, marker);
+        });
+      }); // Add a missing closing bracket here
+    },
+
+
+
+    
     async openModal(location: Location) {
       this.selectedLocation = location;
       this.showModal = true;
     },
     closeModal() {
       this.showModal = false;
+    },
+    async deleteLocation() {
+      const token = localStorage.getItem('token') || '';
+      const locationId = this.selectedLocation.id;
+      const url = `https://universityhub.azurewebsites.net/locations/${locationId}`;
+
+      try {
+        const response = await fetch(url, {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          this.locations = this.locations.filter((location) => location.id !== locationId);
+          this.closeModal();
+        } else {
+          console.error(`HTTP error: ${response.status}`);
+        }
+      } catch (error) {
+        console.error(error);
+      }
     },
     
     
@@ -142,6 +208,22 @@ export default defineComponent({
 .addSemester {
   margin-top: 4%;
   margin-right: 4%;
+}
+
+.delete-location {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  cursor: pointer;
+  color: #ff3b30;
+  font-weight: 600;
+}
+
+#map{
+  width: 600px;
+  margin-left: 20%;
+  height: 200px;
 }
 
 </style>
