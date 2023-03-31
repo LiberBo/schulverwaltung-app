@@ -311,7 +311,7 @@ export default defineComponent({
 
     if (response.ok) {
       console.log("Dies ist das Modulschema:" + schema);
-      console.log("Dies sind die ausgesucheten Module:" + this._selectedModules)
+      console.log("Dies ist das Modulschema:" + schema.add);
       this.selectedSemester.modules = this._selectedModules;
       await this.displayModulesFromSemester();
     } else {

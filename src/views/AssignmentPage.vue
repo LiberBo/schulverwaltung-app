@@ -5,7 +5,7 @@
           <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
           </ion-buttons>
-          <ion-title class="text-center">Anmeldung</ion-title>
+          <ion-title class="text-center">Assignments</ion-title>
         </ion-toolbar>
       </ion-header>
       <ion-content :fullscreen="true">

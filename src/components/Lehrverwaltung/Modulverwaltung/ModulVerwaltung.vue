@@ -278,6 +278,7 @@ async mounted() {
       });
 
       if (response.ok) {
+        console.log(schema)
         console.log("Dies ist das Schema für Add:" + schema.add);
         console.log("Dies sind die ausgesucheten Professoren:" + this._selectedProfessors)
         this.selectedModule.professors = this._selectedProfessors;

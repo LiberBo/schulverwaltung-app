@@ -339,6 +339,7 @@ export default defineComponent({
     "add": this._selectedModules.filter((moduleId: string) => !this.selectedCourse.modules.includes(moduleId)),
     "remove": this.removedModules,
   };
+  console.log("Dies ist das Schema:  " + schema.add)
 
   try {
     const response = await fetch(url, {
