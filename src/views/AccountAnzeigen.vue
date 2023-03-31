@@ -115,6 +115,14 @@ export default defineComponent({
   mounted() {
     this.loadData();
   },
+  watch: {
+    '$route': {
+      async handler() {
+        await this.loadData();
+      },
+      immediate: true,
+    },
+  },
 
   methods: {
     async loadData() {
