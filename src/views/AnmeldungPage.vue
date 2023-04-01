@@ -1,13 +1,5 @@
 <template>
   <ion-page>
-    <ion-header>
-      <ion-toolbar color="primary">
-        <ion-buttons slot="start">
-          <ion-back-button></ion-back-button>
-        </ion-buttons>
-        <ion-title class="text-center">Anmeldung</ion-title>
-      </ion-toolbar>
-    </ion-header>
     <ion-content :fullscreen="true">
       <img class="fullLogo" src="../Pictures/University_Hub-3.png">
       <ion-list class="RegistrationSize">
@@ -33,11 +25,6 @@
 import { defineComponent } from 'vue';
 import {
   IonPage,
-  IonBackButton,
-  IonHeader,
-  IonButtons,
-  IonToolbar,
-  IonTitle,
   IonContent,
   IonList,
   IonItem,
@@ -51,11 +38,6 @@ export default defineComponent({
   name: 'AnmeldungPage',
   components: {
     IonPage,
-    IonBackButton,
-    IonHeader,
-    IonButtons,
-    IonToolbar,
-    IonTitle,
     IonContent,
     IonList,
     IonItem,

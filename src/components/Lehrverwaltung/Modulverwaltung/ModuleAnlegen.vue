@@ -25,31 +25,7 @@
         <ion-label position="floating">Credit Points</ion-label>
         <ion-input type="number" v-model="creditPoints"></ion-input>
       </ion-item>
-      <ion-button expand="block" size="fixed" @click="listModules">Module anzeigen</ion-button>
-      <ion-grid>
-  <ion-row>
-    <ion-col>
-      Modulname:
-    </ion-col>
-    <ion-col>
-      Modulbeschreibung:
-    </ion-col>
-    <ion-col>
-       Credit Points:
-    </ion-col>
-  </ion-row>
-  <ion-row v-for="(module, index) in modules" :key="index">
-    <ion-col>
-      {{ module.name }}
-    </ion-col>
-    <ion-col>
-      {{ module.description }}
-    </ion-col>
-    <ion-col>
-      {{ module.creditPoints }}
-    </ion-col>
-  </ion-row>
-</ion-grid>
+
     </ion-content>
   </ion-modal>
 </template>
@@ -68,9 +44,6 @@ import {
   IonItem,
   IonInput,
   IonLabel,
-  IonGrid,
-  IonRow,
-  IonCol,
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
@@ -86,9 +59,6 @@ export default defineComponent({
     IonItem,
     IonInput,
     IonLabel,
-    IonGrid,
-    IonRow,
-    IonCol,
   },
   data() {
     return {
@@ -125,15 +95,6 @@ export default defineComponent({
       fetch('https://universityhub.azurewebsites.net/modules', requestOptions)
         .then((response) => response.json())
         .then((data) => console.log(data))
-        .catch((error) => console.error(error));
-    },
-    listModules() {
-      fetch('https://universityhub.azurewebsites.net/modules')
-        .then((response) => response.json())
-        .then((data) => {
-          this.modules = data;
-          console.log(data)
-        })
         .catch((error) => console.error(error));
     },
   },

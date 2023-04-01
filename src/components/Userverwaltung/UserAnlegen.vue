@@ -26,6 +26,10 @@
         <ion-input v-model="email"></ion-input>
       </ion-item>
       <ion-item>
+      <ion-label position="floating">Passwort</ion-label>
+      <ion-input v-model="password" type="password"></ion-input>
+    </ion-item>
+      <ion-item>
         <ion-label position="floating">Rolle</ion-label>
         <ion-select v-model="role" interface="popover">
             <ion-select-option value="Student">Student</ion-select-option>
@@ -75,10 +79,11 @@ export default defineComponent({
   data() {
     return {
       firstName: '' as string,
-    lastName: '' as string,
-    email: '' as string,
-    role: '' as string,
-    users: [] as Array<any>,
+      lastName: '' as string,
+      email: '' as string,
+      password: '' as string,
+      role: '' as string,
+      users: [] as Array<any>,
     };
   },
   methods: {
@@ -86,31 +91,31 @@ export default defineComponent({
       (this.$refs.modal as typeof IonModal).$el.dismiss(null, 'cancel');
     },
     async addTo() {
-      if (!this.firstName || !this.lastName || !this.role) {
-        alert('Bitte füllen Sie alle Felder aus.');
-        return;
-      }
-      console.log(this.firstName, this.lastName, this.role);
-      const token = localStorage.getItem('token') || '';
-      const requestOptions = {
-        method: 'POST',
-        headers: {
+        if (!this.firstName || !this.lastName || !this.role || !this.password) {
+          alert('Bitte füllen Sie alle Felder aus.');
+          return;
+        }
+        console.log(this.firstName, this.lastName, this.role, this.password);
+        const token = localStorage.getItem('token') || '';
+        const requestOptions = {
+          method: 'POST',
+          headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
-         body: JSON.stringify({
-          firstName: this.firstName,
-          lastName: this.lastName,
-          authorization: this.role,
-          email: this.email,
-        }),
-      };
-      fetch('https://universityhub.azurewebsites.net/users', requestOptions)
-    
-        .then((response) => response.json())
-        .then((data) => console.log(data))
-        .catch((error) => console.error(error));
-    },
+          body: JSON.stringify({
+            firstName: this.firstName,
+            lastName: this.lastName,
+            email: this.email,
+            password: this.password,
+            authorization: this.role,
+          }),
+        };
+        fetch('https://universityhub.azurewebsites.net/users', requestOptions)
+          .then((response) => response.json())
+          .then((data) => console.log(data))
+          .catch((error) => console.error(error));
+      },
     listUsers() {
         fetch('https://universityhub.azurewebsites.net/users')
         .then((response) => response.json())

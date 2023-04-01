@@ -30,47 +30,47 @@
       <div id="map"></div>
 
       <ion-modal :is-open="showModal">
-        <ion-content>
-          <ion-item>
-            <ion-label>Name:</ion-label>
-            <ion-text>{{ selectedLocation?.name }}</ion-text>
-          </ion-item>
-          <ion-item>
-            <ion-label>Latitude:</ion-label>
-            <ion-text>{{ selectedLocation?.coordinates.latitude }}</ion-text>
-          </ion-item>
-          <ion-item>
-            <ion-label>Logitude:</ion-label>
-            <ion-text>{{ selectedLocation?.coordinates.longitude }}</ion-text>
-          </ion-item>
-          <ion-item>
-            <ion-label>size:</ion-label>
-            <ion-text>{{ selectedLocation?.size }}</ion-text>
-          </ion-item>
-          <ion-item>
-
-            <IonButton
-              :href="`https://maps.google.com/?q=${selectedLocation?.coordinates.latitude},${selectedLocation?.coordinates.longitude}`"
-               target="_blank"
-               >
-              Auf der Karte anzeigen lassen
-             </IonButton>
-
-             <ion-item>
-            <ion-label>Raum löschen:</ion-label>
-            <ion-button slot="end" fill="clear" color="danger" @click="deleteLocation()">
-              Löschen
-            </ion-button>
-          </ion-item>
-            
-            
-
-          </ion-item>
-          <ion-button @click="closeModal()">Schließen</ion-button>
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>{{ selectedLocation?.name }}</ion-title>
+      <ion-buttons slot="end">
+        <ion-button @click="closeModal()">
+          <ion-icon name="close"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-item>
+      <ion-label>Name:</ion-label>
+      <ion-text>{{ selectedLocation?.name }}</ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-label>Latitude:</ion-label>
+      <ion-text>{{ selectedLocation?.coordinates.latitude }}</ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-label>Logitude:</ion-label>
+      <ion-text>{{ selectedLocation?.coordinates.longitude }}</ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-label>size:</ion-label>
+      <ion-text>{{ selectedLocation?.size }}</ion-text>
+    </ion-item>
+    <ion-item>
+      <IonButton :href="`https://maps.google.com/?q=${selectedLocation?.coordinates.latitude},${selectedLocation?.coordinates.longitude}`" target="_blank">
+        Auf der Karte anzeigen lassen
+      </IonButton>
+    </ion-item>
+    <ion-item class="deleteLocation">
+      <ion-button fill="clear" color="danger" @click="deleteLocation()">
+        Raum löschen
+      </ion-button>
+    </ion-item>
+  </ion-content>
+</ion-modal>
 
           
-          </ion-content>
-      </ion-modal>
 
     </ion-content>
   </ion-page>
@@ -78,8 +78,9 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { IonPage, IonButtons, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonList, IonLabel, IonButton, IonModal } from '@ionic/vue';
+import { IonPage, IonButtons, IonHeader, IonText, IonIcon, IonToolbar, IonTitle, IonContent, IonItem, IonList, IonLabel, IonButton, IonModal } from '@ionic/vue';
 import RaumAnlegen from './Raumverwaltung/RaumAnlegen.vue';
+import { close } from 'ionicons/icons';
 
 declare var google: any;
 
@@ -97,12 +98,13 @@ interface Location {
 
 export default defineComponent({
   name: 'RaumVerwaltung',
-  components: { IonHeader, IonButtons, IonToolbar, IonTitle, IonContent, IonPage, IonItem, IonList, IonLabel, IonButton, IonModal, RaumAnlegen },
+  components: { IonHeader, IonButtons, IonToolbar, IonIcon, IonTitle, IonContent, IonText, IonPage, IonItem, IonList, IonLabel, IonButton, IonModal, RaumAnlegen },
   data() {
     return {
       locations: [] as Location[],
       showModal: false,
       selectedLocation: {} as Location,
+      close,
     };
   },
   async mounted() {
@@ -210,14 +212,11 @@ export default defineComponent({
   margin-right: 4%;
 }
 
-.delete-location {
+.deleteLocation {
+  text-align: center;
+  margin-top: 2em;
   display: flex;
   justify-content: center;
-  align-items: center;
-  margin-top: 1rem;
-  cursor: pointer;
-  color: #ff3b30;
-  font-weight: 600;
 }
 
 #map{
@@ -225,5 +224,6 @@ export default defineComponent({
   margin-left: 20%;
   height: 200px;
 }
+
 
 </style>
