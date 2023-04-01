@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
-import { IonToastController, toastController } from '@ionic/vue';
+import { toastController } from '@ionic/vue';
 import { IonicVue } from '@ionic/vue';
 
 /* Core CSS required for Ionic components to work properly */
@@ -44,7 +44,6 @@ const handle401Error = () => {
   router.push('/Anmeldung');
 }
 
-app.provide(IonToastController, toastController);
 
 
 const originalFetch: typeof fetch = window.fetch;
@@ -57,14 +56,14 @@ window.fetch = async function (...args) {
         ? Object.values(errorData.errors).flat().join(', ')
         : errorData.message || 'Unknown error';
 
-      const toast = await app._context.provides[IonToastController].create({
+      const toast = await toastController.create({
         message: `HTTP error: ${response.status} - ${errorMessage}`,
         duration: 3000,
         position: 'top',
       });
       await toast.present();
     } catch (error) {
-      const toast = await app._context.provides[IonToastController].create({
+      const toast = await toastController.create({
         message: `HTTP error: ${response.status} - Failed to parse error message.`,
         duration: 3000,
         position: 'top',

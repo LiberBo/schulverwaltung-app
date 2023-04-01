@@ -25,11 +25,6 @@
 import { defineComponent } from 'vue';
 import {
   IonPage,
-  IonBackButton,
-  IonHeader,
-  IonButtons,
-  IonToolbar,
-  IonTitle,
   IonContent,
   IonList,
   IonItem,
@@ -43,11 +38,6 @@ export default defineComponent({
   name: 'AnmeldungPage',
   components: {
     IonPage,
-    IonBackButton,
-    IonHeader,
-    IonButtons,
-    IonToolbar,
-    IonTitle,
     IonContent,
     IonList,
     IonItem,

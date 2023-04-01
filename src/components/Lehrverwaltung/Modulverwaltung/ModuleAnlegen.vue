@@ -44,9 +44,6 @@ import {
   IonItem,
   IonInput,
   IonLabel,
-  IonGrid,
-  IonRow,
-  IonCol,
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
@@ -62,9 +59,6 @@ export default defineComponent({
     IonItem,
     IonInput,
     IonLabel,
-    IonGrid,
-    IonRow,
-    IonCol,
   },
   data() {
     return {
