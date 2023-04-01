@@ -2,6 +2,9 @@
   <ion-page>
     <ion-header>
       <ion-toolbar color="primary" class="text-center">
+        <ion-buttons slot="start">
+          <ion-back-button defaultHref="/tabs/Verwaltung/Lehrverwaltung"></ion-back-button>
+        </ion-buttons>
         <ion-title>Kursverwaltung</ion-title>
         <ion-buttons slot="end">
           <StudiengangAnlegen></StudiengangAnlegen>
@@ -104,7 +107,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { IonPage, IonIcon, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonList, IonLabel, IonButton, IonModal, IonText, IonSelect, IonSelectOption } from '@ionic/vue';
+import { IonPage, IonButtons, IonBackButton, IonAccordion, IonAccordionGroup, IonIcon, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonList, IonLabel, IonButton, IonModal, IonText, IonSelect, IonSelectOption } from '@ionic/vue';
 import StudiengangAnlegen from './StudiengangAnlegen.vue';
 import { closeOutline } from 'ionicons/icons';
 
@@ -140,7 +143,7 @@ interface Module {
 
 export default defineComponent({
   name: 'RaumVerwaltung',
-  components: { IonHeader, IonIcon, IonToolbar, IonTitle, IonContent, IonPage, IonItem, IonList, IonLabel, IonButton, IonModal, StudiengangAnlegen, IonText, IonSelect, IonSelectOption },
+  components: { IonHeader, IonButtons, IonBackButton, IonAccordion, IonAccordionGroup, IonIcon, IonToolbar, IonTitle, IonContent, IonPage, IonItem, IonList, IonLabel, IonButton, IonModal, StudiengangAnlegen, IonText, IonSelect, IonSelectOption },
   data() {
     return {
       courses: [] as Course[],

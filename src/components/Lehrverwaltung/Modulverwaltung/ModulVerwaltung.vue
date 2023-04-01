@@ -3,7 +3,7 @@
     <ion-header>
       <ion-toolbar color="primary" class="text-center">
         <ion-buttons slot="start">
-          <ion-back-button></ion-back-button>
+          <ion-back-button defaultHref="/tabs/Verwaltung/Lehrverwaltung"></ion-back-button>
         </ion-buttons>
         <ion-title>Modulverwaltung</ion-title>
         <ion-buttons slot="end">
@@ -18,11 +18,7 @@
         </ion-toolbar>
       </ion-header>
 
-      <ion-item class="AddSemester">
-        <ModuleAnlegen></ModuleAnlegen>
-      </ion-item>
-
-      <ion-list>
+      <ion-list class="elementSize">
         <ion-item v-for="(module, index) in modules" :key="index">
           <ion-label>
             <h2>{{ module.name }}</h2>
@@ -324,6 +320,13 @@ async mounted() {
 .addSemester {
   margin-top: 4%;
   margin-right: 4%;
+}
+
+@media (min-width: 768px) { /* Für Desktop-Bildschirme */
+  .elementSize {
+    max-width: 60%;
+    margin: 0 auto;
+  }
 }
 
 </style>

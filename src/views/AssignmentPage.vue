@@ -206,6 +206,8 @@ export default defineComponent({
   }
   .status {
     margin-left: auto;
+  text-align: right;
+  flex-grow: 1; 
   }
 
 

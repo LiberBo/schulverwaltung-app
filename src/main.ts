@@ -31,11 +31,6 @@ const vuetify = createVuetify({
   directives,
 })
 
-
-
-
-
-
 /* Theme variables */
 import './theme/variables.css';
 
@@ -43,8 +38,22 @@ const app = createApp(App)
   .use(IonicVue)
   .use(router)
   .use(vuetify);
-  
+
+// 401-Interceptor
+const handle401Error = () => {
+  router.push('/login');
+}
+
+// Add the 401 interceptor to the Fetch API
+const originalFetch = window.fetch;
+window.fetch = async function (...args) {
+  const response = await originalFetch(...args);
+  if (response.status === 401) {
+    handle401Error();
+  }
+  return response;
+};
+
 router.isReady().then(() => {
   app.mount('#app');
 });
-

@@ -2,6 +2,12 @@
   <ion-page>
     <ion-header>
       <ion-toolbar color="primary" class="text-center">
+        <ion-buttons slot="start">
+          <!-- <router-link to="/tabs/Verwaltung/Lehrverwaltung">
+            <IonButton>Zurück</IonButton> 
+          </router-link>-->
+          <ion-back-button defaultHref="/tabs/Verwaltung/Lehrverwaltung"></ion-back-button>
+        </ion-buttons>
         <ion-title>Semesterverwaltung</ion-title>
         <ion-buttons slot="end">
           <SemesterAnlegen></SemesterAnlegen>
@@ -15,14 +21,14 @@
         </ion-toolbar>
       </ion-header>
 
-      <ion-item>
-  <ion-label>Module aktualisieren:</ion-label>
-  <ion-button slot="end" fill="clear" color="secondary" OnClick="window.location.reload()">
-    Aktualisieren
-  </ion-button>
+      <ion-item class="elementSize">
+        <ion-label>Semester aktualisieren:</ion-label>
+        <ion-button slot="end" fill="clear" color="secondary" OnClick="window.location.reload()">
+          Aktualisieren
+        </ion-button>
       </ion-item>
 
-      <ion-list>
+      <ion-list class="elementSize">
         <ion-item v-for="(semester, index) in semesters" :key="index">
           <ion-label>
             <h2>{{ semester.name }}</h2>
@@ -96,7 +102,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { IonSelect, IonSelectOption, IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonList, IonLabel, IonButton, IonModal } from '@ionic/vue';
+import { IonSelect, IonSelectOption, IonText, IonIcon, IonAccordion, IonAccordionGroup, IonPage, IonHeader, IonButtons, IonBackButton, IonToolbar, IonTitle, IonContent, IonItem, IonList, IonLabel, IonButton, IonModal } from '@ionic/vue';
 import SemesterAnlegen from './SemesterAnlegen.vue';
 import { closeOutline } from 'ionicons/icons';
 
@@ -118,7 +124,7 @@ interface Module {
 
 export default defineComponent({
   name: 'RaumVerwaltung',
-  components: { IonHeader, IonSelect, IonSelectOption, IonToolbar, IonTitle, IonContent, IonPage, IonItem, IonList, IonLabel, IonButton, IonModal, SemesterAnlegen },
+  components: { IonHeader, IonSelect, IonAccordion, IonText, IonIcon,  IonAccordionGroup, IonButtons, IonBackButton, IonSelectOption, IonToolbar, IonTitle, IonContent, IonPage, IonItem, IonList, IonLabel, IonButton, IonModal, SemesterAnlegen },
   data() {
     return {
       semesters: [] as Semester[],
@@ -350,6 +356,13 @@ async removeModule(moduleId) {
 .addSemester {
   margin-top: 4%;
   margin-right: 4%;
+}
+
+@media (min-width: 768px) { /* Für Desktop-Bildschirme */
+  .elementSize {
+    max-width: 60%;
+    margin: 0 auto;
+  }
 }
 
 </style>
