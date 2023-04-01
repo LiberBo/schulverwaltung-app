@@ -101,8 +101,14 @@ export default defineComponent({
         this.password = '';
         this.loading = false;
 
-        // Weiterleiten zur Modulverwaltung
-        this.$router.push('/tabs/Verwaltung/overview');
+        this.$router.push('/tabs/Assignments').then(() => {
+          window.location.reload();
+        });
+
+
+
+
+
       })
       .catch(error => {
         console.error(error);

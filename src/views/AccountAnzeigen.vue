@@ -27,46 +27,6 @@
             <p>Berechtigung: {{ currentUser.authorization }}</p>
           </ion-label>
         </ion-item>
-        <ion-item>
-          <ion-label>Optionales Modul hinzufügen:</ion-label>
-          <ion-select v-model="selectedAssignmentsString" multiple placeholder="Wähle Assignment">
-  <ion-select-option v-for="(assignment, idx) in assignments" :key="idx" :value="assignment.id">{{ assignment.name }}</ion-select-option>
-</ion-select>
-        </ion-item>
-        <ion-button @click="updateUserAssignments();">Speichern</ion-button>
-
-        <!-- <div class="ion-padding">
-      <h2>Optionale Module</h2>
-      <ion-list>
-        <ion-item v-for="(userAssignment, index) in userAssignments" :key="index">
-          <ion-label>{{ userAssignment.name }}</ion-label>
-          <ion-button slot="end" fill="clear" @click="removeAssignment(userAssignment.id)">
-            <ion-icon :icon="closeOutline"></ion-icon>
-          </ion-button>
-        </ion-item>
-      </ion-list>
-    </div> -->
-    <div class="ion-padding">
-      <h2>Optionale Module:</h2>
-      <ion-list>
-        <ion-item v-for="(optionalAssignment, index) in optionalAssignments" :key="index">
-          <ion-label>{{ optionalAssignment.name }}</ion-label>
-          <ion-button slot="end" fill="clear" @click="removeAssignment(optionalAssignment.id)">
-            <ion-icon :icon="closeOutline"></ion-icon>
-          </ion-button>
-        </ion-item>
-      </ion-list>
-    </div>
-    <div class="ion-padding">
-      <h2>Pflichtmodule</h2>
-      <ion-list>
-        <ion-item v-for="(compulsoryAssignment, index) in compulsoryAssignments" :key="index">
-          <ion-label>{{ compulsoryAssignment.name }}</ion-label>
-        </ion-item>
-      </ion-list>
-    </div>
-
-
       </ion-list>
     </ion-content>
   </ion-page>
@@ -74,11 +34,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { IonPage, IonSelect, IonSelectOption, IonButton, 
- IonIcon,
-   IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonList } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonList } from '@ionic/vue';
 import jwt_decode from "jwt-decode";
-import { closeOutline } from 'ionicons/icons';
 
 
 interface UserInformation {
@@ -93,15 +50,11 @@ interface UserInformation {
 
 export default defineComponent({
   name: 'AccountAnzeigen',
-  components: { IonHeader, IonSelect, IonSelectOption, IonButton, 
-    IonIcon,
-     IonToolbar, IonTitle, IonContent, IonPage, IonItem, IonLabel, IonList },
-  data(): { currentUser: UserInformation; closeOutline: any; assignments: any[]; selectedAssignmentsString: string | number | boolean | undefined; userAssignments: any[]; compulsoryAssignments: any[]; optionalAssignments: any[] } {
+  components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonItem, IonLabel, IonList },
+  data(): { currentUser: UserInformation; assignments: any[];  userAssignments: any[]; compulsoryAssignments: any[]; optionalAssignments: any[] } {
   return {
     currentUser: {} as UserInformation,
-    closeOutline,
     assignments: [],
-    selectedAssignmentsString: undefined, // Set the default value to undefined
     userAssignments: [],
     compulsoryAssignments: [],
     optionalAssignments: [],
@@ -115,15 +68,19 @@ export default defineComponent({
   mounted() {
     this.loadData();
   },
+  watch: {
+    '$route': {
+      async handler() {
+        await this.loadData();
+      },
+      immediate: true,
+    },
+  },
 
   methods: {
     async loadData() {
       if (localStorage.getItem('token')) {
         this.decodeToken();
-        await this.fetchAssignments();
-        await this.fetchUserAssignments();
-        await this.fetchCompulsoryAssignments();
-        await this.fetchOptionalAssignments();
       }
     },
 
@@ -139,93 +96,6 @@ export default defineComponent({
         assignments: decodedToken.assignments,
       };
       this.currentUser = currentUser;
-    },
-    async fetchAssignments() {
-      const token = localStorage.getItem('token') || '';
-  const response = await fetch('https://universityhub.azurewebsites.net/modules?moduleType=Optional', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-  const data = await response.json();
-  this.assignments = data;
-},
-
-    async fetchUserAssignments() {
-      const token = localStorage.getItem('token') || '';
-      const response = await fetch(`https://universityhub.azurewebsites.net/users/${this.currentUser.id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
-      this.userAssignments = data.assignments;
-    },
-
-    async updateUserAssignments() {
-    const token = localStorage.getItem('token') || '';
-    console.log("Ich bin im Update " + this.selectedAssignmentsString)
-    const payload: { add: string[]; remove: string[] } = {
-      "add": Array.isArray(this.selectedAssignmentsString) ? this.selectedAssignmentsString : [],
-      "remove": [],
-    };
-    payload.add = Array.prototype.filter.call(payload.add, (moduleId: string) => !this.userAssignments.map(assignment => assignment.id).includes(moduleId));
-  
-    
-  
-  
-  console.log(payload)
-  console.log(payload.add)
-  await fetch(`https://universityhub.azurewebsites.net/users/${this.currentUser.id}/assignments`, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(payload),
-  });
-  await this.fetchOptionalAssignments();
-  this.selectedAssignmentsString = undefined;
-},
-
-    async removeAssignment(assignmentId) {
-      const token = localStorage.getItem('token') || '';
-      const payload = {
-        add: [],
-        remove: [assignmentId],
-      };
-      await fetch(`https://universityhub.azurewebsites.net/users/${this.currentUser.id}/assignments`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(payload),
-      });
-      await this.fetchOptionalAssignments();
-      this.selectedAssignmentsString = undefined;
-    },
-    async fetchCompulsoryAssignments() {
-      const token = localStorage.getItem('token') || '';
-      const response = await fetch(`https://universityhub.azurewebsites.net/users/${this.currentUser.id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
-      this.compulsoryAssignments = data.assignments.filter(assignment => assignment.moduleType === 'Compulsory');
-      console.log("Dies sind die Pflichtmodule:  " + this.compulsoryAssignments)
-    },
-    async fetchOptionalAssignments() {
-      const token = localStorage.getItem('token') || '';
-      const response = await fetch(`https://universityhub.azurewebsites.net/users/${this.currentUser.id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
-      this.optionalAssignments = data.assignments.filter(assignment => assignment.moduleType === 'Optional');
-      console.log("Dies sind die Optionalen Assignments:  " + this.optionalAssignments)
     },
   },
 });
