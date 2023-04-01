@@ -8,7 +8,7 @@
     <ion-content :fullscreen="true">
       <div class="container">
         <IonItem class="header">
-          <h3>Mandatory Assignments</h3>
+          <h3>Pflichtmodule</h3>
         </IonItem>
         <IonItem class="list">
           <ion-list>
@@ -26,7 +26,7 @@
       </div>
       <div class="container">
         <IonItem class="header">
-          <h3>Optional Assignments</h3>
+          <h3>Optionale Module</h3>
         </IonItem>
         <IonItem class="list">
           <ion-list>
@@ -43,7 +43,7 @@
         </IonItem>
       </div>
     </ion-content>
-    <IonItem class="ReduceSize2">
+    <IonItem class="ReduceSize2 fromBottom">
       <ion-item>
         <ion-label>Optionales Modul hinzufügen:</ion-label>
         <ion-select v-model="selectedAssignmentsString" multiple placeholder="Wähle Assignment">
@@ -208,6 +208,10 @@ export default defineComponent({
     margin-left: auto;
   text-align: right;
   flex-grow: 1; 
+  }
+
+  .fromBottom{
+    padding-bottom: 2%;
   }
 
 
