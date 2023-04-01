@@ -103,6 +103,7 @@ export default defineComponent({
 
         // Weiterleiten zur Modulverwaltung
         this.$router.push('/tabs/Assignments');
+        window.location.reload();
       })
       .catch(error => {
         console.error(error);
