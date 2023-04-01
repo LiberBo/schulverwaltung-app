@@ -12,7 +12,11 @@ interface UserAuthorization {
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/tabs/Anmeldung'
+    redirect: '/Anmeldung'
+  },
+  {
+    path: '/Anmeldung',
+    component: () => import('@/views/AnmeldungPage.vue')
   },
   {
     path: '/tabs/',
@@ -20,7 +24,7 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '',
-        redirect: '/tabs/Anmeldung'
+        redirect: '/tabs/Assignments'
       },
       {
         path: 'Kalender',
@@ -74,10 +78,6 @@ const routes: Array<RouteRecordRaw> = [
         path: 'Raumverwaltung',
         component: () => import('@/components/Raumverwaltung.vue')
       }, */
-      {
-        path: 'Anmeldung',
-        component: () => import('@/views/AnmeldungPage.vue')
-      },
       {
         path: 'Accountverwaltung',
         component: () => import('@/views/AccountAnzeigen.vue')

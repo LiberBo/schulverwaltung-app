@@ -29,10 +29,10 @@
           <ion-label>Assignments</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="Anmeldung" href="/tabs/Anmeldung">
+       <!--  <ion-tab-button tab="Anmeldung" href="/tabs/Anmeldung">
           <ion-icon :icon="personOutline" />
           <ion-label>Anmeldung</ion-label>
-        </ion-tab-button>
+        </ion-tab-button> -->
 
         <ion-tab-button tab="Accountverwaltung" href="/tabs/Accountverwaltung">
           <ion-icon :icon="personOutline" />
