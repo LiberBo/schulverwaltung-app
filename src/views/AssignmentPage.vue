@@ -6,16 +6,44 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <ion-list>
-        <ion-item v-for="(assignment, index) in currentUser.assignments" :key="index">
-          <ion-label>
-            <h2>{{ assignment.name }}</h2>
-            <p>{{ assignment.creditPoints }} CP - {{ assignment.moduleType }}</p>
-          </ion-label>
-        </ion-item>
-      </ion-list>
+      <div class="container">
+        <IonItem class="header">
+          <h3>Mandatory Assignments</h3>
+        </IonItem>
+        <IonItem class="list">
+          <ion-list>
+            <ion-item v-for="(assignment, index) in mandatoryAssignments" :key="index">
+              <div class="assignment-info">
+                <ion-label>
+                  <h2>{{ assignment.name }}</h2>
+                  <p>{{ assignment.creditPoints }} CP - {{ assignment.moduleType }}</p>
+                </ion-label>
+                <p class="status">{{ assignment.status }}</p>
+              </div>
+            </ion-item>
+          </ion-list>
+        </IonItem>
+      </div>
+      <div class="container">
+        <IonItem class="header">
+          <h3>Optional Assignments</h3>
+        </IonItem>
+        <IonItem class="list">
+          <ion-list>
+            <ion-item v-for="(assignment, index) in optionalAssignments" :key="index">
+              <div class="assignment-info">
+                <ion-label>
+                  <h2>{{ assignment.name }}</h2>
+                  <p>{{ assignment.creditPoints }} CP - {{ assignment.moduleType }}</p>
+                </ion-label>
+                <p class="status">{{ assignment.status }}</p>
+              </div>
+            </ion-item>
+          </ion-list>
+        </IonItem>
+      </div>
     </ion-content>
-    <IonItem class="ReduceSize">
+    <IonItem class="ReduceSize2">
       <ion-item>
         <ion-label>Optionales Modul hinzufügen:</ion-label>
         <ion-select v-model="selectedAssignmentsString" multiple placeholder="Wähle Assignment">
@@ -50,6 +78,7 @@ interface Assignment {
   name: string;
   creditPoints: number;
   moduleType: string;
+  status: string;
 }
 
 interface User {
@@ -81,6 +110,8 @@ export default defineComponent({
       currentUser: {} as User,
       assignments: [] as Assignment[],
       selectedAssignmentsString: undefined,
+      mandatoryAssignments: [] as Assignment[],
+      optionalAssignments: [] as Assignment[],
     };
   },
 
@@ -105,6 +136,8 @@ export default defineComponent({
         console.log(data);
         this.currentUser = data;
         console.log(this.currentUser.assignments);
+        this.mandatoryAssignments = data.assignments.filter((assignment: Assignment) => assignment.moduleType === 'Mandatory');
+        this.optionalAssignments = data.assignments.filter((assignment: Assignment) => assignment.moduleType === 'Optional');
       } else {
         console.error(`HTTP error: ${response.status}`);
       }
@@ -152,9 +185,38 @@ export default defineComponent({
 
 <style>
 
+.nextLine{
+  display: absolute;
+}
+.container {
+    max-width: 50%;
+    margin: 0 auto;
+  }
+  .header {
+    width: 100%;
+  }
+  .list {
+    width: 100%;
+  }
+  .assignment-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  .status {
+    margin-left: auto;
+  }
+
+
+
 @media (min-width: 768px) { /* Für Desktop-Bildschirme */
   .ReduceSize {
     max-width: 50%;
+    margin: 0 auto;
+  }
+  .ReduceSize2 {
+    max-width: 65%;
     margin: 0 auto;
   }
 }
