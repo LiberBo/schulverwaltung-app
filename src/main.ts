@@ -41,18 +41,29 @@ const app = createApp(App)
 
 // 401-Interceptor
 const handle401Error = () => {
-  router.push('/login');
+  router.push('/Anmeldung');
 }
 
 // Add the 401 interceptor to the Fetch API
-const originalFetch = window.fetch;
+// Add the 401 interceptor to the Fetch API
+const originalFetch: typeof fetch = window.fetch;
 window.fetch = async function (...args) {
   const response = await originalFetch(...args);
-  if (response.status === 401) {
+  if (!response.ok && !response.status.toString().startsWith('2')) {
+    console.error(`HTTP error: ${response.status}`);
+    // Additional error handling here if needed
+    const toast = document.createElement('ion-toast');
+    toast.message = `HTTP error: ${response.status}`;
+    toast.duration = 3000;
+    toast.position = 'top';
+    document.body.appendChild(toast);
+    await toast.present();
+  } else if (response.status === 401) {
     handle401Error();
   }
   return response;
-};
+} as typeof fetch; // <-- Add this to ensure the custom fetch has the same type as the original
+
 
 router.isReady().then(() => {
   app.mount('#app');
