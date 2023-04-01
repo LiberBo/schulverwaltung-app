@@ -2,6 +2,9 @@
   <ion-page>
     <ion-header>
       <ion-toolbar color="primary" class="text-center">
+        <ion-buttons slot="start">
+          <ion-back-button></ion-back-button>
+        </ion-buttons>
         <ion-title>Modulverwaltung</ion-title>
         <ion-buttons slot="end">
           <ModuleAnlegen></ModuleAnlegen>
@@ -90,7 +93,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { IonPage, IonText, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonList, IonLabel, IonButton, IonModal, IonAccordion, IonAccordionGroup, IonSelect, IonSelectOption } from '@ionic/vue';
+import { IonPage, IonText, IonButtons, IonBackButton, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonList, IonLabel, IonButton, IonModal, IonAccordion, IonAccordionGroup, IonSelect, IonSelectOption } from '@ionic/vue';
 import ModuleAnlegen from './ModuleAnlegen.vue';
 import { closeOutline } from 'ionicons/icons';
 
@@ -111,7 +114,7 @@ interface Professor {
 
 export default defineComponent({
   name: 'RaumVerwaltung',
-  components: { IonHeader, IonText, IonAccordion, IonAccordionGroup, IonSelect, IonSelectOption, IonToolbar, IonTitle, IonContent, IonPage, IonItem, IonList, IonLabel, IonButton, ModuleAnlegen, IonModal },
+  components: { IonHeader, IonText, IonButtons, IonBackButton, IonAccordion, IonAccordionGroup, IonSelect, IonSelectOption, IonToolbar, IonTitle, IonContent, IonPage, IonItem, IonList, IonLabel, IonButton, ModuleAnlegen, IonModal },
   data() {
     return {
       modules: [] as Module[],

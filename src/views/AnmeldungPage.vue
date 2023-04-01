@@ -102,7 +102,7 @@ export default defineComponent({
         this.loading = false;
 
         // Weiterleiten zur Modulverwaltung
-        this.$router.push('/tabs/Verwaltung/overview');
+        this.$router.push('/tabs/Assignments');
       })
       .catch(error => {
         console.error(error);
