@@ -120,7 +120,7 @@ export default defineComponent({
         roomSeats: roomSeatsElement.value,
       };
 
-      if(roomNameElement.value && roomSeatsElement.value &&  this.roomLatitude.value && this.roomLongitude.value){
+      if(roomNameElement.value && roomSeatsElement.value){
       this.items.push(room); // Eintrag hinzufügen
 
       console.log(this.latitude + this.longitude + this.roomName + this.roomSeats);
