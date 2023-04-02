@@ -89,6 +89,7 @@ export default defineComponent({
   methods: {
     cancel(): void {
       (this.$refs.modal as typeof IonModal).$el.dismiss(null, 'cancel');
+      window.location.reload()
     },
     async addTo() {
         if (!this.firstName || !this.lastName || !this.role || !this.password) {

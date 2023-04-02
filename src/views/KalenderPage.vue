@@ -37,7 +37,7 @@
 <script lang="ts">
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-  import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+  import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, IonButtons } from '@ionic/vue';
   import FullCalendar from "@fullcalendar/vue3";
   import dayGridPlugin from "@fullcalendar/daygrid";
   import timeGridPlugin from "@fullcalendar/timegrid";
@@ -87,6 +87,10 @@
       IonTitle,
       IonContent,
       AccountManagement,
+      IonList, 
+      IonItem, 
+      IonLabel, 
+      IonButtons
       
   },
     data() {

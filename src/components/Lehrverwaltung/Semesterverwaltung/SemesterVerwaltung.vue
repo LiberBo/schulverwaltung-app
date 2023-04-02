@@ -209,6 +209,7 @@ export default defineComponent({
     },
     closeModal() {
       this.showModal = false;
+      window.location.reload()
     },
     async deleteSemester() {
       const token = localStorage.getItem('token') || '';
@@ -242,7 +243,7 @@ export default defineComponent({
     async startSemester() {
       const token = localStorage.getItem('token') || '';
       const semesterId = this.selectedSemester.id;
-      const url = `https://universityhub.azurewebsites.net/semesters/${semesterId}`;
+      const url = `https://universityhub.azurewebsites.net/semesters/${semesterId}/activate`;
 
       try {
         const response = await fetch(url, {
@@ -255,6 +256,7 @@ export default defineComponent({
         if (response.ok) {
           const data: Semester = await response.json();
           this.selectedSemester.modules = data.modules;
+          console.log("Semester wurde gestartet")
         } else {
           console.error(`HTTP error: ${response.status}`);
         }
@@ -295,16 +297,17 @@ export default defineComponent({
 },
 
 
-    async updateSemesterModules() {
+async updateSemesterModules() {
   const token = localStorage.getItem('token') || '';
   const semesterId = this.selectedSemester.id;
   const url = `https://universityhub.azurewebsites.net/semesters/${semesterId}/modules`;
-
+    
   const schema = {
     "add": this._selectedModules.filter((moduleId: string) => !this.selectedSemester.modules.includes(moduleId)),
-    "remove": this.removedModules,
+    "remove": []
+    // this.removedModules,
   };
-
+  console.log(JSON.stringify(schema));
   try {
     const response = await fetch(url, {
       method: 'PATCH',
@@ -322,11 +325,14 @@ export default defineComponent({
       await this.displayModulesFromSemester();
     } else {
       console.error(`HTTP error: ${response.status}`);
+      console.error(`HTTP error: ${response}`);
+
     }
   } catch (error) {
     console.error(error);
   }
 },
+
 
 async removeModule(moduleId) {
       this.selectedSemester.modules = this.selectedSemester.modules.filter((id) => id !== moduleId);

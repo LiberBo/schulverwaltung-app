@@ -18,7 +18,7 @@
         </ion-toolbar>
       </ion-header>
 
-      <ion-list>
+      <ion-list class="elementSize">
         <ion-item v-for="(course, index) in courses" :key="index">
           <ion-label>
             <h2>{{ course.name }}</h2>
@@ -340,7 +340,8 @@ export default defineComponent({
 
   const schema = {
     "add": this._selectedModules.filter((moduleId: string) => !this.selectedCourse.modules.includes(moduleId)),
-    "remove": this.removedModules,
+    "remove": [],
+    // this.removedModules,
   };
   console.log("Dies ist das Schema:  " + schema.add)
 
@@ -421,7 +422,8 @@ export default defineComponent({
 
       const schema = {
         "add": this._selectedStudents.filter((studentId: string) => !this.selectedCourse.students.includes(studentId)),
-        "remove": this.removedStudents,
+        "remove": [],
+        //this.removedStudents,
       };
 
       try {
@@ -457,6 +459,7 @@ export default defineComponent({
 
     closeModal() {
       this.showModal = false;
+      window.location.reload()
     },
   },
 });
@@ -489,6 +492,13 @@ export default defineComponent({
   cursor: pointer;
   color: #ff3b30;
   font-weight: 600;
+}
+
+@media (min-width: 768px) { /* Für Desktop-Bildschirme */
+  .elementSize {
+    max-width: 60%;
+    margin: 0 auto;
+  }
 }
 
 
