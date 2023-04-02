@@ -62,8 +62,8 @@
           </ion-item>
           <div class="ion-padding" slot="content">
             <ion-list>
-              <ion-item v-for="(moduleProfessor, index) in moduleProfessors" :key="index">
-                <ion-label>{{ moduleProfessor.name }}</ion-label>
+              <ion-item v-for="(moduleProfessor, index) in selectedModule.professors" :key="index">
+                <ion-label>{{ moduleProfessor.firstName }} {{ moduleProfessor.lastName }}</ion-label>
                 <ion-button slot="end" fill="clear" @click="removeProfessor(moduleProfessor.id)">
                   <ion-icon :icon="closeOutline"></ion-icon>
                 </ion-button>
@@ -89,7 +89,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { IonPage, IonText, IonButtons, IonBackButton, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonList, IonLabel, IonButton, IonModal, IonAccordion, IonAccordionGroup, IonSelect, IonSelectOption } from '@ionic/vue';
+import { IonPage, IonText, IonButtons, IonIcon, IonBackButton, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonList, IonLabel, IonButton, IonModal, IonAccordion, IonAccordionGroup, IonSelect, IonSelectOption } from '@ionic/vue';
 import ModuleAnlegen from './ModuleAnlegen.vue';
 import { closeOutline } from 'ionicons/icons';
 
@@ -99,7 +99,7 @@ interface Module {
   description: string;
   moduleType: string;
   maxSize: number;
-  professors: string[];
+  professors: Professor[];
 }
 
 interface Professor {
@@ -110,7 +110,7 @@ interface Professor {
 
 export default defineComponent({
   name: 'RaumVerwaltung',
-  components: { IonHeader, IonText, IonButtons, IonBackButton, IonAccordion, IonAccordionGroup, IonSelect, IonSelectOption, IonToolbar, IonTitle, IonContent, IonPage, IonItem, IonList, IonLabel, IonButton, ModuleAnlegen, IonModal },
+  components: { IonHeader, IonText, IonIcon, IonButtons, IonBackButton, IonAccordion, IonAccordionGroup, IonSelect, IonSelectOption, IonToolbar, IonTitle, IonContent, IonPage, IonItem, IonList, IonLabel, IonButton, ModuleAnlegen, IonModal },
   data() {
     return {
       modules: [] as Module[],
@@ -118,33 +118,33 @@ export default defineComponent({
       selectedModule: {} as Module,
       closeOutline,
       // eslint-disable-next-line vue/no-reserved-keys
-      _selectedProfessors: [] as string[],
-      moduleProfessors: [] as Module[],
+      _selectedProfessors: [] as Professor[],
       professors: [] as Professor[],
+      moduleProfessors: [] as Professor[],
     };
   },
-  computed:{
+  computed: {
     selectedModulesString: {
-    get() {
-      return this._selectedProfessors.join(',');
+      get() {
+      return this._selectedProfessors.map(p => p.id).join(",");
     },
-    
     set(value) {
-  if (typeof value === 'string') {
-    this._selectedProfessors = value.split(',').map(id => id.trim());
-  } else if (Array.isArray(value)) {
-    this._selectedProfessors = value.map(id => id.trim());
-  } else {
-    this._selectedProfessors = [];
-  }
-}
+      if (typeof value === "string") {
+        const ids = value.split(",").filter((id: string) => id);
+        this._selectedProfessors = this.professors.filter((p: Professor) => ids.includes(p.id));
+      } else {
+        this._selectedProfessors = [];
+      }
+    },
+    },
 
-  },
-  removedProfessors(): string[] {
+
+  removedProfessors(): Professor[] {
     if (!this.selectedModule.professors) return [];
-    return this.professors.map(professor => professor.id).filter((professorId: string) => !this.selectedModule.professors.includes(professorId));
+    return this.professors.filter((professor: Professor) => !this.selectedModule.professors.includes(professor));
   },
 },
+
 
 async mounted() {
     const token = localStorage.getItem('token') || '';
@@ -191,6 +191,7 @@ async mounted() {
   },
   closeModal() {
     this.showModal = false;
+    window.location.reload()
   },
 
   async deleteModule() {
@@ -217,9 +218,14 @@ async mounted() {
     }
   },
 
-  onProfessorSelected(event) {
-    this._selectedProfessors = event.detail.value;
-  },
+  onProfessorSelected(event: CustomEvent) {
+  this._selectedProfessors = event.detail.value
+    .map((id: string) => this.professors.find((professor) => professor.id === id))
+    .filter((professor: Professor | undefined) => professor !== undefined) as Professor[];
+},
+
+
+
 
   async displayProfessorsFromModule() {
     const token = localStorage.getItem('token') || '';
@@ -256,48 +262,49 @@ async mounted() {
   },
 
   async updateModuleProfessors() {
-    const token = localStorage.getItem('token') || '';
-    const moduleId = this.selectedModule.id;
-    const url = `https://universityhub.azurewebsites.net/modules/${moduleId}/professors`;
-    console.log("add:" + this._selectedProfessors.filter((professorId: string) => !this.selectedModule.professors.includes(professorId)))
+  const token = localStorage.getItem('token') || '';
+  const moduleId = this.selectedModule.id;
+  const url = `https://universityhub.azurewebsites.net/modules/${moduleId}/professors`;
 
-    const schema = {
-      "add": this._selectedProfessors.filter((professorId: string) => !this.selectedModule.professors.includes(professorId)),
-      "remove": this.removedProfessors,
-    };
+  const schema = {
+        add: this._selectedProfessors
+          .filter((professor: Professor) => !this.selectedModule.professors.some((p) => p.id === professor.id))
+          .map((professor: Professor) => professor.id),
+        remove: [],
+      };
 
-    try {
-      const response = await fetch(url, {
-        method: 'PATCH',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(schema),
-      });
+  try {
+    console.log(JSON.stringify(schema));
+    const response = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(schema),
+    });
 
-      if (response.ok) {
-        console.log(schema)
-        console.log("Dies ist das Schema für Add:" + schema.add);
-        console.log("Dies sind die ausgesucheten Professoren:" + this._selectedProfessors)
-        this.selectedModule.professors = this._selectedProfessors;
-        console.log(this.selectedModule.professors)
-        console.log(this.selectedModule.professors)
-        await this.displayProfessorsFromModule();
-      } else {
-        console.error(`HTTP error: ${response.status}`);
-      }
-    } catch (error) {
-      console.error(error);
+    if (response.ok) {
+      console.log("Der Response war in Ordnung");
+      this.selectedModule.professors = this._selectedProfessors;
+      await this.displayProfessorsFromModule();
+    } else {
+      console.error(`HTTP error: ${response.status}`);
+      console.error(`HTTP error: ${response}`);
     }
-  },
+  } catch (error) {
+    console.error(error);
+  }
+},
+
   
-  async removeProfessor(professorId) {
-    this.selectedModule.professors = this.selectedModule.professors.filter((id) => id !== professorId);
-    console.log("Ich bin in removeModule" + this.selectedModule.professors)
-    await this.updateModuleProfessors();
-    await this.displayProfessorsFromModule();
-  },
+removeProfessor(professorId: string) {
+  this._selectedProfessors = this._selectedProfessors.filter((professor) => professor.id !== professorId);
+  this.updateModuleProfessors();
+  this.displayProfessorsFromModule();
+},
+
+
 }
 
 });

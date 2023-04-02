@@ -32,8 +32,8 @@
         <ion-item v-for="(semester, index) in semesters" :key="index">
           <ion-label>
             <h2>{{ semester.name }}</h2>
-            <p>Startdatum: {{ semester.startDate }}</p>
-            <p>Enddatum: {{ semester.endDate }}</p>
+            <p>Startdatum: {{ formatDate(semester.startDate) }}</p>
+            <p>Enddatum: {{ formatDate(semester.endDate) }}</p>
           </ion-label>
           <ion-button slot="end" fill="clear" @click="openModal(semester)">
             Bearbeiten
@@ -49,12 +49,13 @@
           </ion-item>
           <ion-item>
             <ion-label>Startdatum:</ion-label>
-            <ion-text>{{ selectedSemester?.startDate }}</ion-text>
+            <ion-text>{{ formatDate(selectedSemester?.startDate) }}</ion-text>
           </ion-item>
           <ion-item>
             <ion-label>Enddatum:</ion-label>
-            <ion-text>{{ selectedSemester?.endDate }}</ion-text>
+            <ion-text>{{ formatDate(selectedSemester?.endDate) }}</ion-text>
           </ion-item>
+
           <ion-item>
             <ion-label>Module hinzufügen:</ion-label>
             <ion-select :selected="_selectedModules" multiple placeholder="Wähle Module" @ionChange="onModulesSelected($event)">
@@ -209,6 +210,7 @@ export default defineComponent({
     },
     closeModal() {
       this.showModal = false;
+      window.location.reload()
     },
     async deleteSemester() {
       const token = localStorage.getItem('token') || '';
@@ -238,11 +240,15 @@ export default defineComponent({
   this._selectedModules = event.detail.value;
 },
 
+    formatDate(isoString) {
+        const date = new Date(isoString);
+      return `${date.getDate().toString().padStart(2, '0')}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getFullYear()}`;
+  },
 
     async startSemester() {
       const token = localStorage.getItem('token') || '';
       const semesterId = this.selectedSemester.id;
-      const url = `https://universityhub.azurewebsites.net/semesters/${semesterId}`;
+      const url = `https://universityhub.azurewebsites.net/semesters/${semesterId}/activate`;
 
       try {
         const response = await fetch(url, {
@@ -255,6 +261,7 @@ export default defineComponent({
         if (response.ok) {
           const data: Semester = await response.json();
           this.selectedSemester.modules = data.modules;
+          console.log("Semester wurde gestartet")
         } else {
           console.error(`HTTP error: ${response.status}`);
         }
@@ -295,16 +302,17 @@ export default defineComponent({
 },
 
 
-    async updateSemesterModules() {
+async updateSemesterModules() {
   const token = localStorage.getItem('token') || '';
   const semesterId = this.selectedSemester.id;
   const url = `https://universityhub.azurewebsites.net/semesters/${semesterId}/modules`;
-
+    
   const schema = {
     "add": this._selectedModules.filter((moduleId: string) => !this.selectedSemester.modules.includes(moduleId)),
-    "remove": this.removedModules,
+    "remove": []
+    // this.removedModules,
   };
-
+  console.log(JSON.stringify(schema));
   try {
     const response = await fetch(url, {
       method: 'PATCH',
@@ -322,11 +330,14 @@ export default defineComponent({
       await this.displayModulesFromSemester();
     } else {
       console.error(`HTTP error: ${response.status}`);
+      console.error(`HTTP error: ${response}`);
+
     }
   } catch (error) {
     console.error(error);
   }
 },
+
 
 async removeModule(moduleId) {
       this.selectedSemester.modules = this.selectedSemester.modules.filter((id) => id !== moduleId);

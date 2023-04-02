@@ -108,6 +108,7 @@ export default defineComponent({
 
     cancel(): void {
       (this.$refs.modal as typeof IonModal).$el.dismiss(null, 'cancel');
+      window.location.reload()
     },
     addTo(): void {
       const roomNameElement = (this.$refs.roomName as typeof IonInput).$el;
@@ -119,7 +120,7 @@ export default defineComponent({
         roomSeats: roomSeatsElement.value,
       };
 
-      if(roomNameElement.value && roomSeatsElement.value ){
+      if(roomNameElement.value && roomSeatsElement.value &&  this.roomLatitude.value && this.roomLongitude.value){
       this.items.push(room); // Eintrag hinzufügen
 
       console.log(this.latitude + this.longitude + this.roomName + this.roomSeats);

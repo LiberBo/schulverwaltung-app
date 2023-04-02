@@ -166,51 +166,8 @@ export default defineComponent({
   methods: {
     cancel(): void {
       (this.$refs.modal as typeof IonModal).$el.dismiss(null, 'cancel');
-    },/*
-    addTo(): void {
-      const nameElement = (this.$refs.name as typeof IonInput).$el;
-      const descriptionElement = (this.$refs.description as typeof IonInput).$el;
-      //console.log((this.$refs.students as typeof IonInput).$el);
-     // const studentsElement = (this.$refs.students as typeof IonInput).$el;
-     // const mandatoryModulesElement = (this.$refs.mandatoryModules as typeof IonInput).$el;
-     // const optionalModulesElement = (this.$refs.optionalModules as typeof IonInput).$el;
-      // Construct the module object
-
-      console.log(nameElement)
-      console.log(descriptionElement)
-
-
-      if(nameElement.value && descriptionElement.value// && mandatoryModulesElement.value && optionalModulesElement.value
-        ){
-          const requestOptions = {
-            method: 'POST',
-            headers: {
-                  'Content-Type': 'application/json',
-                  Authorization: `Bearer ${localStorage.getItem('token')}`,
-                },
-            body: JSON.stringify({
-              name: this.name,
-              description: this.description,
-             // creditPoints: this.creditPoints,
-            }),
-            
-          };
-          fetch('https://universityhub.azurewebsites.net/Courses', requestOptions)
-            .then((response) => response.json())
-            .then((data) => console.log(data))
-            .catch((error) => console.error(error));
-          }
-          else{
-            alert("Bitte fülle alle Felder aus!")
-          }
-
-      
-      console.log("inputElement.value", studyProgrammNameElement.value);
-      console.log("inputElement.value", studentsElement.value);
-      console.log("professorElement.value", mandatoryModulesElement.value);
-      console.log("roomElement.value", optionalModulesElement.value); 
-
-    }, */
+      window.location.reload()
+    },
 
     addTo(): void {
       if (this.course.name && this.course.description) {

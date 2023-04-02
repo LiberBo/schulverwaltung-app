@@ -9,8 +9,6 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-
-      <h1 color="primary" id="Kontostandsanzeige">Hier finden Sie den Kalender </h1>
       
 
       <FullCalendar ref="cal" weekNumbers="true" class="demo-app-calendar" :options="calendarOptions">
@@ -37,7 +35,7 @@
 <script lang="ts">
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-  import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+  import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, IonButtons, IonNote } from '@ionic/vue';
   import FullCalendar from "@fullcalendar/vue3";
   import dayGridPlugin from "@fullcalendar/daygrid";
   import timeGridPlugin from "@fullcalendar/timegrid";
@@ -87,6 +85,11 @@
       IonTitle,
       IonContent,
       AccountManagement,
+      IonList, 
+      IonItem, 
+      IonLabel, 
+      IonButtons,
+      IonNote
       
   },
     data() {
@@ -126,6 +129,7 @@
     },
 
     methods: {
+
       handleEvents(events: never[]) {
         this.currentEvents = events;
       },

@@ -110,6 +110,7 @@ export default defineComponent({
   methods: {
     cancel(): void {
       (this.$refs.modal2 as typeof IonModal).$el.dismiss(null, 'cancel');
+      window.location.reload()
     },
 
     moment(): any {

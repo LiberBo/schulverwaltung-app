@@ -25,6 +25,17 @@
         <ion-label position="floating">Credit Points</ion-label>
         <ion-input type="number" v-model="creditPoints"></ion-input>
       </ion-item>
+      <ion-item>
+        <ion-label>Modultyp</ion-label>
+        <ion-select v-model="moduleType">
+          <ion-select-option value="Compulsory">Pflichtmodul</ion-select-option>
+          <ion-select-option value="Optional">Wahlmodul</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Maximale Größe</ion-label>
+        <ion-input type="number" v-model="maxSize"></ion-input>
+      </ion-item>
 
     </ion-content>
   </ion-modal>
@@ -44,6 +55,8 @@ import {
   IonItem,
   IonInput,
   IonLabel,
+  IonSelect,
+  IonSelectOption,
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
@@ -59,13 +72,15 @@ export default defineComponent({
     IonItem,
     IonInput,
     IonLabel,
+    IonSelect,
+    IonSelectOption,
   },
   data() {
     return {
       moduleName: '',
       moduleDescription: '',
       creditPoints: 0,
-      moduleType: '',
+      moduleType: 'Optional',
       maxSize: 0,
       modules: [],
     };
@@ -73,9 +88,10 @@ export default defineComponent({
   methods: {
     cancel(): void {
       (this.$refs.modal as typeof IonModal).$el.dismiss(null, 'cancel');
+      window.location.reload()
     },
     async addTo() {
-      if (!this.moduleName || !this.moduleDescription || !this.creditPoints) {
+      if (!this.moduleName || !this.moduleDescription || !this.creditPoints || !this.moduleType || !this.maxSize) {
         alert('Bitte füllen Sie alle Felder aus.');
         return;
       }
@@ -86,11 +102,13 @@ export default defineComponent({
               'Content-Type': 'application/json',
               Authorization: `Bearer ${localStorage.getItem('token')}`,
             },
-        body: JSON.stringify({
-          name: this.moduleName,
-          description: this.moduleDescription,
-          creditPoints: this.creditPoints,
-        }),
+            body: JSON.stringify({
+              name: this.moduleName,
+              description: this.moduleDescription,
+              creditPoints: this.creditPoints,
+              moduleType: this.moduleType,
+              maxSize: this.maxSize,
+  }),
       };
       fetch('https://universityhub.azurewebsites.net/modules', requestOptions)
         .then((response) => response.json())
