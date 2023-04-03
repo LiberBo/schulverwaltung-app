@@ -24,6 +24,57 @@
           <ion-note slot="end">{{ event.start.toLocaleTimeString() }}</ion-note>
         </ion-item>
       </ion-list>
+
+      
+      <ion-list class="demo-app-calendar">
+        <h1>Räume:</h1>
+        <ion-item v-for="(location, index) in locations" :key="index">
+          <ion-label>
+            <h2>{{ location.name }}</h2>
+          </ion-label>
+          <ion-button slot="end" fill="clear" @click="openModal(location)">
+            Bearbeiten
+          </ion-button>
+        </ion-item>
+      </ion-list>
+
+
+      <ion-modal :is-open="showModal">
+        <ion-header>
+          <ion-toolbar color="primary">
+            <ion-title>{{ selectedLocation?.name }}</ion-title>
+            <ion-buttons slot="end">
+              <ion-button @click="closeModal()">
+                <ion-icon name="close"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content>
+          <ion-item>
+            <ion-label>Name:</ion-label>
+            <ion-text>{{ selectedLocation?.name }}</ion-text>
+          </ion-item>
+          <ion-item>
+            <ion-label>Breitengrad:</ion-label>
+            <ion-text>{{ selectedLocation?.coordinates.latitude }}</ion-text>
+          </ion-item>
+          <ion-item>
+            <ion-label>Längengrad:</ion-label>
+            <ion-text>{{ selectedLocation?.coordinates.longitude }}</ion-text>
+          </ion-item>
+          <ion-item>
+            <ion-label>Maximale Kapazität:</ion-label>
+            <ion-text>{{ selectedLocation?.size }}</ion-text>
+          </ion-item>
+          <ion-item>
+            <IonButton :href="`https://maps.google.com/?q=${selectedLocation?.coordinates.latitude},${selectedLocation?.coordinates.longitude}`" target="_blank">
+              Auf der Karte anzeigen lassen
+            </IonButton>
+          </ion-item>
+        </ion-content>
+      </ion-modal>
+      
       
 
     </ion-content>
@@ -35,7 +86,7 @@
 <script lang="ts">
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-  import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, IonButtons, IonNote } from '@ionic/vue';
+  import { IonPage, IonHeader, IonToolbar, IonButton, IonModal, IonText, IonIcon, IonTitle, IonContent, IonList, IonItem, IonLabel, IonButtons, IonNote } from '@ionic/vue';
   import FullCalendar from "@fullcalendar/vue3";
   import dayGridPlugin from "@fullcalendar/daygrid";
   import timeGridPlugin from "@fullcalendar/timegrid";
@@ -74,6 +125,16 @@
     }[];
   };
 }
+interface Location {
+  id: string;
+  name: string;
+  coordinates: {
+    latitude: 0,
+    longitude: 0
+  },
+
+  size: 0;
+}
 
 
   
@@ -90,7 +151,11 @@
       IonItem, 
       IonLabel, 
       IonButtons,
-      IonNote
+      IonNote,
+      IonButton, 
+      IonModal, 
+      IonText, 
+      IonIcon,
       
   },
     data() {
@@ -136,55 +201,85 @@
           allDayText: 'Ganztägig',
           noEventsText: 'Keine Ereignisse anzuzeigen',
         },
+        locations: [] as Location[],
+        showModal: false,
+        selectedLocation: {} as Location,
       }
     },
-    mounted() {
+    async mounted() {
       this.fetchLectures();
       setTimeout(() => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
         this.$refs.cal.getApi().render();
       }, 10);
+      const token = localStorage.getItem('token') || '';
+
+      try {
+        const response = await fetch('https://universityhub.azurewebsites.net/Locations', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          const data: Location[] = await response.json();
+          this.locations.push(...data);
+        } else {
+          console.error(`HTTP error: ${response.status}`);
+        }
+      } catch (error) {
+        console.error(error);
+      }
     },
 
   methods: {
 
-        handleEvents(events: never[]) {
-          this.currentEvents = events;
-        },
-        handleWeekendsToggle() {
-          this.calendarOptions.weekends = !this.calendarOptions.weekends;
-        },
+    handleEvents(events: never[]) {
+      this.currentEvents = events;
+    },
+    handleWeekendsToggle() {
+      this.calendarOptions.weekends = !this.calendarOptions.weekends;
+    },
 
-        handleEventClick(eventClickInfo: EventClickArg) {
-          const eventTitle = eventClickInfo.event.title;
-          const eventStart = eventClickInfo.event.start;
-          const eventEnd = eventClickInfo.event.end;
-          const lecture = eventClickInfo.event.extendedProps.lecture;
-          const locationName = lecture.location.name;
+    handleEventClick(eventClickInfo: EventClickArg) {
+      const eventTitle = eventClickInfo.event.title;
+      const eventStart = eventClickInfo.event.start;
+      const eventEnd = eventClickInfo.event.end;
+      const lecture = eventClickInfo.event.extendedProps.lecture;
+      const locationName = lecture.location.name;
 
-          // Display more information about the event, including the location name
-          alert(`Vorlesung / Dozent: ${eventTitle}\nStart: ${eventStart}\nEnde: ${eventEnd}\n ${locationName}`);
-        },
-        
-        
-        handleDateClick(dateClickInfo) {
-          const clickedDate = dateClickInfo.date;
-          const calendarApi = dateClickInfo.view.calendar;
-          const events = calendarApi.getEvents();
+      // Display more information about the event, including the location name
+      alert(`Vorlesung - Dozent: ${eventTitle}\n\nStart: ${eventStart}\n\nEnde: ${eventEnd}\n\n ${locationName}`);
+    },
+    
+    
+    handleDateClick(dateClickInfo) {
+      const clickedDate = dateClickInfo.date;
+      const calendarApi = dateClickInfo.view.calendar;
+      const events = calendarApi.getEvents();
 
-          // Filter events for the clicked date
-          const eventsOnClickedDate = events.filter((event) => {
-            const eventStart = event.start;
-            const eventEnd = event.end || eventStart;
+      // Filter events for the clicked date
+      const eventsOnClickedDate = events.filter((event) => {
+        const eventStart = event.start;
+        const eventEnd = event.end || eventStart;
 
-            return (
-              clickedDate >= eventStart &&
-              clickedDate <= eventEnd
-            );
-          });
-          this.selectedDateEvents = eventsOnClickedDate;
-        },
+        return (
+          clickedDate >= eventStart &&
+          clickedDate <= eventEnd
+        );
+      });
+      this.selectedDateEvents = eventsOnClickedDate;
+    },
+
+    async openModal(location: Location) {
+      this.selectedLocation = location;
+      this.showModal = true;
+    },
+
+    closeModal() {
+      this.showModal = false;
+    },
 
 
         

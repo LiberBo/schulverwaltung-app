@@ -46,15 +46,15 @@
       <ion-text>{{ selectedLocation?.name }}</ion-text>
     </ion-item>
     <ion-item>
-      <ion-label>Latitude:</ion-label>
+      <ion-label>Breitengrad:</ion-label>
       <ion-text>{{ selectedLocation?.coordinates.latitude }}</ion-text>
     </ion-item>
     <ion-item>
-      <ion-label>Logitude:</ion-label>
+      <ion-label>Längengrad:</ion-label>
       <ion-text>{{ selectedLocation?.coordinates.longitude }}</ion-text>
     </ion-item>
     <ion-item>
-      <ion-label>size:</ion-label>
+      <ion-label>Maximale Kapazität:</ion-label>
       <ion-text>{{ selectedLocation?.size }}</ion-text>
     </ion-item>
     <ion-item>
@@ -222,7 +222,7 @@ export default defineComponent({
 #map{
   width: 600px;
   margin-left: 20%;
-  height: 200px;
+  height: 400px;
 }
 
 
