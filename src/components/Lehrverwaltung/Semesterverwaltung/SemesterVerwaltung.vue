@@ -78,12 +78,13 @@
           </div>
         </ion-accordion>
       </ion-accordion-group>
-          <ion-item>     
-            <ion-label>Semester starten</ion-label>
-            <ion-button slot="end" fill="clear" color="secondary" @click="startSemester()">
-              Semester berechnen
-            </ion-button>
-          </ion-item>
+      <ion-item>     
+        <ion-label>Semester starten</ion-label>
+        <ion-button slot="end" fill="clear" color="secondary" @click="startSemester()" :disabled="loading">
+          <ion-spinner v-if="loading" name="dots" slot="start"></ion-spinner>
+          <span v-else>Semester berechnen</span>
+        </ion-button>
+      </ion-item>
           <ion-button @click="closeModal()">Schließen</ion-button>
           <ion-item>
             <ion-label>Kurs löschen:</ion-label>
@@ -122,7 +123,7 @@ interface Module {
 
 export default defineComponent({
   name: 'RaumVerwaltung',
-  components: { IonHeader, IonSelect, IonAccordion, IonText, IonIcon,  IonAccordionGroup, IonButtons, IonBackButton, IonSelectOption, IonToolbar, IonTitle, IonContent, IonPage, IonItem, IonList, IonLabel, IonButton, IonModal, SemesterAnlegen },
+  components: { IonHeader, IonSpinner, IonSelect, IonAccordion, IonText, IonIcon,  IonAccordionGroup, IonButtons, IonBackButton, IonSelectOption, IonToolbar, IonTitle, IonContent, IonPage, IonItem, IonList, IonLabel, IonButton, IonModal, SemesterAnlegen },
   data() {
     return {
       semesters: [] as Semester[],
@@ -133,6 +134,7 @@ export default defineComponent({
       _selectedModules: [] as string[],
       semesterModules: [] as Module[],
       modules: [] as Module[],
+      loading: false,
     };
   },
 
@@ -244,6 +246,7 @@ export default defineComponent({
 
     async startSemester() {
       const token = localStorage.getItem('token') || '';
+      this.loading = true;
       const semesterId = this.selectedSemester.id;
       const url = `https://universityhub.azurewebsites.net/semesters/${semesterId}/activate`;
 
@@ -258,12 +261,14 @@ export default defineComponent({
         if (response.ok) {
           const data: Semester = await response.json();
           this.selectedSemester.modules = data.modules;
+          prompt("Das Semester wurde berechnet!");
         } else {
           console.error(`HTTP error: ${response.status}`);
         }
         } catch (error) {
           console.error(error);
         }
+        this.loading = false;
     },
 
     async displayModulesFromSemester() {
