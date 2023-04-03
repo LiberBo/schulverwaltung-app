@@ -132,10 +132,6 @@ export default defineComponent({
         endDate: endDateElement.value,
       //  modules: this.selectedModules,
       };
-      console.log(this.selectedModules);
-            console.log(nameElement.value);
-            console.log(startDateElement.value);
-            console.log(endDateElement.value);
 
       if (semester.name && semester.startDate && semester.endDate ) {
         // && semester.modules.length > 0
@@ -185,7 +181,6 @@ export default defineComponent({
     if (response.ok) {
       const data: Module[] = await response.json();
       this.modules.push(...data);
-      console.log(this.modules)
     } else {
       console.error(`HTTP error: ${response.status}`);
     }

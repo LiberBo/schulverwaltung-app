@@ -261,7 +261,6 @@ export default defineComponent({
         if (response.ok) {
           const data: Semester = await response.json();
           this.selectedSemester.modules = data.modules;
-          console.log("Semester wurde gestartet")
         } else {
           console.error(`HTTP error: ${response.status}`);
         }
@@ -292,7 +291,6 @@ export default defineComponent({
       });
       this.semesterModules = semesterModules;
     } else {
-      console.log("Komme ich von hier?1")
       console.error(`HTTP error: ${response.status}`);
       
     }
@@ -312,7 +310,6 @@ async updateSemesterModules() {
     "remove": []
     // this.removedModules,
   };
-  console.log(JSON.stringify(schema));
   try {
     const response = await fetch(url, {
       method: 'PATCH',
@@ -324,13 +321,10 @@ async updateSemesterModules() {
     });
 
     if (response.ok) {
-      console.log("Dies ist das Modulschema:" + schema);
-      console.log("Dies ist das Modulschema:" + schema.add);
       this.selectedSemester.modules = this._selectedModules;
       await this.displayModulesFromSemester();
     } else {
       console.error(`HTTP error: ${response.status}`);
-      console.error(`HTTP error: ${response}`);
 
     }
   } catch (error) {
@@ -341,7 +335,6 @@ async updateSemesterModules() {
 
 async removeModule(moduleId) {
       this.selectedSemester.modules = this.selectedSemester.modules.filter((id) => id !== moduleId);
-      console.log("Ich bin in removeModule" + this.selectedSemester.modules)
       await this.updateSemesterModules();
       await this.displayModulesFromSemester();
     },

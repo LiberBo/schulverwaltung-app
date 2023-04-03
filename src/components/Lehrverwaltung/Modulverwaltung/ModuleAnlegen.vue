@@ -104,7 +104,6 @@ export default defineComponent({
         alert('Bitte füllen Sie alle Felder aus.');
         return;
       }
-      console.log(this.moduleName, this.moduleDescription, this.creditPoints);
       const requestOptions = {
         method: 'POST',
         headers: {
@@ -129,7 +128,6 @@ export default defineComponent({
             throw new Error('Fehler beim Hinzufügen des Moduls');
           }
         })
-        .then((data) => console.log(data))
         .catch((error) => console.error(error));
     },
   },

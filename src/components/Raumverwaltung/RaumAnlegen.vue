@@ -122,8 +122,6 @@ export default defineComponent({
 
       if(roomNameElement.value && roomSeatsElement.value){
       this.items.push(room); // Eintrag hinzufügen
-
-      console.log(this.latitude + this.longitude + this.roomName + this.roomSeats);
       const token = localStorage.getItem('token') || '';
       const requestOptions = {
         method: 'POST',
@@ -139,7 +137,6 @@ export default defineComponent({
       };
       fetch('https://universityhub.azurewebsites.net/locations', requestOptions)
         .then((response) => response.json())
-        .then((data) => console.log(data))
         .catch((error) => console.error(error));
       }
       else{

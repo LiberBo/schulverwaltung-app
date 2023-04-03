@@ -277,8 +277,6 @@ async mounted() {
           };
         });
         this.moduleProfessors = moduleProfessors;
-        console.log(moduleProfessors)
-        console.log(moduleId)
       } else {
         console.error(`HTTP error: ${response.status}`);
         
@@ -301,7 +299,6 @@ async mounted() {
       };
 
   try {
-    console.log(JSON.stringify(schema));
     const response = await fetch(url, {
       method: 'PATCH',
       headers: {
@@ -312,7 +309,6 @@ async mounted() {
     });
 
     if (response.ok) {
-      console.log("Der Response war in Ordnung");
       this.selectedModule.professors = this._selectedProfessors;
       await this.displayProfessorsFromModule();
     } else {

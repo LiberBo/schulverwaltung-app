@@ -298,7 +298,6 @@ interface Location {
         if (response.ok) {
           const lectures: Lecture[] = await response.json();
           this.setInitialEvents(lectures);
-          console.log(lectures)
         } else {
           console.error(`HTTP error: ${response.status}`);
         }

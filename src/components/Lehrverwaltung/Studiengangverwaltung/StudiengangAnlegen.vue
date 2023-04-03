@@ -184,7 +184,6 @@ export default defineComponent({
         };
         fetch('https://universityhub.azurewebsites.net/Courses', requestOptions)
           .then((response) => response.json())
-          .then((data) => console.log(data))
           .catch((error) => console.error(error));
       } else {
         alert("Bitte fülle alle Felder aus!");

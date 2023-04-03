@@ -75,7 +75,6 @@ export default defineComponent({
       .then(data => {
         // Token abspeichern
         localStorage.setItem('token', data.token);
-        console.log('Anmeldung erfolgreich');
 
         // Zurücksetzen des Formulars
         this.email = '';
