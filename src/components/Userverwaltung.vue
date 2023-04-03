@@ -16,7 +16,7 @@
           <ion-title size="large">Userverwaltung</ion-title>
         </ion-toolbar>
       </ion-header>
-      <ion-list>
+      <ion-list class="RegistrationSize">
         <ion-item v-for="(user, index) in users" :key="index" @click="openUserModal(user)">
           <ion-label>
             <h2>{{ user.firstName }} {{ user.lastName }}</h2>
@@ -142,6 +142,12 @@ export default defineComponent({
   .addSemester {
     margin-top: 4%;
     margin-right: 4%;
+  }
+  @media (min-width: 768px) { /* Für Desktop-Bildschirme */
+    .RegistrationSize {
+      max-width: 50%;
+      margin: 0 auto;
+    }
   }
   
   </style>

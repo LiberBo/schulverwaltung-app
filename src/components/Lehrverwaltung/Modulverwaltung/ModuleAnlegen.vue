@@ -29,7 +29,7 @@
         <ion-label>Modultyp</ion-label>
         <ion-select v-model="moduleType">
           <ion-select-option value="Compulsory">Pflichtmodul</ion-select-option>
-          <ion-select-option value="Optional">Wahlmodul</ion-select-option>
+          <ion-select-option value="Optional">Optionales Modul</ion-select-option>
         </ion-select>
       </ion-item>
       <ion-item>

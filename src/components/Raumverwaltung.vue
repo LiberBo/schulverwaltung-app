@@ -16,7 +16,7 @@
       </ion-header>
       
 
-      <ion-list>
+      <ion-list class="RegistrationSize">
         <ion-item v-for="(location, index) in locations" :key="index">
           <ion-label>
             <h2>{{ location.name }}</h2>
@@ -27,7 +27,7 @@
         </ion-item>
       </ion-list>
 
-      <div id="map"></div>
+      <!-- <div id="map"></div> Not fully functional-->
 
       <ion-modal :is-open="showModal">
   <ion-header>
@@ -35,7 +35,7 @@
       <ion-title>{{ selectedLocation?.name }}</ion-title>
       <ion-buttons slot="end">
         <ion-button @click="closeModal()">
-          <ion-icon name="close"></ion-icon>
+          Schließen
         </ion-button>
       </ion-buttons>
     </ion-toolbar>
@@ -78,7 +78,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { IonPage, IonButtons, IonHeader, IonText, IonIcon, IonToolbar, IonTitle, IonContent, IonItem, IonList, IonLabel, IonButton, IonModal } from '@ionic/vue';
+import { IonPage, IonButtons, IonHeader, IonText, IonToolbar, IonTitle, IonContent, IonItem, IonList, IonLabel, IonButton, IonModal } from '@ionic/vue';
 import RaumAnlegen from './Raumverwaltung/RaumAnlegen.vue';
 import { close } from 'ionicons/icons';
 
@@ -98,7 +98,7 @@ interface Location {
 
 export default defineComponent({
   name: 'RaumVerwaltung',
-  components: { IonHeader, IonButtons, IonToolbar, IonIcon, IonTitle, IonContent, IonText, IonPage, IonItem, IonList, IonLabel, IonButton, IonModal, RaumAnlegen },
+  components: { IonHeader, IonButtons, IonToolbar, IonTitle, IonContent, IonText, IonPage, IonItem, IonList, IonLabel, IonButton, IonModal, RaumAnlegen },
   data() {
     return {
       locations: [] as Location[],
@@ -223,6 +223,13 @@ export default defineComponent({
   width: 600px;
   margin-left: 20%;
   height: 400px;
+}
+
+@media (min-width: 768px) { /* Für Desktop-Bildschirme */
+  .RegistrationSize {
+    max-width: 50%;
+    margin: 0 auto;
+  }
 }
 
 
