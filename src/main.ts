@@ -62,7 +62,7 @@ window.fetch = async function (...args) {
         position: 'top',
       });
       await toast.present();
-      console.error(response.json)
+    //  console.error(response.json)
     } catch (error) {
       const toast = await toastController.create({
         message: `HTTP error: ${response.status} - Failed to parse error message.`,

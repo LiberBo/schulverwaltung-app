@@ -147,15 +147,24 @@ export default defineComponent({
   },
 
   async fetchAssignments() {
-    const token = localStorage.getItem('token') || '';
-    const response = await fetch('https://universityhub.azurewebsites.net/modules?moduleType=Optional', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const data = await response.json();
-    this.assignments = data;
-  },
+  const token = localStorage.getItem('token') || '';
+  
+  const responseMandatory = await fetch('https://universityhub.azurewebsites.net/modules?moduleType=Compulsory', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const dataMandatory = await responseMandatory.json();
+  this.mandatoryAssignments = dataMandatory;
+
+  const responseOptional = await fetch('https://universityhub.azurewebsites.net/modules?moduleType=Optional', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const dataOptional = await responseOptional.json();
+  this.optionalAssignments = dataOptional;
+},
 
   async updateUserAssignments() {
     const token = localStorage.getItem('token') || '';

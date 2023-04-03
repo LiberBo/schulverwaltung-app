@@ -42,6 +42,7 @@
   import interactionPlugin from "@fullcalendar/interaction";
   import { INITIAL_EVENTS, createEventId } from "../components/event-utils";
   import AccountManagement from '@/views/AccountAnzeigen.vue';
+  import { EventClickArg } from "@fullcalendar/common";
   import jwt_decode from "jwt-decode";
 
   interface Lecture {
@@ -98,6 +99,12 @@
         selectedDateEvents: [],
         calendarOptions: {
           dateClick: this.handleDateClick,
+          eventTimeFormat: {
+            hour: "2-digit",
+            minute: "2-digit",
+            meridiem: false,
+          },
+          eventClick: this.handleEventClick,
           plugins: [
             dayGridPlugin, 
             timeGridPlugin, 
@@ -116,6 +123,18 @@
           dayMaxEvents: false,
           weekends: true,
           eventsSet: this.handleEvents,
+          locale: 'de',
+          weekNumberCalculation: 'ISO',
+          weekNumberFormat: 'W',
+          buttonText: {
+            today: 'Heute',
+            month: 'Monat',
+            week: 'Woche',
+            day: 'Tag',
+            list: 'Liste'
+          },
+          allDayText: 'Ganztägig',
+          noEventsText: 'Keine Ereignisse anzuzeigen',
         },
       }
     },
@@ -128,80 +147,113 @@
       }, 10);
     },
 
-    methods: {
+  methods: {
 
-      handleEvents(events: never[]) {
-        this.currentEvents = events;
-      },
-      handleWeekendsToggle() {
-        this.calendarOptions.weekends = !this.calendarOptions.weekends;
-      },
-      handleDateSelect(selectInfo: { view: { calendar: any; }; startStr: any; endStr: any; allDay: any; }) {
-        let title = prompt("Please enter a new title for your event");
-        let calendarApi = selectInfo.view.calendar;
-        calendarApi.unselect();
-        if (title) {
-          calendarApi.addEvent({
-            id: createEventId(),
-            title,
-            start: selectInfo.startStr,
-            end: selectInfo.endStr,
-            allDay: selectInfo.allDay,
+        handleEvents(events: never[]) {
+          this.currentEvents = events;
+        },
+        handleWeekendsToggle() {
+          this.calendarOptions.weekends = !this.calendarOptions.weekends;
+        },
+
+        handleEventClick(eventClickInfo: EventClickArg) {
+          const eventTitle = eventClickInfo.event.title;
+          const eventStart = eventClickInfo.event.start;
+          const eventEnd = eventClickInfo.event.end;
+          const lecture = eventClickInfo.event.extendedProps.lecture;
+          const locationName = lecture.location.name;
+
+          // Display more information about the event, including the location name
+          alert(`Vorlesung / Dozent: ${eventTitle}\nStart: ${eventStart}\nEnde: ${eventEnd}\n ${locationName}`);
+        },
+        
+        
+        handleDateClick(dateClickInfo) {
+          const clickedDate = dateClickInfo.date;
+          const calendarApi = dateClickInfo.view.calendar;
+          const events = calendarApi.getEvents();
+
+          // Filter events for the clicked date
+          const eventsOnClickedDate = events.filter((event) => {
+            const eventStart = event.start;
+            const eventEnd = event.end || eventStart;
+
+            return (
+              clickedDate >= eventStart &&
+              clickedDate <= eventEnd
+            );
           });
-        }
-      },
-      handleDateClick(dateClickInfo) {
-        const clickedDate = dateClickInfo.date;
-        const calendarApi = dateClickInfo.view.calendar;
-        const events = calendarApi.getEvents();
+          this.selectedDateEvents = eventsOnClickedDate;
+        },
 
-        // Filter events for the clicked date
-        const eventsOnClickedDate = events.filter((event) => {
-          const eventStart = event.start;
-          const eventEnd = event.end || eventStart;
 
-          return (
-            clickedDate >= eventStart &&
-            clickedDate <= eventEnd
-          );
-        });
-        this.selectedDateEvents = eventsOnClickedDate;
-      },
-      async fetchLectures() {
-    const token = localStorage.getItem("token") || "";
-    const decodedToken: any = jwt_decode(token);
-    const userId = decodedToken.sub;
-    try {
-      const response = await fetch(
-        `https://universityhub.azurewebsites.net/users/${userId}/lectures`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+        
+    async fetchLectures() {
+      const token = localStorage.getItem("token") || "";
+      const decodedToken: any = jwt_decode(token);
+      const userId = decodedToken.sub;
+      try {
+        const response = await fetch(
+          `https://universityhub.azurewebsites.net/users/${userId}/lectures`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.ok) {
+          const lectures: Lecture[] = await response.json();
+          this.setInitialEvents(lectures);
+          console.log(lectures)
+        } else {
+          console.error(`HTTP error: ${response.status}`);
         }
-      );
-      if (response.ok) {
-        const lectures: Lecture[] = await response.json();
-        this.setInitialEvents(lectures);
-      } else {
-        console.error(`HTTP error: ${response.status}`);
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
-    }
-  },
-  setInitialEvents(lectures: Lecture[]) {
-    for (const lecture of lectures) {
-      const event = {
-        id: createEventId(),
-        title: lecture.moduleName,
-        start: lecture.date,
-        allDay: lecture.duration === 0,
-      };
-      this.calendarOptions.initialEvents.push(event);
-    }
-  },
     },
+    setInitialEvents(lectures: Lecture[]) {
+      const calendarEvents = lectures.map((lecture) => {
+      const eventStart = new Date(lecture.date);
+      const eventEnd = new Date(lecture.date);
+      eventEnd.setMinutes(eventEnd.getMinutes() + lecture.duration);
+
+      return {
+        id: createEventId(),
+        title: `${lecture.moduleName} - ${lecture.professor.lastName}`,
+        start: eventStart.toISOString(),
+        end: eventEnd.toISOString(),
+        allDay: lecture.duration === 0,
+        extendedProps: {
+          lecture: lecture
+        }
+      };
+    });
+
+
+  // Aktualisieren der initialEvents
+  this.calendarOptions.initialEvents = calendarEvents;
+
+  // Entfernen aller vorhandenen Events aus dem Kalender
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  this.$refs.cal.getApi().removeAllEvents();
+
+  // Hinzufügen der neuen Events zum Kalender
+  calendarEvents.forEach((event) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    this.$refs.cal.getApi().addEvent(event);
+  });
+
+  // Neuzeichnen des Kalenders, um die Änderungen anzuzeigen
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  this.$refs.cal.getApi().render();
+}
+
+
+  },
 };
 </script>
 
@@ -214,6 +266,16 @@
       height: Auto;
       width: 70%;
       margin: 0 auto;
+      padding-top: 2%
+    }
+  }
+
+  @media screen and (max-width: 991px) {
+    .demo-app-calendar {
+      width: 95%;
+      height: 100%;
+      margin: 0 auto;
+      padding-top: 2%
     }
   }
 
