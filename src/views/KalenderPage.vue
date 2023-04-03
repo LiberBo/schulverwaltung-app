@@ -361,7 +361,7 @@ interface Location {
   @media screen and (min-width: 992px) {
     .demo-app-calendar {
       height: Auto;
-      width: 70%;
+      width: 90%;
       margin: 0 auto;
       padding-top: 2%
     }
