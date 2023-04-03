@@ -151,7 +151,7 @@ export default defineComponent({
           infowindow.open(map, marker);
         });
       });
-    },yw
+    },
 
 
 
