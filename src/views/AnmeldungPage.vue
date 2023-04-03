@@ -73,10 +73,8 @@ export default defineComponent({
         return response.json();
       })
       .then(data => {
-        // Token abspeichern
         localStorage.setItem('token', data.token);
 
-        // Zurücksetzen des Formulars
         this.email = '';
         this.password = '';
         this.loading = false;

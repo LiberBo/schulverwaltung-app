@@ -236,7 +236,6 @@ export default defineComponent({
 }
 
 
-    // Erstellung der Auswahl der Studenten, die auch wirklich Studenten sind
     try {
       const response = await fetch('https://universityhub.azurewebsites.net/users?authorization=Student', {
         headers: {
@@ -431,7 +430,6 @@ export default defineComponent({
         if (response.ok) {
           this.selectedCourse.students = this._selectedStudents;
           await this.displayStudentsFromCourse();
-        //  this.displayStudentsFromCourse();
         } else {
           console.error(`HTTP error: ${response.status}`);
         }

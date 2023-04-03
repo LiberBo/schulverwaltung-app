@@ -52,7 +52,6 @@ import {
   IonItem,
   IonInput,
   IonLabel,
- // IonList,
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
@@ -77,12 +76,11 @@ export default defineComponent({
     IonItem,
     IonInput,
     IonLabel,
-  //  IonList,
   },
 
   data() {
     return {
-      items: [], // Neue Komponenten-Variable
+      items: [],
       error: '',
       roomLatitude: '',
       roomLongitude: '',
@@ -95,7 +93,7 @@ export default defineComponent({
       if(navigator.geolocation){
         navigator.geolocation.getCurrentPosition(this.showPosition);
       }else{
-        this.error = "Geolocation is not supported."; 
+        this.error = "Standortbestimmung wurde nicht unterstützt"; 
       }
     },
 
@@ -113,7 +111,7 @@ export default defineComponent({
     addTo(): void {
       const roomNameElement = (this.$refs.roomName as typeof IonInput).$el;
       const roomSeatsElement = (this.$refs.roomSeats as typeof IonInput).$el;
-      // Construct the module object
+
 
       let room: Module = {
         roomName: roomNameElement.value,
@@ -121,7 +119,7 @@ export default defineComponent({
       };
 
       if(roomNameElement.value && roomSeatsElement.value){
-      this.items.push(room); // Eintrag hinzufügen
+      this.items.push(room); 
       const token = localStorage.getItem('token') || '';
       const requestOptions = {
         method: 'POST',

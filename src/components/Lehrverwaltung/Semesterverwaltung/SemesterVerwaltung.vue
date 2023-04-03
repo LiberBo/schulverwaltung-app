@@ -3,9 +3,6 @@
     <ion-header>
       <ion-toolbar color="primary" class="text-center">
         <ion-buttons slot="start">
-          <!-- <router-link to="/tabs/Verwaltung/Lehrverwaltung">
-            <IonButton>Zurück</IonButton> 
-          </router-link>-->
           <ion-back-button defaultHref="/tabs/Verwaltung/Lehrverwaltung"></ion-back-button>
         </ion-buttons>
         <ion-title>Semesterverwaltung</ion-title>
@@ -308,7 +305,6 @@ async updateSemesterModules() {
   const schema = {
     "add": this._selectedModules.filter((moduleId: string) => !this.selectedSemester.modules.includes(moduleId)),
     "remove": []
-    // this.removedModules,
   };
   try {
     const response = await fetch(url, {
@@ -362,7 +358,7 @@ async removeModule(moduleId) {
   margin-right: 4%;
 }
 
-@media (min-width: 768px) { /* Für Desktop-Bildschirme */
+@media (min-width: 768px) {
   .elementSize {
     max-width: 60%;
     margin: 0 auto;

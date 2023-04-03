@@ -16,7 +16,7 @@ export default defineComponent({
         plugins: [
           dayGridPlugin,
           timeGridPlugin,
-          interactionPlugin, // needed for dateClick
+          interactionPlugin,
         ],
         headerToolbar: {
           left: "prev,next today",
@@ -24,7 +24,7 @@ export default defineComponent({
           right: "dayGridMonth,timeGridWeek,timeGridDay",
         },
         initialView: "dayGridMonth",
-        initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
+        initialEvents: INITIAL_EVENTS, 
         editable: true,
         selectable: true,
         selectMirror: true,
@@ -33,11 +33,6 @@ export default defineComponent({
         select: this.handleDateSelect,
         eventClick: this.handleEventClick,
         eventsSet: this.handleEvents,
-        /* you can update a remote database when these fire:
-        eventAdd:
-        eventChange:
-        eventRemove:
-        */
       },
       currentEvents: [],
 
@@ -46,12 +41,12 @@ export default defineComponent({
   },
   methods: {
     handleWeekendsToggle() {
-      this.calendarOptions.weekends = !this.calendarOptions.weekends; // update a property
+      this.calendarOptions.weekends = !this.calendarOptions.weekends; 
     },
     handleDateSelect(selectInfo: any) {
       let title = prompt("Please enter a new title for your event");
       let calendarApi = selectInfo.view.calendar;
-      calendarApi.unselect(); // clear date selection
+      calendarApi.unselect();
       if (title) {
         calendarApi.addEvent({
           id: createEventId(),
@@ -102,7 +97,6 @@ li {
   padding: 0;
 }
 b {
-  /* used for event dates/times */
   margin-right: 3px;
 }
 .demo-app {

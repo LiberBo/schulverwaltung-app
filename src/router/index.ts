@@ -107,11 +107,9 @@ router.beforeEach(async (to, from, next) => {
       if (isAdminOrProfessor(currentUser)) {
         next();
       } else {
-        // Redirect to a 'Forbidden' or 'Unauthorized' page, or the default path
         next('/tabs/Anmeldung');
       }
     } else {
-      // Redirect to the login page if the user is not logged in
       next('/tabs/Anmeldung');
     }
   } else {

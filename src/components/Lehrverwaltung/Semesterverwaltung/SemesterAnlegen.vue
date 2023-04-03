@@ -25,19 +25,9 @@
           <span slot="title">Enddatum Semester</span>
         </ion-datetime>
       </ion-item>
-<!--
-      <ion-item>
-        <ion-label>Module:</ion-label>
-        <ion-select multiple="true" ref="selectedModules" @ionChange="toggleModule($event)">
-        <ion-select-option v-for="module in modules" v-bind:key="module.id" :value="module">{{ module.name }}</ion-select-option>
-        </ion-select>
-      </ion-item>
-    -->
       <ion-item v-for="item in items" :key="item.name" class="elment-seperation2"> Semestername: {{ item.name }}, Anfangsdatum: {{ moment(item.startDate).format('DD.MM.YYYY') }}, Enddatum: {{ moment(item.endDate).format('DD.MM.YYYY') }}</ion-item>
       <h1 class="sizeCorrection">Platzhalter</h1>
-      <!--, Module: {{ item.modules.map(element => { 
-        return element.name;
-      }) }} -->
+     
     </ion-content>
   </ion-modal>
 </template>
@@ -57,8 +47,6 @@ import {
   IonInput,
   IonLabel,
   IonDatetime,
- // IonSelect,
- // IonSelectOption
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import * as moment from 'moment';
@@ -116,25 +104,21 @@ export default defineComponent({
     moment(): any {
       return moment;
     },
-/*
-    toggleModule(event): void {
-      this.selectedModules = event.detail.value || [];
-    },
- */   
+  
     async addTo(): Promise<void> {
       const nameElement = (this.$refs.name as typeof IonInput).$el;
       const startDateElement = (this.$refs.startDate as typeof IonInput).$el;
       const endDateElement = (this.$refs.endDate as typeof IonInput).$el;
-      // Construct the semester object
+
       const semester: Semester = {
         name: nameElement.value,
         startDate: startDateElement.value,
         endDate: endDateElement.value,
-      //  modules: this.selectedModules,
+
       };
 
       if (semester.name && semester.startDate && semester.endDate ) {
-        // && semester.modules.length > 0
+ 
         try {
           const response = await fetch('https://universityhub.azurewebsites.net/Semesters', {
             method: 'POST',
@@ -149,7 +133,6 @@ export default defineComponent({
             alert('Semester erfolgreich hinzugefügt!');
             this.items.push(semester);
             
-           // this.selectedModules = [];
             nameElement.value = "";
             startDateElement.value = "";
             endDateElement.value = "";
