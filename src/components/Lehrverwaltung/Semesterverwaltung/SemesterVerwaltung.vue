@@ -101,7 +101,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { IonSelect, IonSelectOption, IonText, IonIcon, IonAccordion, IonAccordionGroup, IonPage, IonHeader, IonButtons, IonBackButton, IonToolbar, IonTitle, IonContent, IonItem, IonList, IonLabel, IonButton, IonModal } from '@ionic/vue';
+import { IonSelect, IonSelectOption, IonSpinner, IonText, IonIcon, IonAccordion, IonAccordionGroup, IonPage, IonHeader, IonButtons, IonBackButton, IonToolbar, IonTitle, IonContent, IonItem, IonList, IonLabel, IonButton, IonModal } from '@ionic/vue';
 import SemesterAnlegen from './SemesterAnlegen.vue';
 import { closeOutline } from 'ionicons/icons';
 
