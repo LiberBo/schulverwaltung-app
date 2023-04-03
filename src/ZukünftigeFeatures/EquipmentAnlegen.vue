@@ -63,7 +63,7 @@ export default defineComponent({
 
   data() {
     return {
-      items: [], // Neue Komponenten-Variable
+      items: [],
     };
   },
   methods: {
@@ -78,7 +78,7 @@ export default defineComponent({
       };
 
       if(equipmentNameElement.value){
-      this.items.push(equipments); // Eintrag hinzufügen
+      this.items.push(equipments);
       
       
       }

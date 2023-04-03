@@ -15,7 +15,6 @@
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding"> 
-        <!--Studiengangname-->
         <ion-item>
         <ion-label position="stacked">Studiengangname:</ion-label>
         <ion-input v-model="course.name" type="text" placeholder="IFWS420"></ion-input>
@@ -25,86 +24,6 @@
         <ion-label position="stacked">Beschreibung:</ion-label>
         <ion-input v-model="course.description" type="text" placeholder=""></ion-input>
       </ion-item>
-
-
-
-
-
-
-
-
-
-
-        <!--Auswahl der Studenten-->
-<!--
-        <ion-list>
-            <ion-item>
-              <ion-select
-                placeholder="Wähle die zugehörigen Studenten aus:"
-                :compareWith="compareWith"
-                @ionChange="currentStudent = JSON.stringify($event.detail.value)"
-                :multiple="true"
-                ref="students"
-              >
-                <ion-select-option v-for="student in students" v-bind:key="student" :value="student">{{ student.name }}</ion-select-option>
-              </ion-select>
-            </ion-item>
-            <ion-item lines="none">
-              <ion-label>Current value: {{ currentStudent }}</ion-label>
-            </ion-item>
-          </ion-list> 
-        -->
-          <!--Auswahl der Pflichtmodule-->
-<!--
-        <ion-list>
-            <ion-item>
-              <ion-select
-                placeholder="Wähle die zugehörigen Pflichtmodule aus:"
-                :compareWith="compareWith"
-                @ionChange="currentMandatoryModule = JSON.stringify($event.detail.value)"
-                :multiple="true"
-                ref="mandatoryModules"
-              >
-                <ion-select-option v-for="mandatoryModule in mandatoryModules" v-bind:key="mandatoryModule" :value="mandatoryModule">{{ mandatoryModule.name }}</ion-select-option>
-              </ion-select>
-            </ion-item>
-            <ion-item lines="none">
-              <ion-label>Current value: {{ currentMandatoryModule }}</ion-label>
-            </ion-item>
-          </ion-list> 
-        -->
-          <!--Auswahl der optiomalen Modulen-->
-      <!--
-        <ion-list>
-            <ion-item>
-              <ion-select
-                placeholder="Wähle die zugehörigen optionalen Module aus:"
-                :compareWith="compareWith"
-                @ionChange="currentOptionalModule = JSON.stringify($event.detail.value)"
-                :multiple="true"
-                ref="optionalModules"
-              >
-                <ion-select-option v-for="optionalModule in optionalModules" v-bind:key="optionalModule" :value="optionalModule">{{ optionalModule.name }}</ion-select-option>
-              </ion-select>
-            </ion-item>
-            <ion-item lines="none">
-              <ion-label>Current value: {{ currentOptionalModule }}</ion-label>
-            </ion-item>
-          </ion-list> 
-
-        
-        <ion-item v-for="item in items" :key="item" class="elment-seperation2"> 
-          Studiengang Name: {{ item.studyProgrammName }}, 
-          Studenten: {{ item.students.map(element => { 
-          return element.name;
-            }) }}, 
-          Pflichtmodule: {{ item.mandatoryModules.map(element => { 
-          return element.name;
-            }) }}, 
-          optionale Module: {{ item.optionalModules.map(element => { 
-          return element.name;
-            }) }}</ion-item>
-          -->
       </ion-content>
     </ion-modal>
 </template>
@@ -142,24 +61,14 @@ export default defineComponent({
     IonItem,
     IonInput,
     IonLabel,
-  //  IonSelect,
-  //  IonSelectOption,
-  //  IonList,
   },
 
   data() {
     return {
-      items: [], // Neue Komponenten-Variable
-    //  currentStudent: "",
-     // currentMandatoryModule: "",
-    //  currentOptionalModule: "",
-
+      items: [],
       course: {
         name: "",
         description: "",
-       // students: [],
-      //  mandatoryModules: [],
-      //  optionalModules: []
       },
     };
   },
@@ -184,7 +93,6 @@ export default defineComponent({
         };
         fetch('https://universityhub.azurewebsites.net/Courses', requestOptions)
           .then((response) => response.json())
-          .then((data) => console.log(data))
           .catch((error) => console.error(error));
       } else {
         alert("Bitte fülle alle Felder aus!");

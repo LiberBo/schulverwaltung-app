@@ -3,9 +3,7 @@
     <ion-header>
       <ion-toolbar color="primary">
         <ion-title class="text-center">Kalender</ion-title>
-        <ion-buttons slot="end">
-          <AccountManagement></AccountManagement>
-        </ion-buttons>
+
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
@@ -92,7 +90,6 @@
   import timeGridPlugin from "@fullcalendar/timegrid";
   import interactionPlugin from "@fullcalendar/interaction";
   import { INITIAL_EVENTS, createEventId } from "../components/event-utils";
-  import AccountManagement from '@/views/AccountAnzeigen.vue';
   import { EventClickArg } from "@fullcalendar/common";
   import jwt_decode from "jwt-decode";
   import { close } from 'ionicons/icons';
@@ -147,7 +144,7 @@ interface Location {
       IonToolbar,
       IonTitle,
       IonContent,
-      AccountManagement,
+
       IonList, 
       IonItem, 
       IonLabel, 
@@ -301,7 +298,6 @@ interface Location {
         if (response.ok) {
           const lectures: Lecture[] = await response.json();
           this.setInitialEvents(lectures);
-          console.log(lectures)
         } else {
           console.error(`HTTP error: ${response.status}`);
         }
@@ -361,7 +357,7 @@ interface Location {
   @media screen and (min-width: 992px) {
     .demo-app-calendar {
       height: Auto;
-      width: 70%;
+      width: 90%;
       margin: 0 auto;
       padding-top: 2%
     }

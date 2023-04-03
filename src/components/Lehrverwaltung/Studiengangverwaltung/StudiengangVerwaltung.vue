@@ -203,7 +203,6 @@ export default defineComponent({
 
   removedStudents() {
       if (!this.selectedCourse.students) return [];
-      console.log("Ich bin nun in removedStudents" + this.users.map(user => user.id).filter((studentId: string) => !this.selectedCourse.students.includes(studentId)));
       return this.users.map(user => user.id).filter((studentId: string) => !this.selectedCourse.students.includes(studentId));
     },
 },
@@ -237,7 +236,6 @@ export default defineComponent({
 }
 
 
-    // Erstellung der Auswahl der Studenten, die auch wirklich Studenten sind
     try {
       const response = await fetch('https://universityhub.azurewebsites.net/users?authorization=Student', {
         headers: {
@@ -323,7 +321,6 @@ export default defineComponent({
       });
       this.courseModules = courseModules;
     } else {
-      console.log("Komme ich von hier?1")
       console.error(`HTTP error: ${response.status}`);
       
     }
@@ -341,9 +338,7 @@ export default defineComponent({
   const schema = {
     "add": this._selectedModules.filter((moduleId: string) => !this.selectedCourse.modules.includes(moduleId)),
     "remove": [],
-    // this.removedModules,
   };
-  console.log("Dies ist das Schema:  " + schema.add)
 
   try {
     const response = await fetch(url, {
@@ -356,8 +351,6 @@ export default defineComponent({
     });
 
     if (response.ok) {
-      console.log("Dies ist das Modulschema:" + schema);
-      console.log("Dies sind die ausgesucheten Module:" + this._selectedModules)
       this.selectedCourse.modules = this._selectedModules;
       await this.displayModulesFromCourse();
     } else {
@@ -370,13 +363,11 @@ export default defineComponent({
 
     async removeStudent(studentId) {
       this.selectedCourse.students = this.selectedCourse.students.filter((id) => id !== studentId);
-      console.log("Ich bin in removeStudent" + this.selectedCourse.students)
       await this.updateCourseStudents();
       await this.displayStudentsFromCourse(); 
     },
     async removeModule(moduleId) {
       this.selectedCourse.modules = this.selectedCourse.modules.filter((id) => id !== moduleId);
-      console.log("Ich bin in removeModule" + this.selectedCourse.modules)
       await this.updateCourseModules();
       await this.displayModulesFromCourse();
     },
@@ -439,11 +430,8 @@ export default defineComponent({
         if (response.ok) {
           this.selectedCourse.students = this._selectedStudents;
           await this.displayStudentsFromCourse();
-        //  this.displayStudentsFromCourse();
         } else {
           console.error(`HTTP error: ${response.status}`);
-          console.log("Hier ist der Fehler")
-          console.log(schema)
         }
       } catch (error) {
         console.error(error);

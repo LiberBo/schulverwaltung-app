@@ -90,12 +90,20 @@ export default defineComponent({
       (this.$refs.modal as typeof IonModal).$el.dismiss(null, 'cancel');
       window.location.reload()
     },
+
+    resetFields(): void {
+      this.moduleName = '';
+      this.moduleDescription = '';
+      this.creditPoints = 0;
+      this.moduleType = 'Optional';
+      this.maxSize = 0;
+    },
+
     async addTo() {
       if (!this.moduleName || !this.moduleDescription || !this.creditPoints || !this.moduleType || !this.maxSize) {
         alert('Bitte füllen Sie alle Felder aus.');
         return;
       }
-      console.log(this.moduleName, this.moduleDescription, this.creditPoints);
       const requestOptions = {
         method: 'POST',
         headers: {
@@ -108,11 +116,18 @@ export default defineComponent({
               creditPoints: this.creditPoints,
               moduleType: this.moduleType,
               maxSize: this.maxSize,
-  }),
+            }),
       };
       fetch('https://universityhub.azurewebsites.net/modules', requestOptions)
-        .then((response) => response.json())
-        .then((data) => console.log(data))
+        .then((response) => {
+          if (response.ok) {
+            prompt("Modul wurde erfolgreich hinzugefügt")
+            this.resetFields();
+            return response.json();
+          } else {
+            throw new Error('Fehler beim Hinzufügen des Moduls');
+          }
+        })
         .catch((error) => console.error(error));
     },
   },

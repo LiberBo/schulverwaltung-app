@@ -150,7 +150,7 @@ export default defineComponent({
         marker.addListener('click', () => {
           infowindow.open(map, marker);
         });
-      }); // Add a missing closing bracket here
+      });
     },
 
 

@@ -77,7 +77,7 @@ export default defineComponent({
 
   data() {
     return {
-      items: [], // Neue Komponenten-Variable
+      items: [],
     };
   },
   methods: {
@@ -85,12 +85,10 @@ export default defineComponent({
       (this.$refs.modal as typeof IonModal).$el.dismiss(null, 'cancel');
     },
     addTo(): void {
-      // Abfrage welches der beiden (Pflich oder optinale Module) = true ist und dann abspeichern
       const buildingNameElement = (this.$refs.buildingName as typeof IonInput).$el;
       const buildingFloorsElement = (this.$refs.buildingFloors as typeof IonInput).$el;
       const buildingStreetElement = (this.$refs.buildingStreet as typeof IonInput).$el;
       const buildingPLZElement = (this.$refs.buildingPLZ as typeof IonInput).$el;
-      // Construct the module object
 
       let building: Module = {
         buildingName: buildingNameElement.value,
@@ -100,7 +98,7 @@ export default defineComponent({
       };
 
       if(buildingNameElement.value && buildingFloorsElement.value && buildingStreetElement.value && buildingPLZElement.value){
-      this.items.push(building); // Eintrag hinzufügen
+      this.items.push(building);
       }
       else{
         alert("Bitte fülle alle Felder aus!")

@@ -16,7 +16,6 @@
         <ion-spinner v-if="loading" name="dots" slot="start"></ion-spinner>
         <span v-else>Anmelden</span>
       </ion-button>
-      <p>Derzeitige Anmeldedaten <br> Mail: test <br> Passwort: test </p>
     </ion-content>
   </ion-page>
 </template>
@@ -74,11 +73,8 @@ export default defineComponent({
         return response.json();
       })
       .then(data => {
-        // Token abspeichern
         localStorage.setItem('token', data.token);
-        console.log('Anmeldung erfolgreich');
 
-        // Zurücksetzen des Formulars
         this.email = '';
         this.password = '';
         this.loading = false;

@@ -35,13 +35,12 @@
   
   <script lang="ts">
   import { defineComponent } from 'vue';
-  import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCol, IonRow, IonList } from '@ionic/vue';
+  import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonText, IonIcon } from '@ionic/vue';
   import { easelOutline, peopleOutline, sunnyOutline } from 'ionicons/icons';
   
   export default defineComponent({
     name: 'RaumVerwaltung',
-    // eslint-disable-next-line vue/no-unused-components
-    components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonCol, IonRow, IonList },
+    components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonText, IonIcon },
 
     setup (){
     return {

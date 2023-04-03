@@ -42,7 +42,6 @@
 </template>
 
 <script lang="ts">
-console.log("Wird dies überhaupt aufgerufen?");
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import {
@@ -96,7 +95,6 @@ export default defineComponent({
           alert('Bitte füllen Sie alle Felder aus.');
           return;
         }
-        console.log(this.firstName, this.lastName, this.role, this.password);
         const token = localStorage.getItem('token') || '';
         const requestOptions = {
           method: 'POST',
@@ -114,7 +112,6 @@ export default defineComponent({
         };
         fetch('https://universityhub.azurewebsites.net/users', requestOptions)
           .then((response) => response.json())
-          .then((data) => console.log(data))
           .catch((error) => console.error(error));
       },
     listUsers() {

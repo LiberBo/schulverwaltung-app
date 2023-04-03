@@ -3,9 +3,6 @@
     <ion-header>
       <ion-toolbar color="primary" class="text-center">
         <ion-buttons slot="start">
-          <!-- <router-link to="/tabs/Verwaltung/Lehrverwaltung">
-            <IonButton>Zurück</IonButton> 
-          </router-link>-->
           <ion-back-button defaultHref="/tabs/Verwaltung/Lehrverwaltung"></ion-back-button>
         </ion-buttons>
         <ion-title>Semesterverwaltung</ion-title>
@@ -261,7 +258,6 @@ export default defineComponent({
         if (response.ok) {
           const data: Semester = await response.json();
           this.selectedSemester.modules = data.modules;
-          console.log("Semester wurde gestartet")
         } else {
           console.error(`HTTP error: ${response.status}`);
         }
@@ -292,7 +288,6 @@ export default defineComponent({
       });
       this.semesterModules = semesterModules;
     } else {
-      console.log("Komme ich von hier?1")
       console.error(`HTTP error: ${response.status}`);
       
     }
@@ -310,9 +305,7 @@ async updateSemesterModules() {
   const schema = {
     "add": this._selectedModules.filter((moduleId: string) => !this.selectedSemester.modules.includes(moduleId)),
     "remove": []
-    // this.removedModules,
   };
-  console.log(JSON.stringify(schema));
   try {
     const response = await fetch(url, {
       method: 'PATCH',
@@ -324,13 +317,10 @@ async updateSemesterModules() {
     });
 
     if (response.ok) {
-      console.log("Dies ist das Modulschema:" + schema);
-      console.log("Dies ist das Modulschema:" + schema.add);
       this.selectedSemester.modules = this._selectedModules;
       await this.displayModulesFromSemester();
     } else {
       console.error(`HTTP error: ${response.status}`);
-      console.error(`HTTP error: ${response}`);
 
     }
   } catch (error) {
@@ -341,7 +331,6 @@ async updateSemesterModules() {
 
 async removeModule(moduleId) {
       this.selectedSemester.modules = this.selectedSemester.modules.filter((id) => id !== moduleId);
-      console.log("Ich bin in removeModule" + this.selectedSemester.modules)
       await this.updateSemesterModules();
       await this.displayModulesFromSemester();
     },
@@ -369,7 +358,7 @@ async removeModule(moduleId) {
   margin-right: 4%;
 }
 
-@media (min-width: 768px) { /* Für Desktop-Bildschirme */
+@media (min-width: 768px) {
   .elementSize {
     max-width: 60%;
     margin: 0 auto;

@@ -137,9 +137,7 @@ export default defineComponent({
         });
         if (response.ok) {
           const data: User = await response.json();
-          console.log(data);
           this.currentUser = data;
-          console.log(this.currentUser.assignments);
           this.mandatoryAssignments = data.assignments.filter((assignment: Assignment) => assignment.moduleType === 'Compulsory');
           this.optionalAssignments = data.assignments.filter((assignment: Assignment) => assignment.moduleType === 'Optional');
         } else {
@@ -160,7 +158,6 @@ export default defineComponent({
     });
     if (response.ok) {
       const data: Assignment[] = await response.json();
-      console.log(data);
       this.assignments = data;
     } else {
       console.error(`HTTP error: ${response.status}`);
@@ -175,15 +172,12 @@ export default defineComponent({
 
   async updateUserAssignments() {
     const token = localStorage.getItem('token') || '';
-    console.log("Ich bin im Update " + this.selectedAssignmentsString)
     const payload: { add: string[]; remove: string[] } = {
       "add": Array.isArray(this.selectedAssignmentsString) ? this.selectedAssignmentsString : [],
       "remove": [],
     };
     payload.add = Array.prototype.filter.call(payload.add, (moduleId: string) => !this.currentUser.assignments.map(assignment => assignment.id).includes(moduleId));
 
-    console.log(payload)
-    console.log(payload.add)
     await fetch(`https://universityhub.azurewebsites.net/users/${this.currentUser.id}/assignments`, {
       method: 'PATCH',
       headers: {

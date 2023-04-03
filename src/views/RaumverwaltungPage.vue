@@ -6,10 +6,6 @@
         <ion-buttons slot="start">
           <ion-back-button></ion-back-button>
         </ion-buttons>
-        <ion-buttons slot="end">
-            <RaumAnlegen></RaumAnlegen>
-            <AccountManagement></AccountManagement>
-          </ion-buttons>
         <ion-title class="text-center">Raumverwaltung</ion-title>
       </ion-toolbar>
     </ion-header>
@@ -60,8 +56,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { IonPage, IonBackButton, IonHeader, IonButtons, IonToolbar, IonTitle, IonContent, IonList} from '@ionic/vue';
-import RaumAnlegen from '@/components/Raumverwaltung/RaumAnlegen.vue';
-import AccountManagement from '@/views/AccountAnzeigen.vue';
 
 
 interface Location {
@@ -72,7 +66,7 @@ interface Location {
 
 export default defineComponent({
   name: 'RaumverwaltungPage',
-  components: { IonHeader, IonBackButton, IonToolbar, IonButtons, IonTitle, IonContent, IonPage, IonList, RaumAnlegen, AccountManagement },
+  components: { IonHeader, IonBackButton, IonToolbar, IonButtons, IonTitle, IonContent, IonPage, IonList },
   data() {
     return {
       showModal: false,
