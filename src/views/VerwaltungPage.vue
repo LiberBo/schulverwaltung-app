@@ -3,9 +3,6 @@
     <ion-header>
       <ion-toolbar color="primary" class="text-center">
         <ion-title>Verwaltung</ion-title>
-        <ion-buttons slot="end">
-          <AccountManagement></AccountManagement>
-        </ion-buttons>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true" class="middle"> 

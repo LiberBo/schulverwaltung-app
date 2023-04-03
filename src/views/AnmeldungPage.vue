@@ -16,7 +16,6 @@
         <ion-spinner v-if="loading" name="dots" slot="start"></ion-spinner>
         <span v-else>Anmelden</span>
       </ion-button>
-      <p>Derzeitige Anmeldedaten <br> Mail: test <br> Passwort: test </p>
     </ion-content>
   </ion-page>
 </template>
