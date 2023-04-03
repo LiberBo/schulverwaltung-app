@@ -56,7 +56,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { IonPage, IonBackButton, IonHeader, IonButtons, IonToolbar, IonTitle, IonContent, IonList} from '@ionic/vue';
-import RaumAnlegen from '@/components/Raumverwaltung/RaumAnlegen.vue';
 
 
 interface Location {

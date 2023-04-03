@@ -19,15 +19,35 @@
       </ion-header>
 
       <ion-list class="elementSize">
-        <ion-item v-for="(module, index) in modules" :key="index">
-          <ion-label>
-            <h2>{{ module.name }}</h2>
-            <p>{{ module.description }}</p>
-          </ion-label>
-          <ion-button slot="end" fill="clear" @click="openModal(module)">
-            Bearbeiten
-          </ion-button>
-        </ion-item>
+        <ion-item-group>
+          <ion-item-divider sticky>
+            <h1>Pflichtmodule</h1>
+          </ion-item-divider>
+          <ion-item v-for="(module, index) in compulsoryModules" :key="index">
+            <ion-label>
+              <h2>{{ module.name }}</h2>
+              <p>{{ module.description }}</p>
+            </ion-label>
+            <ion-button slot="end" fill="clear" @click="openModal(module)">
+              Bearbeiten
+            </ion-button>
+          </ion-item>
+        </ion-item-group>
+
+        <ion-item-group>
+          <ion-item-divider sticky>
+            <h1>Optionale Module</h1>
+          </ion-item-divider>
+          <ion-item v-for="(module, index) in optionalModules" :key="index">
+            <ion-label>
+              <h2>{{ module.name }}</h2>
+              <p>{{ module.description }}</p>
+            </ion-label>
+            <ion-button slot="end" fill="clear" @click="openModal(module)">
+              Bearbeiten
+            </ion-button>
+          </ion-item>
+        </ion-item-group>
       </ion-list>
 
       <ion-modal :is-open="showModal">
@@ -89,7 +109,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { IonPage, IonText, IonButtons, IonIcon, IonBackButton, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonList, IonLabel, IonButton, IonModal, IonAccordion, IonAccordionGroup, IonSelect, IonSelectOption } from '@ionic/vue';
+import { IonPage, IonText, IonButtons, IonIcon, IonItemDivider,IonItemGroup, IonBackButton, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonList, IonLabel, IonButton, IonModal, IonAccordion, IonAccordionGroup, IonSelect, IonSelectOption } from '@ionic/vue';
 import ModuleAnlegen from './ModuleAnlegen.vue';
 import { closeOutline } from 'ionicons/icons';
 
@@ -100,6 +120,7 @@ interface Module {
   moduleType: string;
   maxSize: number;
   professors: Professor[];
+  isCompulsory: boolean;
 }
 
 interface Professor {
@@ -110,7 +131,7 @@ interface Professor {
 
 export default defineComponent({
   name: 'RaumVerwaltung',
-  components: { IonHeader, IonText, IonIcon, IonButtons, IonBackButton, IonAccordion, IonAccordionGroup, IonSelect, IonSelectOption, IonToolbar, IonTitle, IonContent, IonPage, IonItem, IonList, IonLabel, IonButton, ModuleAnlegen, IonModal },
+  components: { IonHeader, IonText, IonIcon, IonButtons, IonBackButton, IonItemDivider,IonItemGroup, IonAccordion, IonAccordionGroup, IonSelect, IonSelectOption, IonToolbar, IonTitle, IonContent, IonPage, IonItem, IonList, IonLabel, IonButton, ModuleAnlegen, IonModal },
   data() {
     return {
       modules: [] as Module[],
@@ -136,6 +157,12 @@ export default defineComponent({
         this._selectedProfessors = [];
       }
     },
+    },
+    compulsoryModules() {
+    return this.modules.filter(module => module.moduleType === 'Compulsory');
+    },
+    optionalModules() {
+      return this.modules.filter(module => module.moduleType !== 'Compulsory');
     },
 
 
