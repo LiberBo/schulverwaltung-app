@@ -48,6 +48,34 @@ Für die Erstellung eines Modules kann auch hier der Button "Modul Anlegen" verw
 
 <img width="604" alt="image" src="https://user-images.githubusercontent.com/97781382/229488660-01a9a6ee-1bfd-4470-be02-9737bbd9823e.png">
 
+Sobald genug Module erstellt wurden kann die #Kursverwaltung ausgewählt werden, um bestehende Kurse zu verwalten bzw. neue anzulegen
+
+<img width="1918" alt="image" src="https://user-images.githubusercontent.com/97781382/229493579-8db993e9-336d-47b1-8c27-d19e2d7fb2d5.png">
+
+Bestehenden Kursen, können hier Studenten und Module hinzugefügt werden, welche den Studiengang fertigstellen.
+
+<img width="602" alt="image" src="https://user-images.githubusercontent.com/97781382/229493823-3b425532-f5d5-426c-964b-ca555f61bff9.png">
+
+Sobald diese erstelllt sind, kann der letzte Schritt vor automatischen Berechnung des Kalenders angegangen werden. Dafür wird die #Semsterverwaltung geöffnet.
+
+<img width="1917" alt="image" src="https://user-images.githubusercontent.com/97781382/229494122-ee12f464-481b-4847-bd4a-182e5266540d.png">
+
+In dieser können neue Semester angelegt werden und über zwei Kalender jeweils den Start- und Endpunkt festgelegt werden.
+
+<img width="600" alt="image" src="https://user-images.githubusercontent.com/97781382/229494245-820ad3e2-4051-4126-8a46-8e6931386b1a.png">
+
+Ist dieser Schritt vollzogen kann das erstellte Semester geöffnet werden und die Module, die in diesem Semester stattfinden sollen ausgewählt werden. Anschließend kann das ausgewählte Semester einfach über den Button "Semester Berechnen" kalkuliert werden.
+Dadurch wird jedem Studenten, welche in einem Kurs ist, der wiederum Module in einem Semester hat, ein automatisch generierter #Stundenplan zur Verfügung gestellt.
+
+<img width="1910" alt="image" src="https://user-images.githubusercontent.com/97781382/229494863-d5f0ebf0-3bbb-4513-9744-cb768a3632e5.png">
+
+Es besteht die Möglichkeit jeden Termin zu öffnen und verschiedenste Informationen über diesen zu erfahren.
+
+<img width="671" alt="image" src="https://user-images.githubusercontent.com/97781382/229494945-496423bb-8eed-4e59-8b57-67d3cc49da50.png">
+
+Mithilfe dieser Informationen weiß der Student beispielsweise in welchen Raum er wann welchen Unterricht hat und kann sich mithilfe der Liste der Räume, welche sich unter dem Kalender befindet dort hin navigieren.
+
+<img width="1902" alt="image" src="https://user-images.githubusercontent.com/97781382/229495144-949e708e-3f60-490c-bced-dae9c80860d0.png">
 
 
 
