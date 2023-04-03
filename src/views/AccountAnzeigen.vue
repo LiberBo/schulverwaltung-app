@@ -3,12 +3,22 @@
     <ion-header>
       <ion-toolbar color="primary" class="text-center">
         <ion-title>Mein Konto</ion-title>
+        <ion-buttons slot="end">
+          <ion-button @click="logoutUser">
+            <ion-label>Logout</ion-label>
+          </ion-button>
+        </ion-buttons>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title size="large">Mein Konto</ion-title>
+          <ion-buttons slot="end">
+            <ion-button @click="logoutUser">
+              <ion-label>Logout</ion-label>
+            </ion-button>
+          </ion-buttons>
         </ion-toolbar>
       </ion-header>
       <ion-list class="UserDataSize">
@@ -34,9 +44,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonList } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonList, IonButton} from '@ionic/vue';
 import jwt_decode from "jwt-decode";
-
 
 interface UserInformation {
   id: number;
@@ -50,7 +59,7 @@ interface UserInformation {
 
 export default defineComponent({
   name: 'AccountAnzeigen',
-  components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonItem, IonLabel, IonList },
+  components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonItem, IonLabel, IonList, IonButton },
   data(): { currentUser: UserInformation; assignments: any[];  userAssignments: any[]; compulsoryAssignments: any[]; optionalAssignments: any[] } {
   return {
     currentUser: {} as UserInformation,
@@ -60,9 +69,6 @@ export default defineComponent({
     optionalAssignments: [],
   };
 },
-
-
-
 
 
   mounted() {
@@ -97,6 +103,11 @@ export default defineComponent({
       };
       this.currentUser = currentUser;
     },
+
+    async logoutUser() {
+      localStorage.removeItem('token');
+      this.$router.push('/Anmeldung');
+    }
   },
 });
 </script>

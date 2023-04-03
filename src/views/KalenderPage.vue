@@ -95,6 +95,7 @@
   import AccountManagement from '@/views/AccountAnzeigen.vue';
   import { EventClickArg } from "@fullcalendar/common";
   import jwt_decode from "jwt-decode";
+  import { close } from 'ionicons/icons';
 
   interface Lecture {
   duration: number;
@@ -160,6 +161,7 @@ interface Location {
   },
     data() {
       return {
+        close,
         currentEvents: [],
         selectedDateEvents: [],
         calendarOptions: {
